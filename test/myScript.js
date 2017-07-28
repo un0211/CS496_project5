@@ -24,7 +24,7 @@ var svgClickTool = new Array();
 var svgClickSize = new Array();
 var svgClickDrag = new Array();
 
-function prepareCanvas() 
+function prepareCanvas()
 {
 	context = document.getElementById('canvas').getContext("2d");
 
@@ -36,7 +36,7 @@ function prepareCanvas()
 	$('#canvas').mousedown(function(e){
 	  var mouseX = e.pageX - this.offsetLeft;
 	  var mouseY = e.pageY - this.offsetTop;
-			
+
 	  paint = true;
 	  addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
 	  redraw();
@@ -67,12 +67,12 @@ function addClick(x, y, dragging)
 
 function redraw(){
   clearCanvas();
-  
+
   context.strokeStyle = "#df4b26";
   context.lineJoin = "round";
   context.lineWidth = 5;
-			
-  for(var i=0; i < clickX.length; i++) {		
+
+  for(var i=0; i < clickX.length; i++) {
     context.beginPath();
     if(clickDrag[i] && i){
       context.moveTo(clickX[i-1], clickY[i-1]);
@@ -103,7 +103,7 @@ function clearCanvas()
 function drawSVG()
 {
 	var draw = SVG('svgDraw')
-	var rect = draw.rect(100, 100).fill('#111111')	
+	var rect = draw.rect(100, 100).fill('#111111')
 
 	var svgClickX = new Array();
 	var svgClickY = new Array();
@@ -113,7 +113,7 @@ function drawSVG()
 	rect.mousedown(function(e){
 	  var mouseX = e.pageX - this.offsetLeft;
 	  var mouseY = e.pageY - this.offsetTop;
-			
+
 	  paint = true;
 	  addClickSvg(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
 	  redraw();
@@ -145,12 +145,12 @@ function addClickSvg(x, y, dragging)
 
 function redrawSvg(){
   clearCanvas();
-  
+
   draw.strokeStyle = "#df4b26";
   draw.lineJoin = "round";
   draw.lineWidth = 5;
-			
-  for(var i=0; i < svgClickX.length; i++) {		
+
+  for(var i=0; i < svgClickX.length; i++) {
     draw.beginPath();
     if(clickDrag[i] && i){
       draw.moveTo(svgClickX[i-1], svgclicky[i-1]);

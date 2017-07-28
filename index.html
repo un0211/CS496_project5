@@ -3,14 +3,17 @@
   <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="uistyle.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script src="./node_modules/svg.js/dist/svg.js"></script>
+    <script src="./node_modules/svg.draw.js/dist/svg.draw.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
+    <script type="text/javascript" src="test/myScript.js"></script>
     <title>Hello World!</title>
   </head>
   <body>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
     <div id="container">
       <table border="0" cellpadding="0" cellspacing="0">
         <tr id="menu-tab">
@@ -79,7 +82,20 @@
         </tr>
         <tr id="main-container">
           <td id="tool-tab"> tool tab </td>
-          <td id="canvas"> canvas </td>
+          <td id="canvas">
+            <div class="canvas">
+              <canvas id="canvas" width="700" height="500"></canvas>
+              <div id="svgCanvas"></div>
+              <script type="text/javascript">
+                var drawing = SVG('svgCanvas').size(700,700)
+                drawing.rect().draw()
+                drawing.circle().draw()
+              </script>
+              <script type="text/javascript"> $(document).ready(function() {
+                 prepareCanvas();
+              });</script>
+            </div>
+          </td>
           <td id="detail-tab"> detail tab </td>
         </tr>
         <tr id="animation-tab">
