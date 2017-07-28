@@ -55,18 +55,18 @@ table {
 #tool-tab {
   height: 10px;
   width: 100px;
-  background-color: #404040
+  background-color: #404040;
 }
 
-#canvas {
+#canvas-tab {
   height: 100%;
-  background-color: #606060
+  background-color: #606060;
 }
 
 #detail-tab{
   height: 100%;
   width: 200px;
-  background-color: #404040
+  background-color: #404040;
 }
 
 
@@ -74,5 +74,5 @@ table {
 #animation-tab {
   height: 150px;
   width: 100%;
-  background-color: #363636
+  background-color: #363636;
 }

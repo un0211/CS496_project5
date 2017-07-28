@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <script src="./node_modules/svg.js/dist/svg.js"></script>
     <script src="./node_modules/svg.draw.js/dist/svg.draw.js"></script>
@@ -16,6 +17,7 @@
   <body>
     <div id="container">
       <table border="0" cellpadding="0" cellspacing="0">
+
         <tr id="menu-tab">
           <td colspan="3">
             <!--
@@ -80,9 +82,10 @@
             </nav>
           </td>
         </tr>
+
         <tr id="main-container">
           <td id="tool-tab"> tool tab </td>
-          <td id="canvas">
+          <td id="canvas-tab">
             <div class="canvas">
               <canvas id="canvas" width="700" height="500"></canvas>
               <div id="svgCanvas"></div>
@@ -98,6 +101,7 @@
           </td>
           <td id="detail-tab"> detail tab </td>
         </tr>
+
         <tr id="animation-tab">
           <td colspan="3"> animation view </td>
         </tr>
@@ -115,6 +119,6 @@
 
   <script>
     // You can also require other files to run in this process
-    require('./renderer.js')
+    //require('./renderer.js')
   </script>
 </html>
