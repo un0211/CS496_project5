@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
+    <script src="./node_modules/svg.js/dist/svg.js"></script>
+    <script src="./node_modules/svg.draw.js/dist/svg.draw.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
+    <script type="text/javascript" src="test/myScript.js"></script>
+  </head>
+  <body>
+    <canvas id="canvas" width="700" height="500"></canvas>
+    <div id="svgCanvas"></div>
+    <script type="text/javascript">
+      var drawing = SVG('svgCanvas').size(700,700)
+      drawing.rect().draw()
+      drawing.circle().draw()
+    </script>
+    <script type="text/javascript"> $(document).ready(function() {
+       prepareCanvas();
+    });</script>
+    <!--ul> 
+      <li>HTML</li>
+      <li id="select">CSS</li>
+      <li>JavaScript</li>
+    </ul-->
+    <!--svg height="1000px" width="1000px">  
+      <rect id="myRect" height="100px" width="100px"/>
+    </svg-->
+  </body>
+
+  <!--script>
+    // You can also require other files to run in this process
+    require('./renderer.js')
+    require('./svg.js')
+  </script-->
+</html>
