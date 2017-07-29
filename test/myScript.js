@@ -1,23 +1,34 @@
+
 var canvas;
+
 var context;
+
+//canvas size
 var canvasWidth = 490;
 var canvasHeight = 220;
 var padding = 25;
 var lineWidth = 8;
+
+//colors
 var colorPurple = "#cb3594";
 var colorGreen = "#659b41";
 var colorYellow = "#ffcf33";
 var colorBrown = "#986928";
-var clickX = new Array();
-var clickY = new Array();
-var clickColor = new Array();
-var clickTool = new Array();
-var clickSize = new Array();
-var clickDrag = new Array();
 
-var draw;
-var rect;
+//click informations
+var clickX = new Array();  //클릭했던 X들
+var clickY = new Array();  //클릭했던 Y들
+var clickColor = new Array();  //썼던 색들
+var clickTool = new Array();  //썼던 툴들
+var clickSize = new Array();
+var clickDrag = new Array();  //Drag들
+
+
+
 var clickedObject;
+var draw; //svg
+var rect; //make stereotyped rect
+
 var svgClickX = new Array();
 var svgClickY = new Array();
 var svgClickColor = new Array();
@@ -25,6 +36,8 @@ var svgClickTool = new Array();
 var svgClickSize = new Array();
 var svgClickDrag = new Array();
 var clickedObject;
+
+var drawings = new Array(); //save drawings. 최근부터 리턴(stack), 저장하면 초기화
 
 function prepareCanvas()
 {
@@ -121,43 +134,49 @@ function drawSVGCanvas(){
 	}, false);
 
 	$('#createRect').mousedown(function(e){
-		drawRect(elements);
+		drawRect();
 	})
 
 	$('#createCircle').mousedown(function(e) {
-		drawCircle(elements);
+		drawCircle();
 	})
+
 }
 
-function drawRect(elements) {
+function drawRect() {
 	var rect = draw.rect().fill('#182673')
 	.stroke({ color: '#011011', width: 3}).draw();
-	elements.push(rect);
+
+	drawings.push(rect);
+	console.log(drawings);
+
 	draw.on('mousedown', function(event) {
 		rect.draw('point', event);
 	});
 
 	draw.on('mouseup', function(){
-		rect.draw('done');
 	});
 }
 
-function drawCircle(elements) {
+function drawCircle() {
 	var circle = draw.circle().fill('#112233')
 	.stroke({ color: '#011011', width: 3}).draw();
-	elements.push(circle);
+
+	drawings.push(circle);
+	console.log(drawings);
+
 	draw.on('mousedown', function(event) {
 		circle.draw('point', event);
 	});
 
 	draw.on('mouseup', function(){
-		circle.draw('done');
 	});
 }
 
 function drawPolygon() {
-	draw = SVG('svgDraw')
+	draw = SVG('svgDraw');
 	var polygon = draw.polygon().fill('#182673').draw();
+
 	draw.on('keyon', function(){
 		polygon.draw('done');
 	})
