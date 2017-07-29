@@ -86,16 +86,16 @@
         <tr id="main-container">
           <td id="tool-tab">
             <div class="btn-group-vertical" role="group" aria-label="...">
-              <button type="button" class="btn btn-default">1</button>
-              <button type="button" class="btn btn-default">2</button>
+              <button type="button" id="createRect" class="btn btn-default">1</button>
+              <button type="button" id="createCircle" class="btn btn-default">2</button>
               <div class="btn-group" role="group">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                   Dropdown
                   <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
-                  <li id="createRect"><a href="#">createRect</a></li>
-                  <li id="createCircle"><a href="#">createCircle</a></li>
+                  <li id="a"><a href="#">createRect</a></li>
+                  <li id="b"><a href="#">createCircle</a></li>
                 </ul>
               </div>
             </div>
@@ -103,7 +103,7 @@
           <td id="canvas-tab">
             <div class="canvas">
               <!--canvas id="canvas" width="700" height="500"></canvas-->
-              <div id="svgDraw"></div>
+              <div id="svgDraw" ></div>
               <script type="text/javascript"> $(document).ready(function() {
                  //prepareCanvas();
                  drawSVGCanvas();

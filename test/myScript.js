@@ -17,12 +17,14 @@ var clickDrag = new Array();
 
 var draw;
 var rect;
+var clickedObject;
 var svgClickX = new Array();
 var svgClickY = new Array();
 var svgClickColor = new Array();
 var svgClickTool = new Array();
 var svgClickSize = new Array();
 var svgClickDrag = new Array();
+var clickedObject;
 
 function prepareCanvas()
 {
@@ -95,19 +97,42 @@ function clearCanvas()
 
 function drawSVGCanvas(){
 	draw = SVG('svgDraw');
+	console.log('main SVG'
+	+ draw.bbox().x
+	+ draw.bbox().y);
+	var drawLeft = draw.offsetLeft,
+			drawTop = draw.offsetTop,
+			elements = new Array();
+
+	console.log('why not logging?');
+	draw.on('mousedown', function(event){
+		var _x = event.pageX - 100,
+				_y = event.pageY - 80;
+			 console.log('clicked the canvas ('
+		 + _x + ', ' + _y + ' )');
+				elements.forEach(function(element) {
+					console.log('the position of this element ('
+					+ element.bbox().x + ", " + element.bbox().y + " )");
+					if(element.inside(_x, _y)) {
+						clickedObject = element;
+						console.log('clicked this element' + element.bbox().x);
+					}
+				});
+	}, false);
 
 	$('#createRect').mousedown(function(e){
-		drawRect();
+		drawRect(elements);
 	})
 
 	$('#createCircle').mousedown(function(e) {
-		drawCircle();
+		drawCircle(elements);
 	})
 }
 
-function drawRect() {
+function drawRect(elements) {
 	var rect = draw.rect().fill('#182673')
 	.stroke({ color: '#011011', width: 3}).draw();
+	elements.push(rect);
 	draw.on('mousedown', function(event) {
 		rect.draw('point', event);
 	});
@@ -117,9 +142,10 @@ function drawRect() {
 	});
 }
 
-function drawCircle() {
+function drawCircle(elements) {
 	var circle = draw.circle().fill('#112233')
 	.stroke({ color: '#011011', width: 3}).draw();
+	elements.push(circle);
 	draw.on('mousedown', function(event) {
 		circle.draw('point', event);
 	});
@@ -135,100 +161,4 @@ function drawPolygon() {
 	draw.on('keyon', function(){
 		polygon.draw('done');
 	})
-}
-
-function drawSimpleSVG() {
-	var draw = SVG('svgDraw')
-	var rect = draw.rect().fill('#182673').draw();
-	draw.on('mousedown', function(event) {
-		rect.draw('point', event);
-	});
-
-	draw.on('mouseup', function(){
-		rect.draw('done');
-	});
-
-/*
-	var poly = draw.polyline().fill('none').draw()
-						.stroke({color: '#1f3f3f', width:2});
-	draw.on('mousedown', function(event){
-		poly.draw('update', event);
-	});
-	draw.on('mouseup', function(){
-		poly.draw('done');
-	})*/
-}
-/**
- *this is for vector drawing
- */
-function drawSVG()
-{
-	var draw = SVG('svgDraw')
-	var rect = draw.rect(100, 100).fill('#754823').stroke({color: '#1f3f3f', width:2});
-
-	svgClickX = new Array();
-	svgClickY = new Array();
-	svgClickDrag = new Array();
-	var svgDraw;
-
-	draw.mousedown(function(e){
-	  var mouseX = e.pageX - this.offsetLeft;
-	  var mouseY = e.pageY - this.offsetTop;
-
-	  paint = true;
-	  addClickSvg(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
-	  redrawSvg();
-	});
-
-	draw.mousemove(function(e){
-	  if(paint){
-	    addClickSvg(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true);
-	    redrawSvg();
-	  }
-	});
-
-	draw.mouseup(function(e){
-	  paint = false;
-	});
-
-	draw.mouseover(function(e){
-	  paint = false;
-	});
-
-}
-
-function addClickSvg(x, y, dragging)
-{
-  svgClickX.push(x);
-  svgClickY.push(y);
-  svgClickDrag.push(dragging);
-}
-
-function redrawSvg(){
-  clearSvgCanvas();
-
-  //draw.strokeStyle = "#df4b26";
-  //draw.lineJoin = "round";
-	var pointArray = new Array();
-
-	for (var i = 0; i < svgClickX.length; i++) {
-		var onePointArray = new Array();
-		onePointArray[0] = svgClickX[i];
-		onePointArray[1] = svgClickY[i];
-
-		pointArray[i] = onePointArray;
-	}
-	draw.polyline(pointArray).fill('none').stroke({width:1})
-	/*
-  for(var i=0; i < svgClickX.length; i++) {
-    draw.beginPath();
-    if(clickDrag[i] && i){
-      draw.moveTo(svgClickX[i-1], svgClickY[i-1]);
-     }else{
-       draw.moveTo(svgClickX[i]-1, svgClickY[i]);
-     }
-     draw.lineTo(svgClickX[i], svgClickY[i]);
-     draw.closePath();
-     draw.stroke();
-  }*/
 }
