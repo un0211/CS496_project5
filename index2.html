@@ -13,8 +13,7 @@
     <div id="svgCanvas"></div>
     <script type="text/javascript">
       var drawing = SVG('svgCanvas').size(700,700)
-      drawing.rect().draw()
-      drawing.circle().draw()
+      drawing.polyline().draw()
     </script>
     <script type="text/javascript"> $(document).ready(function() {
        prepareCanvas();
