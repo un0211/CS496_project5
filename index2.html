@@ -10,13 +10,15 @@
   </head>
   <body>
     <canvas id="canvas" width="700" height="500"></canvas>
-    <div id="svgCanvas"></div>
+    <div id="createRect" width="10" height="5">createRect</div>
+    <div id="svgCanvas" ></div>
     <script type="text/javascript">
       var drawing = SVG('svgCanvas').size(700,700)
       drawing.polyline().draw()
     </script>
     <script type="text/javascript"> $(document).ready(function() {
        prepareCanvas();
+       drawSVGCanvas();
     });</script>
     <!--ul>
       <li>HTML</li>

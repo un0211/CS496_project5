@@ -93,8 +93,49 @@ function clearCanvas()
 	context.clearRect(0, 0, canvasWidth, canvasHeight);
 }
 
+function drawSVGCanvas(){
+	draw = SVG('svgDraw');
 
+	$('#createRect').mousedown(function(e){
+		drawRect();
+	})
 
+	$('#createCircle').mousedown(function(e) {
+		drawCircle();
+	})
+}
+
+function drawRect() {
+	var rect = draw.rect().fill('#182673')
+	.stroke({ color: '#011011', width: 3}).draw();
+	draw.on('mousedown', function(event) {
+		rect.draw('point', event);
+	});
+
+	draw.on('mouseup', function(){
+		rect.draw('done');
+	});
+}
+
+function drawCircle() {
+	var circle = draw.circle().fill('#112233')
+	.stroke({ color: '#011011', width: 3}).draw();
+	draw.on('mousedown', function(event) {
+		circle.draw('point', event);
+	});
+
+	draw.on('mouseup', function(){
+		circle.draw('done');
+	});
+}
+
+function drawPolygon() {
+	draw = SVG('svgDraw')
+	var polygon = draw.polygon().fill('#182673').draw();
+	draw.on('keyon', function(){
+		polygon.draw('done');
+	})
+}
 
 function drawSimpleSVG() {
 	var draw = SVG('svgDraw')
