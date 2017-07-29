@@ -42,7 +42,11 @@ table {
     line-height: 20px;
 }
 
-
+.my-navbar-nav {
+    margin: 7.5px -15px;
+    vertical-align: middle;
+    margin-left: 10px;
+}
 
 #main-container{
   width: 100%;
