@@ -20,13 +20,6 @@
 
         <tr id="menu-tab">
           <td colspan="3">
-            <!--
-            <ol>
-              <li>파일</li>
-              <li>편집</li>
-              <li>보기</li>
-              <li>애니메이션</li>
-            </ol> -->
             <nav class="my-navbar navbar-inverse">
               <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
@@ -55,6 +48,7 @@
                         <li><a href="#">다른이름으로 저장</a></li>
                       </ul>
                     </li>
+
                     <li class="dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">편집 <span class="caret"></span></a>
                       <ul class="dropdown-menu" role="menu">
@@ -76,6 +70,7 @@
                         <li><a href="#">도형 각 조절</a></li>
                       </ul>
                     </li>
+
                     <li class="dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">보기 <span class="caret"></span></a>
                       <ul class="dropdown-menu" role="menu">
@@ -86,6 +81,7 @@
                         <li><a href="#">애니메이션 미리보기</a></li>
                       </ul>
                     </li>
+
                     <li class="dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">애니메이션 <span class="caret"></span></a>
                       <ul class="dropdown-menu" role="menu">
@@ -99,6 +95,7 @@
                       </ul>
                     </li>
                   </ul>
+
                   <ui class="nav my-navbar-nav navbar-left">
                     <div class="btn-group" role="group" aria-label="...">
                       <button type="button" class="btn btn-default">
@@ -112,18 +109,9 @@
                       </button>
                     </div>
                   </ui>
+
                   <ul class="nav navbar-nav navbar-right">
                     <li><a href="#">Link</a></li>
-                    <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                      <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                      </ul>
-                    </li>
                   </ul>
                 </div><!-- /.navbar-collapse -->
               </div><!-- /.container-fluid -->
@@ -156,6 +144,37 @@
                  //prepareCanvas();
                  drawSVGCanvas();
               });</script>
+
+              <script type="text/javascript"> $(document).ready(function() {
+                var ctrlDown = false,
+                    ctrlKey = 17,
+                    cmdKey = 91,
+                    vKey = 86,
+                    cKey = 67,
+            				xKey = 88,
+            				zKey = 90;
+
+                $(document).keydown(function(e) {
+                    if (e.keyCode == ctrlKey || e.keyCode == cmdKey) ctrlDown = true;
+                }).keyup(function(e) {
+                    if (e.keyCode == ctrlKey || e.keyCode == cmdKey) ctrlDown = false;
+                });
+
+                $(document).keydown(function(e) {
+                  if (ctrlDown) {
+          					if (e.keyCode == zKey){
+          						undoDrawing();
+          					}else if (e.keyCode == xKey){
+          						printLog("X");
+          					}else if (e.keyCode == vKey){
+          						printLog("V");
+          					}else if (e.keyCode == cKey){
+          						printLog("C");
+          					}
+          				}
+                });
+              });</script>
+
             </div>
           </td>
           <td id="detail-tab"> detail tab </td>
