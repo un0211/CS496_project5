@@ -106,7 +106,8 @@ function drawSVGCanvas(){
 }
 
 function drawRect() {
-	var rect = draw.rect().fill('#182673').draw();
+	var rect = draw.rect().fill('#182673')
+	.stroke({ color: '#011011', width: 3}).draw();
 	draw.on('mousedown', function(event) {
 		rect.draw('point', event);
 	});
@@ -117,7 +118,8 @@ function drawRect() {
 }
 
 function drawCircle() {
-	var circle = draw.circle().fill('#112233').draw();
+	var circle = draw.circle().fill('#112233')
+	.stroke({ color: '#011011', width: 3}).draw();
 	draw.on('mousedown', function(event) {
 		circle.draw('point', event);
 	});
