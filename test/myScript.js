@@ -34,17 +34,17 @@ function prepareCanvas()
 	var paint;
 
 	$('#canvas').mousedown(function(e){
-	  var mouseX = e.pageX - this.offsetLeft;
-	  var mouseY = e.pageY - this.offsetTop;
+	  var mouseX = e.pageX - this.offsetLeft - 100;
+	  var mouseY = e.pageY - this.offsetTop - 80;
 
 	  paint = true;
-	  addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
+	  addClick(e.pageX - this.offsetLeft - 100, e.pageY - this.offsetTop - 80);
 	  redraw();
 	});
 
 	$('#canvas').mousemove(function(e){
 	  if(paint){
-	    addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true);
+	    addClick(e.pageX - this.offsetLeft - 100, e.pageY - this.offsetTop - 80, true);
 	    redraw();
 	  }
 	});
@@ -96,33 +96,53 @@ function clearCanvas()
 
 
 
+function drawSimpleSVG() {
+	var draw = SVG('svgDraw')
+	var rect = draw.rect().fill('#182673').draw();
+	draw.on('mousedown', function(event) {
+		rect.draw('point', event);
+	});
 
+	draw.on('mouseup', function(){
+		rect.draw('done');
+	});
+
+/*
+	var poly = draw.polyline().fill('none').draw()
+						.stroke({color: '#1f3f3f', width:2});
+	draw.on('mousedown', function(event){
+		poly.draw('update', event);
+	});
+	draw.on('mouseup', function(){
+		poly.draw('done');
+	})*/
+}
 /**
  *this is for vector drawing
  */
 function drawSVG()
 {
 	var draw = SVG('svgDraw')
-	var rect = draw.rect(100, 100).fill('#111111')
+	var rect = draw.rect(100, 100).fill('#754823').stroke({color: '#1f3f3f', width:2});
 
-	var svgClickX = new Array();
-	var svgClickY = new Array();
-	var svgClickDrag = new Array();
+	svgClickX = new Array();
+	svgClickY = new Array();
+	svgClickDrag = new Array();
 	var svgDraw;
 
-	rect.mousedown(function(e){
+	draw.mousedown(function(e){
 	  var mouseX = e.pageX - this.offsetLeft;
 	  var mouseY = e.pageY - this.offsetTop;
 
 	  paint = true;
 	  addClickSvg(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
-	  redraw();
+	  redrawSvg();
 	});
 
 	draw.mousemove(function(e){
 	  if(paint){
 	    addClickSvg(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true);
-	    redraw();
+	    redrawSvg();
 	  }
 	});
 
@@ -130,7 +150,7 @@ function drawSVG()
 	  paint = false;
 	});
 
-	draw.mouseleave(function(e){
+	draw.mouseover(function(e){
 	  paint = false;
 	});
 
@@ -144,29 +164,30 @@ function addClickSvg(x, y, dragging)
 }
 
 function redrawSvg(){
-  clearCanvas();
+  clearSvgCanvas();
 
-  draw.strokeStyle = "#df4b26";
-  draw.lineJoin = "round";
-  draw.lineWidth = 5;
+  //draw.strokeStyle = "#df4b26";
+  //draw.lineJoin = "round";
+	var pointArray = new Array();
 
+	for (var i = 0; i < svgClickX.length; i++) {
+		var onePointArray = new Array();
+		onePointArray[0] = svgClickX[i];
+		onePointArray[1] = svgClickY[i];
+
+		pointArray[i] = onePointArray;
+	}
+	draw.polyline(pointArray).fill('none').stroke({width:1})
+	/*
   for(var i=0; i < svgClickX.length; i++) {
     draw.beginPath();
     if(clickDrag[i] && i){
-      draw.moveTo(svgClickX[i-1], svgclicky[i-1]);
+      draw.moveTo(svgClickX[i-1], svgClickY[i-1]);
      }else{
-       draw.moveTo(svgClickX[i]-1, svgclicky[i]);
+       draw.moveTo(svgClickX[i]-1, svgClickY[i]);
      }
-     draw.lineTo(svgClickX[i], svgclicky[i]);
+     draw.lineTo(svgClickX[i], svgClickY[i]);
      draw.closePath();
      draw.stroke();
-  }
-}
-
-/**
- * clear the canvas
- */
-function clearSvgCanvas()
-{
-	draw.clearRect(0, 0, canvasWidth, canvasHeight);
+  }*/
 }

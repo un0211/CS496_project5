@@ -103,14 +103,10 @@
           <td id="canvas-tab">
             <div class="canvas">
               <canvas id="canvas" width="700" height="500"></canvas>
-              <div id="svgCanvas"></div>
-              <script type="text/javascript">
-                var drawing = SVG('svgCanvas').size(700,700)
-                drawing.rect().draw()
-                drawing.circle().draw()
-              </script>
+              <div id="svgDraw"></div>
               <script type="text/javascript"> $(document).ready(function() {
                  prepareCanvas();
+                 drawSimpleSVG();
               });</script>
             </div>
           </td>
