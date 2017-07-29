@@ -26,6 +26,7 @@ var clickDrag = new Array();  //Drag들
 
 
 var clickedObject;
+var copiedObject;
 var draw; //svg
 var rect; //make stereotyped rect
 
@@ -35,7 +36,6 @@ var svgClickColor = new Array();
 var svgClickTool = new Array();
 var svgClickSize = new Array();
 var svgClickDrag = new Array();
-var clickedObject;
 
 var drawings = new Array(); //save drawings. 최근부터 리턴(stack), 저장하면 초기화
 
@@ -123,7 +123,7 @@ function drawSVGCanvas(){
 				_y = event.pageY - 80;
 			 console.log('clicked the canvas ('
 		 + _x + ', ' + _y + ' )');
-				elements.forEach(function(element) {
+				drawings.forEach(function(element) {
 					console.log('the position of this element ('
 					+ element.bbox().x + ", " + element.bbox().y + " )");
 					if(element.inside(_x, _y)) {
@@ -180,4 +180,41 @@ function drawPolygon() {
 	draw.on('keyon', function(){
 		polygon.draw('done');
 	})
+}
+
+//copy object
+function copyObject(obj) {
+  if (obj === null || typeof(obj) !== 'object')
+  return obj;
+  var copy = obj.constructor();
+  for (var attr in obj) {
+    if (obj.hasOwnProperty(attr)) {
+      copy[attr] = copyObject(obj[attr]);
+    }
+  }
+  return copy;
+}
+
+//for ctrl+z
+function undoDrawing() {
+	drawings.pop().remove();
+}
+
+//for ctrl+c
+function copyDrawing(){
+	copiedObject = copyObject(clickedObject);
+	copiedObject.move(copiedObject.x()+10,copiedObject.y()+10);
+}
+
+//for ctrl+x
+function cutDrawing(){
+	copyDrawing();
+	drawings.pop(clickedObject).remove();
+}
+
+//for ctrl+v
+function pasteDrawing(){
+	if (copiedObject != null){
+		drawings.push(copiedObject);
+	}
 }
