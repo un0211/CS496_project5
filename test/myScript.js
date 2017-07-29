@@ -99,10 +99,13 @@ function drawSVGCanvas(){
 	$('#createRect').mousedown(function(e){
 		drawRect();
 	})
+
+	$('#createCircle').mousedown(function(e) {
+		drawCircle();
+	})
 }
 
 function drawRect() {
-	draw = SVG('svgDraw')
 	var rect = draw.rect().fill('#182673').draw();
 	draw.on('mousedown', function(event) {
 		rect.draw('point', event);
@@ -114,8 +117,7 @@ function drawRect() {
 }
 
 function drawCircle() {
-	draw = SVG('svgDraw')
-	var circle = draw.circle().fill('#182673').draw();
+	var circle = draw.circle().fill('#112233').draw();
 	draw.on('mousedown', function(event) {
 		circle.draw('point', event);
 	});
