@@ -25,6 +25,10 @@ var clickDrag = new Array();  //Drag들
 
 var draggable = true;
 var scalable = false;
+var canDrawElement = true;
+var canDraw = 0;
+var CAN_DRAW_CIRCLE = 1;
+var CAN_DRAW_RECT = 2;
 
 var clickedObject;
 var draw; //svg
@@ -164,7 +168,9 @@ function drawSVGCanvas(){
 			drawTop = draw.offsetTop,
 			elements = new Array();
 	var clicked = false;
+
 	draw.on('mousedown', function(event){
+		canDrawElement = true;
 		console.log('is scalable' + scalable)
 		clicked = false;
 		var _x = event.pageX - 175,
@@ -173,8 +179,7 @@ function drawSVGCanvas(){
 			makeUndraggable();
 			makeScalable(_x, _y);
 		}
-		console.log('clicked the canvas ('
-		 + _x + ', ' + _y + ' )');
+
 		drawings.forEach(function(element) {
 			console.log('the position of this element ('
 			+ element.bbox().x + ", " + element.bbox().y + " )");
@@ -206,11 +211,23 @@ function drawSVGCanvas(){
 
 
 	$('#createRect').mousedown(function(e){
-		drawRect();
+		canDraw = CAN_DRAW_RECT;
+		console.log('candraw? '+ canDrawElement)
+		if(canDrawElement)
+		{
+			drawRect()
+			canDrawElement = false;
+		}
 	})
 
 	$('#createCircle').mousedown(function(e) {
-		drawCircle();
+		canDraw = CAN_DRAW_CIRCLE;
+		console.log('candraw? '+ canDrawElement)
+		if(canDrawElement)
+		{
+			drawCircle()
+			canDrawElement = false;
+		}
 	})
 
 	$('#itemX').blur(function (e) {
@@ -325,47 +342,6 @@ function putAbsoluteScale() {
 	}
 }
 
-function clickBoundingBoxPoints(x, y) {
-	console.log('I clicked ...what?')
-	if(clickedObjectBoxPoints[0].inside(x, y)) {
-		console.log('I clicked 0 box point')
-		scaleWithBoundingBoxPoint(0);
-	} else if (clickedObjectBoxPoints[1].inside(x, y)) {
-		console.log('I clicked 1 box point')
-		scaleWithBoundingBoxPoint(1);
-	} else if (clickedObjectBoxPoints[2].inside(x, y)) {
-		console.log('I clicked 2 box point')
-		scaleWithBoundingBoxPoint(2);
-	} else if (clickedObjectBoxPoints[3].inside(x, y)) {
-		console.log('I clicked 3 box point')
-		scaleWithBoundingBoxPoint(3);
-	}
-}
-
-function scaleWithBoundingBoxPoint(i) {
-	if(clickedObject != null) {
-		var _box = clickedObject.bbox();
-		console.log('now this point is draggable')
-		clickedObjectBoxPoints[i].draggable();
-		clickedObjectBoxPoints[i].draggable().on('dragstart', function(e) {
-			clickedObjectBox.forEach(function(element) {
-				element.remove()
-			});
-			for (var j = 0; j < 4; j++) {
-				if(i != j) {clickedObjectBoxPoints[j].remove()}
-			}
-		});
-		clickedObjectBoxPoints[i].draggable().on('dragmove', function(e) {
-			clickedObject.size(_box.width + e.detail.p.x, _box.height + e.detail.p.y)
-			putAbsolutePosition();
-			putAbsoluteScale();
-		});
-		clickedObjectBoxPoints[i].draggable().on('dragend', function(e) {
-			_box = clickedObject.bbox();
-			drawBoundingBox(_box);
-		})
-	}
-}
 function putAbsolutePosition() {
 	if(clickedObject != null) {
 		var _box = clickedObject.bbox();
@@ -461,33 +437,39 @@ function deleteBoundingBox() {
 }
 
 function drawRect() {
-	var rect = draw.rect().fill('#fdffdb')
-	.stroke({ color: '#ffcf5c', width: 3}).draw();
+	if(canDraw === CAN_DRAW_RECT){
+		var rect = draw.rect().fill('#fdffdb')
+		.stroke({ color: '#ffcf5c', width: 3}).draw();
 
-	drawings.push(rect);
-	console.log(drawings);
+		drawings.push(rect);
+		console.log(drawings);
 
-	draw.on('mousedown', function(event) {
-		rect.draw('point', event);
-	});
+		draw.on('mousedown', function(event) {
+			rect.draw('point', event);
+		});
 
-	draw.on('mouseup', function(){
-	});
+		draw.on('mouseup', function(){
+		});
+		canDrawElement = true;
+	}
 }
 
 function drawCircle() {
-	var circle = draw.ellipse().fill('#fdffdb')
-	.stroke({ color: '#ffcf5c', width: 3}).draw();
+	if(canDraw === CAN_DRAW_CIRCLE) {
+		var circle = draw.ellipse().fill('#fdffdb')
+		.stroke({ color: '#ffcf5c', width: 3}).draw();
 
-	drawings.push(circle);
-	console.log(drawings);
+		drawings.push(circle);
+		console.log(drawings);
 
-	draw.on('mousedown', function(event) {
-		circle.draw('point', event);
-	});
+		draw.on('mousedown', function(event) {
+			circle.draw('point', event);
+		});
 
-	draw.on('mouseup', function(){
-	});
+		draw.on('mouseup', function(){
+		});
+		canDrawElement = true;
+	}
 }
 
 function drawPolygon() {
