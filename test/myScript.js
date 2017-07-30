@@ -3,6 +3,7 @@ var canvas;
 
 var context;
 
+
 //canvas size
 var canvasWidth = 490;
 var canvasHeight = 220;
