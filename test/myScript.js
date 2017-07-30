@@ -3,6 +3,7 @@ var canvas;
 
 var context;
 
+
 //canvas size
 var canvasWidth = 490;
 var canvasHeight = 220;
@@ -119,45 +120,6 @@ function clearCanvas()
 	context.clearRect(0, 0, canvasWidth, canvasHeight);
 }
 
-function drawColorPicker(){
-	var draw = SVG('color_picker')
-
-	var gradient = draw.gradient('linear', function(stop) {
-	  stop.at(0, '#FF0000')
-		stop.at(0.05, '#FF3300')
-		stop.at(0.1, '#FF6600')
-		stop.at(0.15, '#FF9900')
-		stop.at(0.21, '#FFCC00')
-		stop.at(0.29, '#FFFF00')
-		stop.at(0.38, '#CCFF00')
-		stop.at(0.42, '#99FF00')
-		stop.at(0.44, '#66FF00')
-		stop.at(0.45, '#33FF00')
-		stop.at(0.48, '#00FF00')
-		stop.at(0.51, '#00FF33')
-		stop.at(0.56, '#00FF66')
-		stop.at(0.59, '#00FF99')
-		stop.at(0.63, '#00FFFF')
-		stop.at(0.67, '#00CCFF')
-		stop.at(0.72, '#0099FF')
-		stop.at(0.75, '#0066FF')
-		stop.at(0.78, '#0033FF')
-		stop.at(0.82, '#0000FF')
-		stop.at(0.84, '#1100EE')
-		stop.at(0.85, '#2200DD')
-		stop.at(0.86, '#3300CC')
-		stop.at(0.92, '#330066')
-		stop.at(1, '#660066')
-	})
-
-	var rect = draw.rect(180, 95).move(10, 0).fill(gradient)
-
-	draw.circle(10).center(10, 110).fill(gradient.colorAt(0))
-	draw.circle(10).center(55, 110).fill(gradient.colorAt(0.25))
-	draw.circle(10).center(100, 110).fill(gradient.colorAt(0.5))
-	draw.circle(10).center(145, 110).fill(gradient.colorAt(0.75))
-	draw.circle(10).center(190, 110).fill(gradient.colorAt(1))
-}
 
 function drawSVGCanvas(){
 	draw = SVG('svgDraw');
@@ -190,8 +152,7 @@ function drawSVGCanvas(){
 					makeUndraggable();
 				}
 				clickedObject = element;
-				putAbsoluteScale()
-				putAbsolutePosition()
+				putObjectStatus();
 				clickedObject.front();
 				var _box = clickedObject.bbox();
 				drawBoundingBox(_box);
@@ -250,6 +211,24 @@ function drawSVGCanvas(){
 		modifyHeight(_height);
 	})
 
+	$('#planeColorText').blur(function(e) {
+		var _planeColor = "#"+document.getElementById('planeColorText').value;
+		modifyPlaneColor(_planeColor);
+	})
+
+	$('#lineColorText').blur(function(e) {
+		var _lineColor = "#"+document.getElementById('lineColorText').value;
+		modifyLineColor(_lineColor);
+	})
+
+	$('#planeColor').blur(function(e) {
+		console.log("blur!")
+	})
+
+	$('#lineColor').blur(function(e) {
+
+	})
+
 	$('#freeScale').mousedown(function(e) {
 		if(!scalable) {
 			scalable = true;
@@ -257,6 +236,18 @@ function drawSVGCanvas(){
 		}
 	})
 
+}
+
+function modifyPlaneColor(color) {
+	var planeColor = document.getElementById('planeColor');
+	planeColor.value = color;
+	clickedObject.fill(color);
+}
+
+function modifyLineColor(color) {
+	var lineColor = document.getElementById('lineColor');
+	lineColor.value = color;
+	clickedObject.stroke(color);
 }
 
 function makeScalable() {
@@ -300,8 +291,7 @@ function draggableCursor(cursor, cursor2, cursor3, cursor4) {
 		svgClickY = event.detail.p.y
 
 		clickedObject.size(-deltaWidth + _box.width, -deltaHeight+ _box.height)
-		putAbsoluteScale();
-		putAbsolutePosition();
+		putObjectStatus();
 	})
 	cursor.draggable().on('dragend', function(event) {
 		_box = clickedObject.bbox();//need to modify
@@ -317,8 +307,7 @@ function modifyWidth(width) {
 		clickedObject.size(width, _box.height);
 		_box = clickedObject.bbox();
 		drawBoundingBox(_box);
-		putAbsolutePosition();
-		putAbsoluteScale();
+		putObjectStatus();
 	}
 }
 
@@ -329,26 +318,74 @@ function modifyheight(height) {
 		clickedObject.size(_box.width, height);
 		_box = clickedObject.bbox();
 		drawBoundingBox(_box);
-		putAbsolutePosition();
-		putAbsoluteScale();
+		putObjectStatus();
 	}
 }
 
-function putAbsoluteScale() {
+
+function clickBoundingBoxPoints(x, y) {
+	console.log('I clicked ...what?')
+	if(clickedObjectBoxPoints[0].inside(x, y)) {
+		console.log('I clicked 0 box point')
+		scaleWithBoundingBoxPoint(0);
+	} else if (clickedObjectBoxPoints[1].inside(x, y)) {
+		console.log('I clicked 1 box point')
+		scaleWithBoundingBoxPoint(1);
+	} else if (clickedObjectBoxPoints[2].inside(x, y)) {
+		console.log('I clicked 2 box point')
+		scaleWithBoundingBoxPoint(2);
+	} else if (clickedObjectBoxPoints[3].inside(x, y)) {
+		console.log('I clicked 3 box point')
+		scaleWithBoundingBoxPoint(3);
+	}
+}
+
+function scaleWithBoundingBoxPoint(i) {
+	if(clickedObject != null) {
+		var _box = clickedObject.bbox();
+		console.log('now this point is draggable')
+		clickedObjectBoxPoints[i].draggable();
+		clickedObjectBoxPoints[i].draggable().on('dragstart', function(e) {
+			clickedObjectBox.forEach(function(element) {
+				element.remove()
+			});
+			for (var j = 0; j < 4; j++) {
+				if(i != j) {clickedObjectBoxPoints[j].remove()}
+			}
+		});
+		clickedObjectBoxPoints[i].draggable().on('dragmove', function(e) {
+			clickedObject.size(_box.width + e.detail.p.x, _box.height + e.detail.p.y)
+			putObjectStatus();
+		});
+		clickedObjectBoxPoints[i].draggable().on('dragend', function(e) {
+			_box = clickedObject.bbox();
+			drawBoundingBox(_box);
+		})
+	}
+}
+
+function putObjectStatus(){
 	if(clickedObject != null) {
 		var _box = clickedObject.bbox();
 		document.getElementById('itemWidth').value = _box.width;
 		document.getElementById('itemHeight').value = _box.height;
+
+		document.getElementById('itemX').value = _box.x;
+		document.getElementById('itemY').value = _box.y;
+
+		var _planeColor = clickedObject.attr('fill');
+		var _lineColor = clickedObject.attr('stroke');
+		var planeColor = document.getElementById('planeColor');
+		var lineColor = document.getElementById('lineColor');
+
+		document.getElementById('planeColorText').value = _planeColor.substring(1,).toUpperCase();
+		document.getElementById('lineColorText').value = _lineColor.substring(1,).toUpperCase();
+		planeColor.value = _planeColor;
+		lineColor.value = _lineColor;
 	}
 }
 
-function putAbsolutePosition() {
-	if(clickedObject != null) {
-		var _box = clickedObject.bbox();
-		document.getElementById('itemX').value = _box.x;
-		document.getElementById('itemY').value = _box.y;
-	}
-}
+
 
 function modifyXPosition(deltaX) {
 	var _box = clickedObject.bbox();
@@ -356,8 +393,7 @@ function modifyXPosition(deltaX) {
 	clickedObject.move(deltaX, _box.y);
 	_box = clickedObject.bbox();
 	drawBoundingBox(_box);
-	putAbsolutePosition();
-	putAbsoluteScale();
+	putObjectStatus();
 }
 
 function modifyYPosition(deltaY) {
@@ -366,8 +402,7 @@ function modifyYPosition(deltaY) {
 	clickedObject.move(_box.x, deltaY);
 	_box = clickedObject.bbox();
 	drawBoundingBox(_box);
-	putAbsolutePosition();
-	putAbsoluteScale();
+	putObjectStatus();
 }
 
 function makeUndraggable() {
@@ -389,8 +424,7 @@ function makeDraggable() {
 		deleteBoundingBox();
 	})
 	clickedObject.draggable().on('dragmove', function(e) {
-		putAbsolutePosition();
-		putAbsoluteScale();
+		putObjectStatus();
 	})
 	clickedObject.draggable().on('dragend', function(e){
 		var _box = clickedObject.bbox();
@@ -503,4 +537,44 @@ function pasteDrawing(){
 		forPaste.show().front();
 		drawings.push(forPaste);
 	}
+}
+
+function drawColorPicker(){
+	var draw = SVG('color_picker')
+
+	var gradient = draw.gradient('linear', function(stop) {
+	  stop.at(0, '#FF0000')
+		stop.at(0.05, '#FF3300')
+		stop.at(0.1, '#FF6600')
+		stop.at(0.15, '#FF9900')
+		stop.at(0.21, '#FFCC00')
+		stop.at(0.29, '#FFFF00')
+		stop.at(0.38, '#CCFF00')
+		stop.at(0.42, '#99FF00')
+		stop.at(0.44, '#66FF00')
+		stop.at(0.45, '#33FF00')
+		stop.at(0.48, '#00FF00')
+		stop.at(0.51, '#00FF33')
+		stop.at(0.56, '#00FF66')
+		stop.at(0.59, '#00FF99')
+		stop.at(0.63, '#00FFFF')
+		stop.at(0.67, '#00CCFF')
+		stop.at(0.72, '#0099FF')
+		stop.at(0.75, '#0066FF')
+		stop.at(0.78, '#0033FF')
+		stop.at(0.82, '#0000FF')
+		stop.at(0.84, '#1100EE')
+		stop.at(0.85, '#2200DD')
+		stop.at(0.86, '#3300CC')
+		stop.at(0.92, '#330066')
+		stop.at(1, '#660066')
+	})
+
+	var rect = draw.rect(180, 95).move(10, 0).fill(gradient)
+
+	draw.circle(10).center(10, 110).fill(gradient.colorAt(0))
+	draw.circle(10).center(55, 110).fill(gradient.colorAt(0.25))
+	draw.circle(10).center(100, 110).fill(gradient.colorAt(0.5))
+	draw.circle(10).center(145, 110).fill(gradient.colorAt(0.75))
+	draw.circle(10).center(190, 110).fill(gradient.colorAt(1))
 }
