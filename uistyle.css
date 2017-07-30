@@ -19,6 +19,12 @@ table {
   color: #D0D0D0;
 }
 
+.detail-cell {
+  padding-left: 20px
+}
+
+
+
 #menu-tab {
   height: 40px;
   width: 100%;
@@ -43,25 +49,43 @@ table {
 }
 
 .my-navbar-nav {
-    margin: 7.5px -15px;
+    width: 50%;
+    height: 100%;
+    margin-top: 7.5px;
     vertical-align: middle;
-    margin-left: 10px;
+    text-align: center;
 }
 
 #main-container{
   width: 100%;
 }
 
+
+
+
 #tool-tab {
   height: 10px;
   width: 100px;
   background-color: #404040;
+  text-align: center;
 }
 
 #canvas-tab {
   height: 100%;
+  padding: 0px;
   background-color: #606060;
+  text-align: center;
 }
+
+#svgDraw{
+  height: 100%;
+  width: 90%;
+  padding: 0px;
+  background-color: #FFFFFF;
+  margin: auto;
+}
+
+
 
 #detail-tab{
   height: 100%;
@@ -69,11 +93,45 @@ table {
   background-color: #404040;
 }
 
-#svgDraw{
-  height: 1000px;
+#color-picker {
   width: 100%;
-  background-color: #707070;
+  height: 200px;
+  background-color: #FFFFFF;
 }
+
+#itemWidth{
+  width: 40px;
+  margin-left: 5px;
+  margin-right: 20px;
+}
+
+#itemHeight{
+  width: 40px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+#itemX{
+  width: 40px;
+  margin-left: 5px;
+  margin-right: 50px;
+}
+
+#itemY{
+  width: 40px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+#itemAngle{
+  width: 60px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+
+
+
 
 
 

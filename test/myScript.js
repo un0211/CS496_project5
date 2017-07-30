@@ -42,6 +42,7 @@ var clickedObjectBoxPoints = new Array();
 var drawings = new Array(); //save drawings. 최근부터 리턴(stack), 저장하면 초기화
 var changes = new Array();
 
+/*
 function prepareCanvas()
 {
 	context = document.getElementById('canvas').getContext("2d");
@@ -103,14 +104,16 @@ function redraw(){
   }
 }
 
-/**
- * clear the canvas
- */
+
 function clearCanvas()
 {
 	context.clearRect(0, 0, canvasWidth, canvasHeight);
 }
+*/
 
+
+
+//we are using
 function drawSVGCanvas(){
 	draw = SVG('svgDraw');
 	console.log('main SVG'
