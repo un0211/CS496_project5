@@ -161,6 +161,42 @@ function drawSVGCanvas(){
 		drawCircle();
 	})
 
+	$('#itemX').blur(function (e) {
+		var _deltaX = document.getElementById('itemX').value;
+		modifyXPosition(_deltaX);
+	})
+
+	$('#itemX').blur(function (e) {
+		var _deltaY = document.getElementById('itemY').value;
+		modifyYPosition(_deltaY);
+	})
+
+}
+
+function putAbsolutePosition() {
+	if(clickedObject != null) {
+		var _box = clickedObject.bbox();
+		document.getElementById('itemX').value = _box.x;
+		document.getElementById('itemY').value = _box.y;
+	}
+}
+
+function modifyXPosition(deltaX) {
+	var _box = clickedObject.bbox();
+	deleteBoundingBox();
+	clickedObject.move(deltaX, _box.y);
+	_box = clickedObject.bbox();
+	drawBoundingBox(_box);
+	putAbsolutePosition();
+}
+
+function modifyYPosition(deltaY) {
+	var _box = clickedObject.bbox();
+	deleteBoundingBox();
+	clickedObject.move(_box.x, deltaY);
+	_box = clickedObject.bbox();
+	drawBoundingBox(_box);
+	putAbsolutePosition();
 }
 
 function makeUndraggable() {
@@ -180,6 +216,9 @@ function makeDraggable() {
 	clickedObject.draggable();
 	clickedObject.draggable().on('dragstart', function(e){
 		deleteBoundingBox();
+	})
+	clickedObject.draggable().on('dragmove', function(e) {
+		putAbsolutePosition();
 	})
 	clickedObject.draggable().on('dragend', function(e){
 		var _box = clickedObject.bbox();
