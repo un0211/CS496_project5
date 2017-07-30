@@ -160,8 +160,6 @@ function drawSVGCanvas(){
 	console.log('main SVG'
 	+ draw.bbox().x
 	+ draw.bbox().y);
-	var circle = draw.circle(100).fill('#482383')
-	circle.selectize({classRect: 'svg_select_boundingRectNew', classPoints: null}).resize()
 	var drawLeft = draw.offsetLeft,
 			drawTop = draw.offsetTop,
 			elements = new Array();
@@ -429,7 +427,7 @@ function drawRect() {
 }
 
 function drawCircle() {
-	var circle = draw.circle().fill('#fdffdb')
+	var circle = draw.ellipse().fill('#fdffdb')
 	.stroke({ color: '#ffcf5c', width: 3}).draw();
 
 	drawings.push(circle);
