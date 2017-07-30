@@ -11,6 +11,7 @@
     <script src="./node_modules/svg.js/dist/svg.js"></script>
     <script src="./node_modules/svg.draw.js/dist/svg.draw.js"></script>
     <script src="./node_modules/svg.draggable.js/dist/svg.draggable.js"></script>
+    <script src="./node_modules/svg.colorAt.js/dist/svg.colorAt.js"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
     <script type="text/javascript" src="test/myScript.js"></script>
     <script type="text/javascript">
@@ -21,8 +22,8 @@
 
         function tdResize() {
             var td = document.getElementById('for-pretty-detail');
-            if(window.innerHeight - 776 > 0){
-              td.style.height = (window.innerHeight - 200) - 576 + 'px';
+            if(window.innerHeight - 700 > 0){
+              td.style.height = (window.innerHeight - 200) - 500 + 'px';
             }else {
               td.style.height = 0 + 'px';
             }
@@ -183,6 +184,7 @@
               <script type="text/javascript"> $(document).ready(function() {
                  //prepareCanvas();
                  drawSVGCanvas();
+                 drawColorPicker();
               });</script>
 
               <script type="text/javascript"> $(document).ready(function() {
@@ -222,14 +224,16 @@
           <td id="detail-tab">
             <table>
               <tr><td>
-                  <div> <canvas id="color-picker"></canvas> <canvas id="color-helper"> </div>
-                  <div id="property-line"> <div id="property">HEX</div> <input type="text"></input></div>
-                  <div id="property-line"> <div id="property">RGB</div> <input type="text"></input></div>
+                <!--
+                  <div> <canvas id="color-picker"></canvas> <canvas id="color-helper"> </div>-->
+                  <div id="color_picker"></div>
+                  <div id="property-line"> <div id="property">면 색</div> <input type="text" class="itemThird"></input></div>
+                  <div id="property-line"> <div id="property">선 색</div> <input type="text" class="itemThird"></input></div>
               </td></tr>
               <tr><td class="detail-cell">
                   <div>크기</div>
-                  <div id="property-line"> <div id="property">width</div> <input type="text" id="itemWidth" class="itemFirst"></input>
-                        <div id="property">height</div> <input type="text" id="itemHeight" class="itemSecond"></input></div>
+                  <div id="property-line"> <div id="property">넓이</div> <input type="text" id="itemWidth" class="itemFirst"></input>
+                        <div id="property">높이</div> <input type="text" id="itemHeight" class="itemSecond"></input></div>
               </td></tr>
               <tr><td class="detail-cell">
                   <div>위치</div>
@@ -237,7 +241,7 @@
                        <div id="property">Y</div> <input type="text" id="itemY" class="itemSecond"></input></div>
               </td></tr>
               <tr><td class="detail-cell">
-                  <div> <div id="property">각도</div> <input type="text" id="itemAngle"></input></div>
+                  <div> <div id="property">각도</div> <input type="text" id="itemAngle" class="itemThird"></input></div>
               </td></tr>
               <tr><td class="detail-cell">
                   <div id="property">태그</div>

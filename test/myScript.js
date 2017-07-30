@@ -114,6 +114,46 @@ function clearCanvas()
 	context.clearRect(0, 0, canvasWidth, canvasHeight);
 }
 
+function drawColorPicker(){
+	var draw = SVG('color_picker')
+
+	var gradient = draw.gradient('linear', function(stop) {
+	  stop.at(0, '#FF0000')
+		stop.at(0.05, '#FF3300')
+		stop.at(0.1, '#FF6600')
+		stop.at(0.15, '#FF9900')
+		stop.at(0.21, '#FFCC00')
+		stop.at(0.29, '#FFFF00')
+		stop.at(0.38, '#CCFF00')
+		stop.at(0.42, '#99FF00')
+		stop.at(0.44, '#66FF00')
+		stop.at(0.45, '#33FF00')
+		stop.at(0.48, '#00FF00')
+		stop.at(0.51, '#00FF33')
+		stop.at(0.56, '#00FF66')
+		stop.at(0.59, '#00FF99')
+		stop.at(0.63, '#00FFFF')
+		stop.at(0.67, '#00CCFF')
+		stop.at(0.72, '#0099FF')
+		stop.at(0.75, '#0066FF')
+		stop.at(0.78, '#0033FF')
+		stop.at(0.82, '#0000FF')
+		stop.at(0.84, '#1100EE')
+		stop.at(0.85, '#2200DD')
+		stop.at(0.86, '#3300CC')
+		stop.at(0.92, '#330066')
+		stop.at(1, '#660066')
+	})
+
+	var rect = draw.rect(180, 95).move(10, 0).fill(gradient)
+
+	draw.circle(10).center(10, 110).fill(gradient.colorAt(0))
+	draw.circle(10).center(55, 110).fill(gradient.colorAt(0.25))
+	draw.circle(10).center(100, 110).fill(gradient.colorAt(0.5))
+	draw.circle(10).center(145, 110).fill(gradient.colorAt(0.75))
+	draw.circle(10).center(190, 110).fill(gradient.colorAt(1))
+}
+
 function drawSVGCanvas(){
 	draw = SVG('svgDraw');
 	console.log('main SVG'
