@@ -25,6 +25,12 @@ td{
   border-color: #202020;
 }
 
+input:focus {
+  color: #202020;
+}
+
+
+
 
 #menu-tab {
   height: 40px;
@@ -64,6 +70,7 @@ td{
 
 
 
+
 #tool-tab {
   height: 10px;
   width: 100px;
@@ -85,6 +92,7 @@ td{
   background-color: #FFFFFF;
   margin: auto;
 }
+
 
 
 
@@ -118,6 +126,12 @@ td{
   margin-top: 3px
 }
 
+#color_picker {
+  width: 90%;
+  height: 130px;
+  margin: auto;
+}
+
 #color-picker {
   width: 90%;
   height: 200px;
@@ -136,18 +150,19 @@ td{
   width: 45px;
   margin-left: 0px;
   margin-right: 20px;
+  height: 23px;
 }
 
 .itemSecond{
   width: 45px;
-  margin-left: 5px;
-  margin-right: 5px;
+  height: 23px;
 }
 
-#itemAngle{
-  width: 60px;
+.itemThird{
+  width: 70px;
   margin-left: 0px;
   margin-right: 5px;
+  height: 23px;
 }
 
 
