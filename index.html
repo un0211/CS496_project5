@@ -17,10 +17,22 @@
             var canvas = document.getElementById('svgDraw');
             canvas.style.height = (window.innerHeight - 200) * 0.8 + 'px';
         }
+
+        function tdResize() {
+            var td = document.getElementById('for-pretty-detail');
+            if(window.innerHeight - 776 > 0){
+              td.style.height = (window.innerHeight - 200) - 576 + 'px';
+            }else {
+              td.style.height = 0 + 'px';
+            }
+        }
+
         window.onload = function() {
             canvasResize();
+            tdResize();
             // 브라우저 크기가 변할 시 동적으로 사이즈를 조절해야 하는경우
             window.addEventListener('resize', canvasResize);
+            window.addEventListener('resize', tdResize);
         }
     </script>
     <title>Hello World!</title>
@@ -211,33 +223,47 @@
               <tr>
                 <td>
                   <canvas id="color-picker"></canvas>
-                  <div class="detail-cell" id="hex">HEX: <input type="text"></input></div>
-                  <div class="detail-cell" id="rgb">RGB: <input type="text"></input></div>
+                  <div id="property-line"> <div id="property">HEX</div> <input type="text"></input></div>
+                  <div id="property-line"> <div id="property">RGB</div> <input type="text"></input></div>
                 </td>
               </tr>
               <tr>
                 <td class="detail-cell">
                   <div>크기</div>
-                  <div>width <input type="text" id="itemWidth"></input>
-                       height <input type="text" id="itemHeight"></input></div>
+                  <div id="property-line"> <div id="property">width</div> <input type="text" id="itemWidth" class="itemFirst"></input>
+                        <div id="property">height</div> <input type="text" id="itemHeight" class="itemSecond"></input></div>
                 </td>
               </tr>
               <tr>
                 <td class="detail-cell">
                   <div>위치</div>
-                  <div>X <input type="text" id="itemX"></input>
-                       Y <input type="text" id="itemY"></input></div>
+                  <div id="property-line"> <div id="property">X</div> <input type="text" id="itemX" class="itemFirst"></input>
+                       <div id="property">Y</div> <input type="text" id="itemY" class="itemSecond"></input></div>
                 </td>
               </tr>
               <tr>
                 <td class="detail-cell">
-                  <div>각도 <input type="text" id="itemAngle"></input></div>
+                  <div> <div id="property">각도</div> <input type="text" id="itemAngle"></input></div>
                 </td>
               </tr>
               <tr>
                 <td class="detail-cell">
-                  태그
+                  <div id="property">태그</div>
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-default">Default</button>
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                      <span class="caret"></span>
+                      <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a href="#">Default</a></li>
+                      <li class="divider"></li>
+                      <li><a href="#">Add new tag</a></li>
+                    </ul>
+                  </div>
                 </td>
+              </tr>
+              <tr id="for-pretty-detail">
               </tr>
             </table>
           </td>

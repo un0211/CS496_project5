@@ -19,10 +19,11 @@ table {
   color: #D0D0D0;
 }
 
-.detail-cell {
-  padding-left: 20px
+td{
+  border-width: 1px;
+  border-style: solid;
+  border-color: #202020;
 }
-
 
 
 #menu-tab {
@@ -87,10 +88,34 @@ table {
 
 
 
+
 #detail-tab{
   height: 100%;
   width: 250px;
   background-color: #404040;
+}
+
+#detail-tab table tr {
+  border-width: 0px;
+  border-bottom: 1px;
+  border-style: solid;
+  border-color: #202020;
+}
+
+#detail-tab table tr td {
+  padding: 15px;
+  border-width: 0px;
+}
+
+#property {
+  width: 40px;
+  align-items: center;
+  display: inline-block;
+  text-align: left;
+}
+
+#property-line {
+  margin-top: 3px
 }
 
 #color-picker {
@@ -99,36 +124,23 @@ table {
   background-color: #FFFFFF;
 }
 
-#itemWidth{
-  width: 40px;
-  margin-left: 5px;
+.itemFirst{
+  width: 45px;
+  margin-left: 0px;
   margin-right: 20px;
 }
 
-#itemHeight{
-  width: 40px;
-  margin-left: 5px;
-  margin-right: 5px;
-}
-
-#itemX{
-  width: 40px;
-  margin-left: 5px;
-  margin-right: 50px;
-}
-
-#itemY{
-  width: 40px;
+.itemSecond{
+  width: 45px;
   margin-left: 5px;
   margin-right: 5px;
 }
 
 #itemAngle{
   width: 60px;
-  margin-left: 5px;
+  margin-left: 0px;
   margin-right: 5px;
 }
-
 
 
 
