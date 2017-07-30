@@ -23,7 +23,9 @@ var clickTool = new Array();  //썼던 툴들
 var clickSize = new Array();
 var clickDrag = new Array();  //Drag들
 
+var draggable = true;
 
+var clickedObject;
 var draw; //svg
 var rect; //make stereotyped rect
 
@@ -35,14 +37,12 @@ var svgClickSize = new Array();
 var svgClickDrag = new Array();
 
 var clickedObject;
-var copiedObject;
 var clickedObjectBox = new Array();
 var clickedObjectBoxPoints = new Array();
 
-var drawings = new Array(); //save drawings. 최근부터 리턴(stack), 저장하면 초기화
-var changes = new Array();
 
-/*
+var drawings = new Array(); //save drawings. 최근부터 리턴(stack), 저장하면 초기화
+
 function prepareCanvas()
 {
 	context = document.getElementById('canvas').getContext("2d");
@@ -104,16 +104,14 @@ function redraw(){
   }
 }
 
-
+/**
+ * clear the canvas
+ */
 function clearCanvas()
 {
 	context.clearRect(0, 0, canvasWidth, canvasHeight);
 }
-*/
 
-
-
-//we are using
 function drawSVGCanvas(){
 	draw = SVG('svgDraw');
 	console.log('main SVG'
@@ -136,15 +134,27 @@ function drawSVGCanvas(){
 				clicked = true;
 				if(clickedObject != element && clickedObject != null) {
 					deleteBoundingBox();
+					makeUndraggable();
+					clickedObject = element;
+					var _box = clickedObject.bbox();
+					drawBoundingBox(_box);
+					if(draggable) {
+						makeDraggable();
+					}
 				}
-				clickedObject = element;
-				var _box = clickedObject.bbox();
-				drawBoundingBox(_box);
-				clickedObject.front();
+				else {
+					clickedObject = element;
+					var _box = clickedObject.bbox();
+					drawBoundingBox(_box);
+					if(draggable) {
+						makeDraggable();
+					}
+				}
 			}
 		});
 		if(!clicked) {
 			deleteBoundingBox();
+			makeUndraggable();
 		}
 	}, false);
 
@@ -158,6 +168,30 @@ function drawSVGCanvas(){
 
 }
 
+function makeUndraggable() {
+	if(clickedObject != null)
+	{
+		clickedObject.draggable(false);
+		clickedObjectBox.forEach(function(element) {
+			element.draggable(false);
+		})
+		clickedObjectBoxPoints.forEach(function(element) {
+			element.draggable(false);
+		});
+	}
+}
+
+function makeDraggable() {
+	clickedObject.draggable();
+	clickedObject.draggable().on('dragstart', function(e){
+		deleteBoundingBox();
+	})
+	clickedObject.draggable().on('dragend', function(e){
+		var _box = clickedObject.bbox();
+		drawBoundingBox(_box);
+	})
+}
+
 function drawBoundingBox( box ) {
 	var _box = box;
 	var _clickedObjectBox = draw.rect(_box.width + 10, _box.height + 10).addClass('box')
@@ -166,21 +200,21 @@ function drawBoundingBox( box ) {
 
 	var leftUp = draw.rect(3, 3).addClass('box')
 	.move(_box.x - 7, _box.y - 7).fill('none')
-	.stroke({color: '#ffffff', width: 2});
+	.stroke({color: '#000000', width: 2});
 
 	var leftDown = draw.rect(3, 3).addClass('box')
 	.move(_box.x - 7, _box.y + _box.height + 5).fill('none')
-	.stroke({color: '#ffffff', width: 2});
+	.stroke({color: '#000000', width: 2});
 
 	var rightUp = draw.rect(3, 3).addClass('box')
 	.move(_box.x + _box.width + 5, _box.y - 7).fill('none')
-	.stroke({color: '#ffffff', width: 2});
+	.stroke({color: '#000000', width: 2});
 
 	var rightDown = draw.rect(3, 3).addClass('box')
 	.move(_box.x + _box.width + 5, _box.y + _box.height + 5).fill('none')
-	.stroke({color: '#ffffff', width: 2});
+	.stroke({color: '#000000', width: 2});
 
-	clickedObjectBox.push(_clickedObjectBox);
+	                                                                                                                                               clickedObjectBox.push(_clickedObjectBox);
 	clickedObjectBoxPoints.push(leftUp);
 	clickedObjectBoxPoints.push(leftDown);
 	clickedObjectBoxPoints.push(rightUp);
@@ -233,30 +267,4 @@ function drawPolygon() {
 	draw.on('keyon', function(){
 		polygon.draw('done');
 	})
-}
-
-
-//for ctrl+z
-function undoDrawing() {
-	drawings.pop().remove();
-}
-
-//for ctrl+c
-function copyDrawing(){
-	copiedObject = clickedObject.clone().hide();
-}
-
-//for ctrl+x
-function cutDrawing(){
-	copyDrawing();
-	drawings.pop(clickedObject).remove();
-}
-
-//for ctrl+v
-function pasteDrawing(){
-	if (copiedObject != null){
-		var forPaste = copiedObject.move(copiedObject.x()+10,copiedObject.y()+10).clone();
-		forPaste.show().front();
-		drawings.push(forPaste);
-	}
 }
