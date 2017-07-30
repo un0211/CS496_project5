@@ -24,6 +24,7 @@ var clickSize = new Array();
 var clickDrag = new Array();  //Drag들
 
 var draggable = true;
+var scalable = false;
 
 var clickedObject;
 var draw; //svg
@@ -119,14 +120,16 @@ function drawSVGCanvas(){
 	console.log('main SVG'
 	+ draw.bbox().x
 	+ draw.bbox().y);
+	var circle = draw.circle(100).fill('#482383')
+	circle.selectize({classRect: 'svg_select_boundingRectNew', classPoints: null}).resize()
 	var drawLeft = draw.offsetLeft,
 			drawTop = draw.offsetTop,
 			elements = new Array();
 	var clicked = false;
 	draw.on('mousedown', function(event){
 		clicked = false;
-		var _x = event.pageX - 100,
-				_y = event.pageY - 80;
+		var _x = event.pageX - 175,
+				_y = event.pageY - 153;
 			 console.log('clicked the canvas ('
 		 + _x + ', ' + _y + ' )');
 		drawings.forEach(function(element) {
@@ -139,6 +142,8 @@ function drawSVGCanvas(){
 					makeUndraggable();
 				}
 				clickedObject = element;
+				putAbsoluteScale()
+				putAbsolutePosition()
 				clickedObject.front();
 				var _box = clickedObject.bbox();
 				drawBoundingBox(_box);
@@ -152,6 +157,25 @@ function drawSVGCanvas(){
 			makeUndraggable();
 		}
 	}, false);
+
+	draw.on('mousemove', function(event) {
+		clicked = false;
+		if(svgClickX != null && svgClickY != null)
+		{
+			var _x = event.clientX - svgClickX;
+					_y = event.clientY - svgClickY
+		} else {
+			var _x = 0;
+					_y = 0
+		}
+		svgClickX = event.clientX;
+		svgClickY = event.clientY;
+
+		if(scalable && clickedObject != null) {
+			var _box = clickedObject.bbox();
+			clickedObject.size(_box.width + _x, _box.height + _y)
+		}
+	})
 
 	$('#createRect').mousedown(function(e){
 		drawRect();
@@ -171,8 +195,90 @@ function drawSVGCanvas(){
 		modifyYPosition(_deltaY);
 	})
 
+	$('#itemWidth').blur(function(e) {
+		var _width = document.getElementById('itemWidth').value;
+		modifyWidth(_width);
+	})
+
+	$('#itemHeight').blur(function(e) {
+		var _height = document.getElementById('itemHeight').value;
+		modifyWidth(_height);
+	})
+
 }
 
+function modifyWidth(width) {
+	if(clickedObject != null) {
+		var _box = clickedObject.bbox();
+		deleteBoundingBox();
+		clickedObject.size(width, _box.height);
+		_box = clickedObject.bbox();
+		drawBoundingBox(_box);
+		putAbsolutePosition();
+		putAbsoluteScale();
+	}
+}
+
+function modifyheight(height) {
+	if(clickedObject != null) {
+		var _box = clickedObject.bbox();
+		deleteBoundingBox();
+		clickedObject.size(_box.width, height);
+		_box = clickedObject.bbox();
+		drawBoundingBox(_box);
+		putAbsolutePosition();
+		putAbsoluteScale();
+	}
+}
+
+function putAbsoluteScale() {
+	if(clickedObject != null) {
+		var _box = clickedObject.bbox();
+		document.getElementById('itemWidth').value = _box.width;
+		document.getElementById('itemHeight').value = _box.height;
+	}
+}
+function clickBoundingBoxPoints(x, y) {
+	console.log('I clicked ...what?')
+	if(clickedObjectBoxPoints[0].inside(x, y)) {
+		console.log('I clicked 0 box point')
+		scaleWithBoundingBoxPoint(0);
+	} else if (clickedObjectBoxPoints[1].inside(x, y)) {
+		console.log('I clicked 1 box point')
+		scaleWithBoundingBoxPoint(1);
+	} else if (clickedObjectBoxPoints[2].inside(x, y)) {
+		console.log('I clicked 2 box point')
+		scaleWithBoundingBoxPoint(2);
+	} else if (clickedObjectBoxPoints[3].inside(x, y)) {
+		console.log('I clicked 3 box point')
+		scaleWithBoundingBoxPoint(3);
+	}
+}
+
+function scaleWithBoundingBoxPoint(i) {
+	if(clickedObject != null) {
+		var _box = clickedObject.bbox();
+		console.log('now this point is draggable')
+		clickedObjectBoxPoints[i].draggable();
+		clickedObjectBoxPoints[i].draggable().on('dragstart', function(e) {
+			clickedObjectBox.forEach(function(element) {
+				element.remove()
+			});
+			for (var j = 0; j < 4; j++) {
+				if(i != j) {clickedObjectBoxPoints[j].remove()}
+			}
+		});
+		clickedObjectBoxPoints[i].draggable().on('dragmove', function(e) {
+			clickedObject.size(_box.width + e.detail.p.x, _box.height + e.detail.p.y)
+			putAbsolutePosition();
+			putAbsoluteScale();
+		});
+		clickedObjectBoxPoints[i].draggable().on('dragend', function(e) {
+			_box = clickedObject.bbox();
+			drawBoundingBox(_box);
+		})
+	}
+}
 function putAbsolutePosition() {
 	if(clickedObject != null) {
 		var _box = clickedObject.bbox();
@@ -188,6 +294,7 @@ function modifyXPosition(deltaX) {
 	_box = clickedObject.bbox();
 	drawBoundingBox(_box);
 	putAbsolutePosition();
+	putAbsoluteScale();
 }
 
 function modifyYPosition(deltaY) {
@@ -197,6 +304,7 @@ function modifyYPosition(deltaY) {
 	_box = clickedObject.bbox();
 	drawBoundingBox(_box);
 	putAbsolutePosition();
+	putAbsoluteScale();
 }
 
 function makeUndraggable() {
@@ -219,6 +327,7 @@ function makeDraggable() {
 	})
 	clickedObject.draggable().on('dragmove', function(e) {
 		putAbsolutePosition();
+		putAbsoluteScale();
 	})
 	clickedObject.draggable().on('dragend', function(e){
 		var _box = clickedObject.bbox();
@@ -234,19 +343,19 @@ function drawBoundingBox( box ) {
 
 	var leftUp = draw.rect(3, 3).addClass('box')
 	.move(_box.x - 7, _box.y - 7).fill('none')
-	.stroke({color: '#000000', width: 2});
+	.stroke({color: '#000000', width: 1});
 
 	var leftDown = draw.rect(3, 3).addClass('box')
 	.move(_box.x - 7, _box.y + _box.height + 5).fill('none')
-	.stroke({color: '#000000', width: 2});
+	.stroke({color: '#000000', width: 1});
 
 	var rightUp = draw.rect(3, 3).addClass('box')
 	.move(_box.x + _box.width + 5, _box.y - 7).fill('none')
-	.stroke({color: '#000000', width: 2});
+	.stroke({color: '#000000', width: 1});
 
 	var rightDown = draw.rect(3, 3).addClass('box')
 	.move(_box.x + _box.width + 5, _box.y + _box.height + 5).fill('none')
-	.stroke({color: '#000000', width: 2});
+	.stroke({color: '#000000', width: 1});
 
 	clickedObjectBox.push(_clickedObjectBox);                                                                                                                                               clickedObjectBox.push(_clickedObjectBox);
 	clickedObjectBoxPoints.push(leftUp);
