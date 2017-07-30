@@ -24,9 +24,6 @@ var clickSize = new Array();
 var clickDrag = new Array();  //Drag들
 
 
-
-var clickedObject;
-var copiedObject;
 var draw; //svg
 var rect; //make stereotyped rect
 
@@ -36,11 +33,14 @@ var svgClickColor = new Array();
 var svgClickTool = new Array();
 var svgClickSize = new Array();
 var svgClickDrag = new Array();
+
 var clickedObject;
+var copiedObject;
 var clickedObjectBox = new Array();
 var clickedObjectBoxPoints = new Array();
 
 var drawings = new Array(); //save drawings. 최근부터 리턴(stack), 저장하면 초기화
+var changes = new Array();
 
 function prepareCanvas()
 {
@@ -133,15 +133,11 @@ function drawSVGCanvas(){
 				clicked = true;
 				if(clickedObject != element && clickedObject != null) {
 					deleteBoundingBox();
-					clickedObject = element;
-					var _box = clickedObject.bbox();
-					drawBoundingBox(_box);
 				}
-				else {
-					clickedObject = element;
-					var _box = clickedObject.bbox();
-					drawBoundingBox(_box);
-				}
+				clickedObject = element;
+				var _box = clickedObject.bbox();
+				drawBoundingBox(_box);
+				clickedObject.front();
 			}
 		});
 		if(!clicked) {
@@ -236,18 +232,6 @@ function drawPolygon() {
 	})
 }
 
-//copy object
-function copyObject(obj) {
-  if (obj === null || typeof(obj) !== 'object')
-  return obj;
-  var copy = obj.constructor();
-  for (var attr in obj) {
-    if (obj.hasOwnProperty(attr)) {
-      copy[attr] = copyObject(obj[attr]);
-    }
-  }
-  return copy;
-}
 
 //for ctrl+z
 function undoDrawing() {
@@ -256,8 +240,7 @@ function undoDrawing() {
 
 //for ctrl+c
 function copyDrawing(){
-	copiedObject = copyObject(clickedObject);
-	copiedObject.move(copiedObject.x()+10,copiedObject.y()+10);
+	copiedObject = clickedObject.clone().hide();
 }
 
 //for ctrl+x
@@ -269,6 +252,8 @@ function cutDrawing(){
 //for ctrl+v
 function pasteDrawing(){
 	if (copiedObject != null){
-		drawings.push(copiedObject);
+		var forPaste = copiedObject.move(copiedObject.x()+10,copiedObject.y()+10).clone();
+		forPaste.show().front();
+		drawings.push(forPaste);
 	}
 }
