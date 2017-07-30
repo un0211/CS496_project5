@@ -119,7 +119,15 @@ td{
 }
 
 #color-picker {
-  width: 100%;
+  width: 90%;
+  height: 200px;
+  background-color: #FFFFFF;
+  text-align: left;
+  margin-right: 1%;
+}
+
+#color-helper {
+  width: 6%;
   height: 200px;
   background-color: #FFFFFF;
 }

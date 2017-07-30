@@ -37,12 +37,15 @@ var svgClickSize = new Array();
 var svgClickDrag = new Array();
 
 var clickedObject;
+var copiedObject;
 var clickedObjectBox = new Array();
 var clickedObjectBoxPoints = new Array();
 
 
 var drawings = new Array(); //save drawings. 최근부터 리턴(stack), 저장하면 초기화
+var changes = new Array();
 
+/*
 function prepareCanvas()
 {
 	context = document.getElementById('canvas').getContext("2d");
@@ -103,10 +106,9 @@ function redraw(){
      context.stroke();
   }
 }
+*/
 
-/**
- * clear the canvas
- */
+
 function clearCanvas()
 {
 	context.clearRect(0, 0, canvasWidth, canvasHeight);
@@ -135,20 +137,13 @@ function drawSVGCanvas(){
 				if(clickedObject != element && clickedObject != null) {
 					deleteBoundingBox();
 					makeUndraggable();
-					clickedObject = element;
-					var _box = clickedObject.bbox();
-					drawBoundingBox(_box);
-					if(draggable) {
-						makeDraggable();
-					}
 				}
-				else {
-					clickedObject = element;
-					var _box = clickedObject.bbox();
-					drawBoundingBox(_box);
-					if(draggable) {
-						makeDraggable();
-					}
+				clickedObject = element;
+				clickedObject.front();
+				var _box = clickedObject.bbox();
+				drawBoundingBox(_box);
+				if(draggable) {
+					makeDraggable();
 				}
 			}
 		});
@@ -214,7 +209,7 @@ function drawBoundingBox( box ) {
 	.move(_box.x + _box.width + 5, _box.y + _box.height + 5).fill('none')
 	.stroke({color: '#000000', width: 2});
 
-	                                                                                                                                               clickedObjectBox.push(_clickedObjectBox);
+	clickedObjectBox.push(_clickedObjectBox);                                                                                                                                               clickedObjectBox.push(_clickedObjectBox);
 	clickedObjectBoxPoints.push(leftUp);
 	clickedObjectBoxPoints.push(leftDown);
 	clickedObjectBoxPoints.push(rightUp);
@@ -267,4 +262,28 @@ function drawPolygon() {
 	draw.on('keyon', function(){
 		polygon.draw('done');
 	})
+}
+
+function undoDrawing() {
+	drawings.pop().remove();
+}
+
+//for ctrl+c
+function copyDrawing(){
+	copiedObject = clickedObject.clone().hide();
+}
+
+//for ctrl+x
+function cutDrawing(){
+	copyDrawing();
+	drawings.pop(clickedObject).remove();
+}
+
+//for ctrl+v
+function pasteDrawing(){
+	if (copiedObject != null){
+		var forPaste = copiedObject.move(copiedObject.x()+10,copiedObject.y()+10).clone();
+		forPaste.show().front();
+		drawings.push(forPaste);
+	}
 }
