@@ -292,6 +292,34 @@ function drawSVGCanvas(){
 		}
 	})
 
+	$('#createObject4').mousedown(function(e) {
+		if(canDrawElement) {
+			drawObject('M39.1,66.5c-3.8-2.4-4.6-7.7-5.3-15.9c-1.4-14.7-1.5-27.7,2.9-33.4c0.5-0.7,1.8-2.3,4-3.2 ,c2.9-1.1,5.8-0.2,6.8,0.1c1.5,0.5,2.6,0.8,3.3,1.6c2.2,2.6-2.5,7.7-5,15.4c-3.5,10.8-2.1,25-0.2,29.3c0.2,0.4,1.2,2.5,0.7,4.8,c-0.1,0.6-0.4,1.9-1.4,2.6C42.8,68.9,39.6,66.8,39.1,66.5z')
+			canDrawElement = false;
+		}
+	})
+
+	$('#createObject5').mousedown(function(e) {
+		if(canDrawElement) {
+			drawObject('M15.6,36.3c-0.3-5.8-0.6-10.7,2.4-15.6c3.1-5.2,8.1-7.8,9.9-8.7c4.8-2.4,9-2.7,13.9-3c6.1-0.4,11-0.7,16.7,1.8,c1.9,0.8,9,3.9,12.2,10.9c2.1,4.5,1.1,7.8,0.6,14.9c-1.7,21.5,4,25.8-1.2,33.5c-4.6,6.9-13.1,9.4-13.9,9.6c-3.6,1-7,1-10.5,1,c-2.2,0-6.2,0-10.7-0.9c-3.6-0.7-10.7-2.2-15.3-6.5C15.3,69.3,17,66.2,15.6,36.3z')
+			canDrawElement = false;
+		}
+	})
+
+	$('#createObject6').mousedown(function(e) {
+		if(canDrawElement) {
+			drawObject('')
+			canDrawElement = false;
+		}
+	})
+
+	$('#createObject7').mousedown(function(e) {
+		if(canDrawElement) {
+			drawObject('')
+			canDrawElement = false;
+		}
+	})
+
 	$('#itemX').blur(function (e) {
 		var _deltaX = document.getElementById('itemX').value;
 		modifyXPosition(_deltaX);
