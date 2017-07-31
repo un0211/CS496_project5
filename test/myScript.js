@@ -28,6 +28,7 @@ var draggable = true;
 var scalable = false;
 var drawingPolygon = false;
 var canDrawElement = true;
+var isEditing = false;
 var canDraw = 0;
 var CAN_DRAW_CIRCLE = 1;
 var CAN_DRAW_RECT = 2;
@@ -141,8 +142,8 @@ function clearCanvas()
 function drawSVGCanvas(){
 	draw = SVG('svgDraw');
 	console.log('main SVG'
-	+ draw.bbox().x
-	+ draw.bbox().y);
+	+ draw.rbox().x
+	+ draw.rbox().y);
 	var drawLeft = draw.offsetLeft,
 			drawTop = draw.offsetTop,
 			elements = new Array();
@@ -171,7 +172,7 @@ function drawSVGCanvas(){
 
 		drawings.forEach(function(element) {
 			console.log('the position of this element ('
-			+ element.bbox().x + ", " + element.bbox().y + " )");
+			+ element.rbox().x + ", " + element.rbox().y + " )");
 			if(element.inside(_x, _y)) {
 				clicked = true;
 				if(clickedObject != element && clickedObject != null) {
@@ -180,7 +181,7 @@ function drawSVGCanvas(){
 				}
 				clickedObject = element;
 				clickedObject.front();
-				var _box = clickedObject.bbox();
+				var _box = clickedObject.rbox();
 				//var _rotate = clickedObject.transform('rotation');
 
 				var _rotate;
@@ -217,7 +218,7 @@ function drawSVGCanvas(){
 
 	$(document).keydown(function(e) {
 			if(e.keyCode == 8) {
-				if(clickedObject != null) {
+				if(clickedObject != null && !isEditing) {
 					deleteBoundingBox();
 					clickedObject.remove();
 				}
@@ -319,13 +320,24 @@ function drawSVGCanvas(){
 			canDrawElement = false;
 		}
 	})
+/*
+	$('#itemX', '#itemY').each(function() {
+		$(this).change(function(e) {
+			console.log("I am now EDITTINGASDFASODF "+ isEditing )
+			isEditing = true;
+			console.log("I am now EDITTINGASDFASODF "+ isEditing )
+		})
+	})*/
 
 	$('#itemX').blur(function (e) {
+		//isEditing = false;
+		console.log("I am now EDITTINGASDFASODF "+ isEditing )
 		var _deltaX = document.getElementById('itemX').value;
 		modifyXPosition(_deltaX);
 	})
 
-	$('#itemX').blur(function (e) {
+	$('#itemY').blur(function (e) {
+		//isEditing = false;
 		var _deltaY = document.getElementById('itemY').value;
 		modifyYPosition(_deltaY);
 	})
@@ -446,14 +458,14 @@ function drawSVGCanvas(){
 }
 
 function makeScalable() {
-	var _box = clickedObject.bbox();
-	var cursor1 = draw.rect(5,5).move(_box.x + _box.width + 5, _box.y + _box.height + 5).fill('#b2305c')
+	var _box = clickedObject.rbox();
+	var cursor1 = draw.rect(5,5).move(_box.x + _box.width - 160, _box.y + _box.height - 148).fill('#b2305c')
 			.stroke({color: "#b2305c", width: 2})
-	var cursor2 = draw.rect(5,5).move(_box.x + _box.width + 5 , _box.y - 7).fill('#b2305c')
+	var cursor2 = draw.rect(5,5).move(_box.x + _box.width - 160 , _box.y - 160).fill('#b2305c')
 			.stroke({color: "#b2305c", width: 2})
-	var cursor3 = draw.rect(5,5).move(_box.x - 7, _box.y + _box.height + 5).fill('#b2305c')
+	var cursor3 = draw.rect(5,5).move(_box.x - 172, _box.y + _box.height - 148).fill('#b2305c')
 			.stroke({color: "#b2305c", width: 2})
-	var cursor4 = draw.rect(5,5).move(_box.x - 7, _box.y - 7).fill('#b2305c')
+	var cursor4 = draw.rect(5,5).move(_box.x - 172, _box.y - 160).fill('#b2305c')
 			.stroke({color: "#b2305c", width: 2})
 
 	draggableCursor(cursor1, cursor2, cursor3, cursor4);
@@ -472,7 +484,7 @@ function draggableCursor(cursor, cursor2, cursor3, cursor4) {
 		cursor4.remove();
 	})
 	cursor.draggable().on('dragmove', function(event) {
-		_box = clickedObject.bbox();
+		_box = clickedObject.rbox();
 		var deltaWidth;
 		var deltaHeight;
 		if(svgClickX != null && svgClickY != null) {
@@ -489,7 +501,7 @@ function draggableCursor(cursor, cursor2, cursor3, cursor4) {
 		putObjectStatus();
 	})
 	cursor.draggable().on('dragend', function(event) {
-		_box = clickedObject.bbox();//need to modify
+		_box = clickedObject.rbox();//need to modify
 		//drawBoundingBox(_box, clickedObject.transform('rotation'));
 		drawBoundingBox(_box, clickedGroup.transform('rotation'));
 		cursor.remove();
@@ -500,13 +512,13 @@ function draggableCursor(cursor, cursor2, cursor3, cursor4) {
 
 function modifyWidth(width) {
 	if(clickedObject != null) {
-		var _box = clickedObject.bbox();
+		var _box = clickedObject.rbox();
 		deleteBoundingBox();
 		clickedObject.size(width, _box.height);
-		_box = clickedObject.bbox();
+		_box = clickedObject.rbox();
 		//drawBoundingBox(_box, clickedObject.transform('rotation'));
 		drawBoundingBox(_box, clickedGroup.transform('rotation'));
-		console.log("bbox: " + _box.x + ", " + _box.y);
+		console.log("rbox: " + _box.x + ", " + _box.y);
 		console.log("clickedObject: " + clickedObject.attr('x') + ", " + clickedObject.attr('y'));
 		putObjectStatus();
 	}
@@ -514,13 +526,13 @@ function modifyWidth(width) {
 
 function modifyheight(height) {
 	if(clickedObject != null) {
-		var _box = clickedObject.bbox();
+		var _box = clickedObject.rbox();
 		deleteBoundingBox();
 		clickedObject.size(_box.width, height);
-		_box = clickedObject.bbox();
+		_box = clickedObject.rbox();
 		//drawBoundingBox(_box, clickedObject.transform('rotation'));
 		drawBoundingBox(_box, clickedGroup.transform('rotation'));
-		console.log("bbox: " + _box.x + ", " + _box.y);
+		console.log("rbox: " + _box.x + ", " + _box.y);
 		console.log("clickedObject: " + clickedObject.attr('x') + ", " + clickedObject.attr('y'));
 		putObjectStatus();
 	}
@@ -530,7 +542,7 @@ function modifyAngle(angle) {
 	if(clickedObject != null) {
 		deleteBoundingBox();
 		//clickedObject.rotate(angle);
-		drawBoundingBox(clickedObject.bbox(), angle);
+		drawBoundingBox(clickedObject.rbox(), angle);
 		putObjectStatus();
 	}
 }
@@ -571,7 +583,7 @@ function clickBoundingBoxPoints(x, y) {
 
 function putObjectStatus(){
 	if(clickedObject != null) {
-		var _box = clickedObject.bbox();
+		var _box = clickedObject.rbox();
 		var _planeColor = clickedObject.attr('fill');
 		var _lineColor = clickedObject.attr('stroke');
 		//var _rotate = clickedObject.transform('rotation');
@@ -595,20 +607,20 @@ function putObjectStatus(){
 
 
 function modifyXPosition(deltaX) {
-	var _box = clickedObject.bbox();
+	var _box = clickedObject.rbox();
 	deleteBoundingBox();
 	clickedObject.move(deltaX, _box.y);
-	_box = clickedObject.bbox();
+	_box = clickedObject.rbox();
 	//drawBoundingBox(_box, clickedObject.transform('rotation'));
 	drawBoundingBox(_box, clickedGroup.transform('rotation'));
 	putObjectStatus();
 }
 
 function modifyYPosition(deltaY) {
-	var _box = clickedObject.bbox();
+	var _box = clickedObject.rbox();
 	deleteBoundingBox();
 	clickedObject.move(_box.x, deltaY);
-	_box = clickedObject.bbox();
+	_box = clickedObject.rbox();
 	//drawBoundingBox(_box, clickedObject.transform('rotation'));
 	drawBoundingBox(_box, clickedGroup.transform('rotation'));
 	putObjectStatus();
@@ -636,7 +648,7 @@ function makeDraggable() {
 		putObjectStatus();
 	})
 	clickedObject.draggable().on('dragend', function(e){
-		var _box = clickedObject.bbox();
+		var _box = clickedObject.rbox();
 		//drawBoundingBox(_box, clickedObject.transform('rotation'));
 		drawBoundingBox(_box, clickedGroup.transform('rotation'));
 	})
@@ -645,26 +657,26 @@ function makeDraggable() {
 function drawBoundingBox(box, angle) {
 	clickedGroup = draw.group();
 
-	var _box = clickedObject.bbox();
+	var _box = clickedObject.rbox();
 	var _clickedObjectBox = draw.rect(_box.width + 10, _box.height + 10).addClass('box')
 	//.rotate(angle)
-	.move(_box.x - 5, _box.y - 5).fill('none')
+	.move(_box.x - 170, _box.y - 157).fill('none')
 	.stroke({color:'#d597a1', width: 1});
 
 	var leftUp = draw.rect(3, 3).addClass('box')
-	.move(_box.x - 7, _box.y - 7).fill('none')
+	.move(_box.x - 172, _box.y - 160).fill('none')
 	.stroke({color: '#000000', width: 1});
 
 	var leftDown = draw.rect(3, 3).addClass('box')
-	.move(_box.x - 7, _box.y + _box.height + 5).fill('none')
+	.move(_box.x - 172, _box.y + _box.height -148).fill('none')
 	.stroke({color: '#000000', width: 1});
 
 	var rightUp = draw.rect(3, 3).addClass('box')
-	.move(_box.x + _box.width + 5, _box.y - 7).fill('none')
+	.move(_box.x + _box.width -160, _box.y - 160).fill('none')
 	.stroke({color: '#000000', width: 1});
 
 	var rightDown = draw.rect(3, 3).addClass('box')
-	.move(_box.x + _box.width + 5, _box.y + _box.height + 5).fill('none')
+	.move(_box.x + _box.width -160, _box.y + _box.height -148).fill('none')
 	.stroke({color: '#000000', width: 1});
 
 	clickedObjectBox.push(_clickedObjectBox);                                                                                                                                               clickedObjectBox.push(_clickedObjectBox);
