@@ -24,8 +24,8 @@
 
         function tdResize() {
             var td = document.getElementById('for-pretty-detail');
-            if(window.innerHeight - 716 > 0){
-              td.style.height = (window.innerHeight - 200) - 516 + 'px';
+            if(window.innerHeight - 690 > 0){
+              td.style.height = (window.innerHeight - 200) - 490 + 'px';
             }else {
               td.style.height = 0 + 'px';
             }
@@ -156,17 +156,14 @@
           <td id="tool-tab">
             <div class="btn-group-vertical" role="group" aria-label="...">
               <button type="button" id="createPolygon" class="btn btn-default">
-                  <img alt="brush" src="images/ic_brush.png" width="20" height="20">
+                <span class="glyphicon glyphicon-pencil" aria-hidden="true" width="20" height="20"></span>
               </button>
               <button type="button" id="deleteElement" class="btn btn-default">
-                  <img alt="paint" src="images/ic_paint.png" width="20" height="20">
-              </button>
-              <button type="button" id="createTest" class="btn btn-default">
-                <img alt="test" src="test/test.jpg" width="20" height="20">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true" width="20" height="20"></span>
               </button>
               <div class="btn-group" role="group">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                  <img alt="shape" src="images/ic_shape.png" width="20" height="20">
+                  <span class="glyphicon glyphicon-unchecked" aria-hidden="true" width="20" height="20"></span>
                   <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
@@ -241,6 +238,7 @@
                   <div id="property-line"> <div id="property">선 색</div>
                     <input id="lineColorText" type="text" class="itemThird"></input>
                     <input id="lineColor" type="color" class="basic itemSecond" value='#ffffff'> </div>
+              </td></tr>
 
               <tr><td class="detail-cell">
                   <div> <div class="in-line">크기</div>
@@ -248,15 +246,17 @@
                   <div id="property-line"> <div id="property">넓이</div> <input type="text" id="itemWidth" class="itemFirst"></input>
                         <div id="property">높이</div> <input type="text" id="itemHeight" class="itemSecond"></input></div>
               </td></tr>
+
               <tr><td class="detail-cell">
                   <div>위치</div>
                   <div id="property-line"> <div id="property">X</div> <input type="text" id="itemX" class="itemFirst"></input>
                        <div id="property">Y</div> <input type="text" id="itemY" class="itemSecond"></input></div>
               </td></tr>
+
               <tr><td class="detail-cell">
                 <div> <div id="property">각도</div> <input type="text" id="itemAngle" class="itemThird"> </input>
                   <div class="btn-group">
-                    <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                    <button class="btn btn-default btn-xs dropdown-toggle" id="rotate" type="button" data-toggle="dropdown" aria-expanded="false">
                        회전 <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
@@ -266,6 +266,7 @@
                   </div>
                 </div>
               </td></tr>
+
               <tr><td class="detail-cell">
                   <div id="property">태그</div>
                   <div class="btn-group">
@@ -290,10 +291,14 @@
                       <li><a href="#">Add new tag</a></li>
                     </ul>
                   </div>
-                  <button id="tagOn">태그달기</button>
-                  <button id="tagHide">태그 숨기기</button>
-                  <button id="tagShow">태그 보이기</button>
+                  <button type="button" id="tagOn" class="btn btn-xs btn-default">
+                    <span class="glyphicon glyphicon-tag" aria-hidden="true" width="20" height="20"></span></button>
+                  <button type="button" id="tagHide" class="btn btn-xs btn-default">
+                    <span class="glyphicon glyphicon-eye-close" aria-hidden="true" width="20" height="20"></span></button>
+                  <button type="button" id="tagShow" class="btn btn-xs btn-default">
+                    <span class="glyphicon glyphicon-eye-open" aria-hidden="true" width="20" height="20"></span></button>
               </td></tr>
+
               <tr id="for-pretty-detail"></tr>
             </table>
           </td>
