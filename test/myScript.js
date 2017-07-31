@@ -182,13 +182,10 @@ function drawSVGCanvas(){
 				clickedObject = element;
 				clickedObject.front();
 				var _box = clickedObject.rbox();
-<<<<<<< HEAD
-				var _rotate = clickedObject.transform('rotation');
-				/*
-=======
-				//var _rotate = clickedObject.transform('rotation');
 
->>>>>>> f2b3e874a13e1c7af123745b8a1d0e2b4988d61c
+				var _rotate = clickedObject.transform('rotation');
+
+				/*
 				var _rotate;
 				if(clickedGroup == null){
 					_rotate = 0;
@@ -464,11 +461,7 @@ function drawSVGCanvas(){
 
 function makeScalable() {
 	var _box = clickedObject.rbox();
-<<<<<<< HEAD
-	var cursor1 = draw.rect(5,5).move(_box.x + _box.width + 5, _box.y + _box.height + 5).fill('#b2305c')
-=======
 	var cursor1 = draw.rect(5,5).move(_box.x + _box.width - 160, _box.y + _box.height - 148).fill('#b2305c')
->>>>>>> f2b3e874a13e1c7af123745b8a1d0e2b4988d61c
 			.stroke({color: "#b2305c", width: 2})
 	var cursor2 = draw.rect(5,5).move(_box.x + _box.width - 160 , _box.y - 160).fill('#b2305c')
 			.stroke({color: "#b2305c", width: 2})
@@ -511,13 +504,8 @@ function draggableCursor(cursor, cursor2, cursor3, cursor4) {
 	})
 	cursor.draggable().on('dragend', function(event) {
 		_box = clickedObject.rbox();//need to modify
-<<<<<<< HEAD
 		drawBoundingBox(_box, clickedObject.transform('rotation'));
 		//drawBoundingBox(_box, clickedGroup.transform('rotation'));
-=======
-		//drawBoundingBox(_box, clickedObject.transform('rotation'));
-		drawBoundingBox(_box, clickedGroup.transform('rotation'));
->>>>>>> f2b3e874a13e1c7af123745b8a1d0e2b4988d61c
 		cursor.remove();
 		svgClickX = null;
 		svgClickY = null;
@@ -530,15 +518,8 @@ function modifyWidth(width) {
 		deleteBoundingBox();
 		clickedObject.size(width, _box.height);
 		_box = clickedObject.rbox();
-<<<<<<< HEAD
 		drawBoundingBox(_box, clickedObject.transform('rotation'));
 		//drawBoundingBox(_box, clickedGroup.transform('rotation'));
-=======
-		//drawBoundingBox(_box, clickedObject.transform('rotation'));
-		drawBoundingBox(_box, clickedGroup.transform('rotation'));
-		console.log("rbox: " + _box.x + ", " + _box.y);
-		console.log("clickedObject: " + clickedObject.attr('x') + ", " + clickedObject.attr('y'));
->>>>>>> f2b3e874a13e1c7af123745b8a1d0e2b4988d61c
 		putObjectStatus();
 	}
 }
@@ -549,15 +530,8 @@ function modifyheight(height) {
 		deleteBoundingBox();
 		clickedObject.size(_box.width, height);
 		_box = clickedObject.rbox();
-<<<<<<< HEAD
 		drawBoundingBox(_box, clickedObject.transform('rotation'));
 		//drawBoundingBox(_box, clickedGroup.transform('rotation'));
-=======
-		//drawBoundingBox(_box, clickedObject.transform('rotation'));
-		drawBoundingBox(_box, clickedGroup.transform('rotation'));
-		console.log("rbox: " + _box.x + ", " + _box.y);
-		console.log("clickedObject: " + clickedObject.attr('x') + ", " + clickedObject.attr('y'));
->>>>>>> f2b3e874a13e1c7af123745b8a1d0e2b4988d61c
 		putObjectStatus();
 	}
 }
@@ -565,11 +539,7 @@ function modifyheight(height) {
 function modifyAngle(angle) {
 	if(clickedObject != null) {
 		deleteBoundingBox();
-<<<<<<< HEAD
 		clickedObject.rotate(angle);//
-=======
-		//clickedObject.rotate(angle);
->>>>>>> f2b3e874a13e1c7af123745b8a1d0e2b4988d61c
 		drawBoundingBox(clickedObject.rbox(), angle);
 		putObjectStatus();
 	}
@@ -639,13 +609,8 @@ function modifyXPosition(deltaX) {
 	deleteBoundingBox();
 	clickedObject.move(deltaX, _box.y);
 	_box = clickedObject.rbox();
-<<<<<<< HEAD
 	drawBoundingBox(_box, clickedObject.transform('rotation'));
 	//drawBoundingBox(_box, clickedGroup.transform('rotation'));
-=======
-	//drawBoundingBox(_box, clickedObject.transform('rotation'));
-	drawBoundingBox(_box, clickedGroup.transform('rotation'));
->>>>>>> f2b3e874a13e1c7af123745b8a1d0e2b4988d61c
 	putObjectStatus();
 }
 
@@ -654,13 +619,8 @@ function modifyYPosition(deltaY) {
 	deleteBoundingBox();
 	clickedObject.move(_box.x, deltaY);
 	_box = clickedObject.rbox();
-<<<<<<< HEAD
 	drawBoundingBox(_box, clickedObject.transform('rotation'));
 	//drawBoundingBox(_box, clickedGroup.transform('rotation'));
-=======
-	//drawBoundingBox(_box, clickedObject.transform('rotation'));
-	drawBoundingBox(_box, clickedGroup.transform('rotation'));
->>>>>>> f2b3e874a13e1c7af123745b8a1d0e2b4988d61c
 	putObjectStatus();
 }
 
@@ -687,13 +647,8 @@ function makeDraggable() {
 	})
 	clickedObject.draggable().on('dragend', function(e){
 		var _box = clickedObject.rbox();
-<<<<<<< HEAD
 		drawBoundingBox(_box, clickedObject.transform('rotation'));
 		//drawBoundingBox(_box, clickedGroup.transform('rotation'));
-=======
-		//drawBoundingBox(_box, clickedObject.transform('rotation'));
-		drawBoundingBox(_box, clickedGroup.transform('rotation'));
->>>>>>> f2b3e874a13e1c7af123745b8a1d0e2b4988d61c
 	})
 }
 
