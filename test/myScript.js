@@ -219,6 +219,13 @@ function drawSVGCanvas(){
 		}
 	})
 
+	$('#createPolygon').mousedown(function(e) {
+		if(canDrawElement) {
+			drawPolygon();
+			canDrawElement = false;
+		}
+	})
+
 	$('#createObject1').mousedown(function(e) {
 		if(canDrawElement) {
 			drawObject('M45.4,11.5c-3.2,0-11,0-16.9,5.9c-0.5,0.5-5.4,5.6-5.9,13.3c-0.3,6.1,2.6,7.2,2.4,13.3c-0.3,7.5-4.9,9-4.4,13.6, c0.8,7.3,13.2,13.5,23.9,14c13.8,0.7,28.4-7.9,28.6-15.5c0.1-4-3.8-4.7-5.1-11.4c-1.2-6.2,1.7-7.9,0.7-14.5, c-0.2-1.6-1.2-7.9-6.2-12.8C56.4,11.5,48.3,11.5,45.4,11.5z')
@@ -575,12 +582,32 @@ function deleteBoundingBox() {
 	})
 }
 
+function drawPolygon() {
+	var poly = draw.polygon().fill('#fdffdb')
+	.stroke({color: '#501726', width: 3}).draw();
+
+	drawings.push(poly);
+
+	poly.on('drawstart', function(e){
+      document.addEventListener('keydown', function(e){
+          if(e.keyCode == 13){
+              poly.draw('done');
+              poly.off('drawstart');
+          }
+      });
+  });
+
+  poly.on('drawstop', function(){
+      // remove listener
+  });
+	canDrawElement = true;
+}
 function drawRect() {
 	if(canDraw === CAN_DRAW_RECT){
 		var rect = draw.rect().fill('#fdffdb')
-		.stroke({ color: '#ffcf5c', width: 3});
+		.stroke({ color: '#501726', width: 3});
 
-		var drawingTest = draw.rect().fill('none').stroke({color: '#ffcf5c', width: 1}).draw();
+		var drawingTest = draw.rect().fill('none').stroke({color: '#501726', width: 1}).draw();
 
 		drawings.push(rect);
 		console.log(drawings);
@@ -609,9 +636,9 @@ function drawRect() {
 function drawCircle() {
 	if(canDraw === CAN_DRAW_CIRCLE) {
 		var circle = draw.ellipse().fill('#fdffdb')
-		.stroke({ color: '#ffcf5c', width: 3});
+		.stroke({ color: '#501726', width: 3});
 
-		var drawingTest = draw.rect().fill('none').stroke({color: '#ffcf5c', width: 1}).draw();
+		var drawingTest = draw.rect().fill('none').stroke({color: '#501726', width: 1}).draw();
 
 		drawings.push(circle);
 		console.log(drawings);
@@ -642,8 +669,8 @@ function drawCircle() {
 function drawTest() {
 	//var test = draw.circle().draw();
 	var test = draw.path('M27.9,12.3c11.5-6.5,23.3-2.2,25.5-1.4c1.9,0.7,14.4,5.4,19.3,18.5c4.9,13,1.1,31.3-12.8,38.4,c-13,6.6-27.9-0.3-35.7-8.4c-8.8-9.1-13-24.1-7.2-35.8C20.4,16.6,26.3,13.2,27.9,12.3z')
-	.fill('#fdffdb').stroke({color: '#ffcf5c', width: 3}).size(1,1);
-	var drawingTest = draw.rect().fill('none').stroke({color: '#ffcf5c', width: 1}).draw();
+	.fill('#fdffdb').stroke({color: '#501726', width: 3}).size(1,1);
+	var drawingTest = draw.rect().fill('none').stroke({color: '#501726', width: 1}).draw();
 
 	drawings.push(test);
 	console.log(drawings);
@@ -670,8 +697,8 @@ function drawTest() {
 function drawObject(pathString) {
 	//var test = draw.circle().draw();
 	var object = draw.path(pathString)
-	.fill('#fdffdb').stroke({color: '#ffcf5c', width: 3}).size(1,1);
-	var drawingTest = draw.rect().fill('none').stroke({color: '#ffcf5c', width: 1}).draw();
+	.fill('#fdffdb').stroke({color: '#501726', width: 3}).size(1,1);
+	var drawingTest = draw.rect().fill('none').stroke({color: '#501726', width: 1}).draw();
 
 	drawings.push(object);
 	console.log(drawings);
