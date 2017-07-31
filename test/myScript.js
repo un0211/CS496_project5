@@ -203,6 +203,12 @@ function drawSVGCanvas(){
 		}
 	}, false);
 
+	$('deleteElement').mousedown(function(e) {
+		if(clickedObject != null) {
+			deleteBoundingBox();
+			clickedObject.remove();
+		}
+	})
 
 	$('#createRect').mousedown(function(e){
 		canDraw = CAN_DRAW_RECT;
