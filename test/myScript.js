@@ -51,7 +51,6 @@ var copiedObject;
 var clickedObjectBox = new Array();
 var clickedObjectBoxPoints = new Array();
 
-
 var drawings = new Array(); //save drawings. 최근부터 리턴(stack), 저장하면 초기화
 var changes = new Array();
 var clickedGroup;
@@ -216,15 +215,6 @@ function drawSVGCanvas(){
 		}
 	})
 
-	$(document).keydown(function(e) {
-			if(e.keyCode == 8) {
-				if(clickedObject != null && !isEditing) {
-					deleteBoundingBox();
-					clickedObject.remove();
-				}
-			}
-	});
-
 	$('#flipX').mousedown(function(e) {
 		if(clickedObject != null) {
 			clickedObject.flip('x');
@@ -320,14 +310,6 @@ function drawSVGCanvas(){
 			canDrawElement = false;
 		}
 	})
-/*
-	$('#itemX', '#itemY').each(function() {
-		$(this).change(function(e) {
-			console.log("I am now EDITTINGASDFASODF "+ isEditing )
-			isEditing = true;
-			console.log("I am now EDITTINGASDFASODF "+ isEditing )
-		})
-	})*/
 
 	$('#itemX').blur(function (e) {
 		//isEditing = false;
@@ -459,13 +441,18 @@ function drawSVGCanvas(){
 
 function makeScalable() {
 	var _box = clickedObject.rbox();
-	var cursor1 = draw.rect(5,5).move(_box.x + _box.width - 160, _box.y + _box.height - 148).fill('#b2305c')
+	var heightError = (window.innerHeight - 200) * 0.1 + 50;
+	var widthError = (window.innerWidth - 350) * 0.05 + 100;
+	var _boxX = _box.x - widthError;
+	var _boxY = _box.y - heightError;
+
+	var cursor1 = draw.rect(5,5).move(_boxX + _box.width + 5, _boxY+ _box.height + 2).fill('#b2305c')
 			.stroke({color: "#b2305c", width: 2})
-	var cursor2 = draw.rect(5,5).move(_box.x + _box.width - 160 , _box.y - 160).fill('#b2305c')
+	var cursor2 = draw.rect(5,5).move(_boxX + _box.width + 5, _boxY - 10).fill('#b2305c')
 			.stroke({color: "#b2305c", width: 2})
-	var cursor3 = draw.rect(5,5).move(_box.x - 172, _box.y + _box.height - 148).fill('#b2305c')
+	var cursor3 = draw.rect(5,5).move(_boxX - 10, _boxY+ _box.height + 2).fill('#b2305c')
 			.stroke({color: "#b2305c", width: 2})
-	var cursor4 = draw.rect(5,5).move(_box.x - 172, _box.y - 160).fill('#b2305c')
+	var cursor4 = draw.rect(5,5).move(_boxX - 10, _boxY -10).fill('#b2305c')
 			.stroke({color: "#b2305c", width: 2})
 
 	draggableCursor(cursor1, cursor2, cursor3, cursor4);
@@ -502,8 +489,7 @@ function draggableCursor(cursor, cursor2, cursor3, cursor4) {
 	})
 	cursor.draggable().on('dragend', function(event) {
 		_box = clickedObject.rbox();//need to modify
-		//drawBoundingBox(_box, clickedObject.transform('rotation'));
-		drawBoundingBox(_box, clickedGroup.transform('rotation'));
+		drawBoundingBox(_box, 0);
 		cursor.remove();
 		svgClickX = null;
 		svgClickY = null;
@@ -658,25 +644,29 @@ function drawBoundingBox(box, angle) {
 	clickedGroup = draw.group();
 
 	var _box = clickedObject.rbox();
+	var heightError = (window.innerHeight - 200) * 0.1 + 50;
+	var widthError = (window.innerWidth - 350) * 0.05 + 100;
+	var _boxX = _box.x - widthError;
+	var _boxY = _box.y - heightError;
 	var _clickedObjectBox = draw.rect(_box.width + 10, _box.height + 10).addClass('box')
 	//.rotate(angle)
-	.move(_box.x - 170, _box.y - 157).fill('none')
+	.move(_boxX - 6, _boxY - 6).fill('none')
 	.stroke({color:'#d597a1', width: 1});
 
 	var leftUp = draw.rect(3, 3).addClass('box')
-	.move(_box.x - 172, _box.y - 160).fill('none')
+	.move(_boxX -10, _boxY - 10).fill('none')
 	.stroke({color: '#000000', width: 1});
 
 	var leftDown = draw.rect(3, 3).addClass('box')
-	.move(_box.x - 172, _box.y + _box.height -148).fill('none')
+	.move(_boxX - 10, _boxY + 2 + _box.height).fill('none')
 	.stroke({color: '#000000', width: 1});
 
 	var rightUp = draw.rect(3, 3).addClass('box')
-	.move(_box.x + _box.width -160, _box.y - 160).fill('none')
+	.move(_boxX + _box.width + 5, _boxY - 10).fill('none')
 	.stroke({color: '#000000', width: 1});
 
 	var rightDown = draw.rect(3, 3).addClass('box')
-	.move(_box.x + _box.width -160, _box.y + _box.height -148).fill('none')
+	.move(_boxX + _box.width + 5, _boxY + _box.height + 2).fill('none')
 	.stroke({color: '#000000', width: 1});
 
 	clickedObjectBox.push(_clickedObjectBox);                                                                                                                                               clickedObjectBox.push(_clickedObjectBox);
