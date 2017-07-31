@@ -26,6 +26,7 @@ var clickDrag = new Array();  //Drag들
 
 var draggable = true;
 var scalable = false;
+var drawingPolygon = false;
 var canDrawElement = true;
 var canDraw = 0;
 var CAN_DRAW_CIRCLE = 1;
@@ -154,6 +155,10 @@ function drawSVGCanvas(){
 
 
 	draw.on('mousedown', function(event){
+		console.log('isDrawingPolygon? '+ drawingPolygon)
+		if(drawingPolygon) {
+			return;
+		}
 		canDrawElement = true;
 		console.log('is scalable' + scalable)
 		clicked = false;
@@ -262,6 +267,7 @@ function drawSVGCanvas(){
 		if(canDrawElement) {
 			drawPolygon();
 			canDrawElement = false;
+			drawingPolygon = true;
 		}
 	})
 
@@ -666,6 +672,7 @@ function drawPolygon() {
           if(e.keyCode == 13){
               poly.draw('done');
               poly.off('drawstart');
+							drawingPolygon = false;
           }
       });
   });
@@ -676,6 +683,7 @@ function drawPolygon() {
 	drawings.push(poly);
 	canDrawElement = true;
 }
+
 function drawRect() {
 	if(canDraw === CAN_DRAW_RECT){
 		var rect = draw.rect().fill('#fdffdb')
