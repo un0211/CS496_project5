@@ -53,6 +53,19 @@ var clickedObjectBoxPoints = new Array();
 var drawings = new Array(); //save drawings. 최근부터 리턴(stack), 저장하면 초기화
 var changes = new Array();
 
+var FACE = "face"
+		BODY = "body"
+		HEAD = "head"
+		ARMS = "arms"
+		LEGS = "legs"
+
+var face;
+var body;
+var head;
+var arms;
+var legs;
+var groups = new Array();
+
 /*
 function prepareCanvas()
 {
@@ -132,6 +145,12 @@ function drawSVGCanvas(){
 			drawTop = draw.offsetTop,
 			elements = new Array();
 	var clicked = false;
+	head = draw.group();
+	face = draw.group();
+	body = draw.group();
+	arms = draw.group();
+	legs = draw.group();
+
 
 	draw.on('mousedown', function(event){
 		canDrawElement = true;
@@ -268,6 +287,77 @@ function drawSVGCanvas(){
 		}
 	})
 
+	$('#tagOn').mousedown(function(e) {
+		var baseTag = document.getElementById("defaultTag")
+		var tagString = baseTag.textContent;
+		if(tagString != "Tags") {
+			if(clickedObject != null) {
+				switch(tagString) {
+					case HEAD: head.add(clickedObject);break;
+					case BODY: body.add(clickedObject);break;
+					case FACE: face.add(clickedObject);break;
+					case LEGS: legs.add(clickedObject);break;
+					case ARMS: arms.add(clickedObject);break;
+					//일단 두개만 넣었음
+				}
+			}
+		}
+	})
+
+	$('#tagHide').mousedown(function(e) {
+		var baseTag = document.getElementById("defaultTag")
+		var tagString = baseTag.textContent;
+		if(tagString != "Tags") {
+			if(clickedObject != null) {
+				switch(tagString) {
+					case HEAD: head.hide();break;
+					case BODY: body.hide();break;
+					case FACE: face.hide();break;
+					case LEGS: legs.hide();break;
+					case ARMS: arms.hide();break;
+					//일단 두개만 넣었음
+				}
+			}
+		}
+	})
+
+	$('#tagShow').mousedown(function(e) {
+		var baseTag = document.getElementById("defaultTag")
+		var tagString = baseTag.textContent;
+		if(tagString != "Tags") {
+			if(clickedObject != null) {
+					switch(tagString) {
+					case HEAD: head.show();break;
+					case BODY: body.show();break;
+					case FACE: face.show();break;
+					case LEGS: legs.show();break;
+					case ARMS: arms.show();break;
+					//일단 두개만 넣었음
+				}
+			}
+		}
+	})
+
+	$('#face').mousedown(function(e) {
+		face.front();
+	})
+
+	$('#head').mousedown(function(e) {
+		head.front();
+	})
+
+	$('#body').mousedown(function(e) {
+		body.front();
+	})
+
+	$('#arms').mousedown(function(e) {
+		arms.front();
+	})
+
+	$('#legs').mousedown(function(e) {
+		legs.front();
+	})
+
 }
 
 function modifyPlaneColor(color) {
@@ -378,29 +468,6 @@ function clickBoundingBoxPoints(x, y) {
 	}
 }
 
-function scaleWithBoundingBoxPoint(i) {
-	if(clickedObject != null) {
-		var _box = clickedObject.bbox();
-		console.log('now this point is draggable')
-		clickedObjectBoxPoints[i].draggable();
-		clickedObjectBoxPoints[i].draggable().on('dragstart', function(e) {
-			clickedObjectBox.forEach(function(element) {
-				element.remove()
-			});
-			for (var j = 0; j < 4; j++) {
-				if(i != j) {clickedObjectBoxPoints[j].remove()}
-			}
-		});
-		clickedObjectBoxPoints[i].draggable().on('dragmove', function(e) {
-			clickedObject.size(_box.width + e.detail.p.x, _box.height + e.detail.p.y)
-			putObjectStatus();
-		});
-		clickedObjectBoxPoints[i].draggable().on('dragend', function(e) {
-			_box = clickedObject.bbox();
-			drawBoundingBox(_box);
-		})
-	}
-}
 
 function putObjectStatus(){
 	if(clickedObject != null) {
