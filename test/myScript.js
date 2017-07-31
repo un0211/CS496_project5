@@ -210,6 +210,27 @@ function drawSVGCanvas(){
 		}
 	})
 
+	$(document).keydown(function(e) {
+			if(e.keyCode == 8) {
+				if(clickedObject != null) {
+					deleteBoundingBox();
+					clickedObject.remove();
+				}
+			}
+	});
+
+	$('#flipX').mousedown(function(e) {
+		if(clickedObject != null) {
+			clickedObject.flip('x');
+		}
+	})
+
+	$('#flipY').mousedown(function(e) {
+		if(clickedObject != null) {
+			clickedObject.flip('');
+		}
+	})
+
 	$('#createRect').mousedown(function(e){
 		canDraw = CAN_DRAW_RECT;
 		console.log('candraw? '+ canDrawElement)
@@ -640,8 +661,6 @@ function drawPolygon() {
 	var poly = draw.polygon().fill('#fdffdb')
 	.stroke({color: '#501726', width: 3}).draw();
 
-	drawings.push(poly);
-
 	poly.on('drawstart', function(e){
       document.addEventListener('keydown', function(e){
           if(e.keyCode == 13){
@@ -654,6 +673,7 @@ function drawPolygon() {
   poly.on('drawstop', function(){
       // remove listener
   });
+	drawings.push(poly);
 	canDrawElement = true;
 }
 function drawRect() {
