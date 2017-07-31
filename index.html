@@ -262,17 +262,30 @@
               <tr><td class="detail-cell">
                   <div id="property">태그</div>
                   <div class="btn-group">
-                    <button type="button" class="btn btn-default">Default</button>
+                    <button type="button" id="defaultTag" class="btn btn-default">Tags</button>
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                       <span class="caret"></span>
                       <span class="sr-only">Toggle Dropdown</span>
                     </button>
-                    <ul class="dropdown-menu" role="menu">
-                      <li><a href="#">Default</a></li>
+                    <ul id="dropdown-menus" class="dropdown-menu" role="menu">
+                      <script type="text/javascript">
+                        function setting(string) {
+                          var defaultButton = document.getElementById("defaultTag");
+                          defaultButton.textContent = string;
+                        }
+                      </script>
+                      <li><a href="#" onclick=setting("face") id="face">face</a></li>
+                      <li><a href="#" onclick=setting("head") id="head">head</a></li>
+                      <li><a href="#" onclick=setting("body") id="body">body</a></li>
+                      <li><a href="#" onclick=setting("arms") id="arms">arms</a></li>
+                      <li><a href="#" onclick=setting("legs") id="legs">legs</a></li>
                       <li class="divider"></li>
                       <li><a href="#">Add new tag</a></li>
                     </ul>
                   </div>
+                  <button id="tagOn">태그달기</button>
+                  <button id="tagHide">태그 숨기기</button>
+                  <button id="tagShow">태그 보이기</button>
               </td></tr>
               <tr id="for-pretty-detail"></tr>
             </table>
