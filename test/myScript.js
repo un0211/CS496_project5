@@ -472,8 +472,9 @@ function draggableCursor(cursor, cursor2, cursor3, cursor4) {
 		cursor3.remove();
 		cursor4.remove();
 	})
+
 	cursor.draggable().on('dragmove', function(event) {
-		_box = clickedObject.rbox();
+		_box = clickedObject.bbox();
 		var deltaWidth;
 		var deltaHeight;
 		if(svgClickX != null && svgClickY != null) {
@@ -489,6 +490,7 @@ function draggableCursor(cursor, cursor2, cursor3, cursor4) {
 		clickedObject.size(-deltaWidth + _box.width, -deltaHeight+ _box.height)
 		putObjectStatus();
 	})
+
 	cursor.draggable().on('dragend', function(event) {
 		_box = clickedObject.rbox();//need to modify
 
@@ -501,22 +503,22 @@ function draggableCursor(cursor, cursor2, cursor3, cursor4) {
 
 function modifyWidth(width) {
 	if(clickedObject != null) {
-		var _box = clickedObject.rbox();
+		var _box = clickedObject.bbox();
 		deleteBoundingBox();
 		clickedObject.size(width, _box.height);
-		_box = clickedObject.rbox();
+		_box = clickedObject.bbox();
 		drawBoundingBox(_box, clickedObject.transform('rotation'));
 		//drawBoundingBox(_box, clickedGroup.transform('rotation'));
 		putObjectStatus();
 	}
 }
 
-function modifyheight(height) {
+function modifyHeight(height) {
 	if(clickedObject != null) {
-		var _box = clickedObject.rbox();
+		var _box = clickedObject.bbox();
 		deleteBoundingBox();
 		clickedObject.size(_box.width, height);
-		_box = clickedObject.rbox();
+		_box = clickedObject.bbox();
 		drawBoundingBox(_box, clickedObject.transform('rotation'));
 		//drawBoundingBox(_box, clickedGroup.transform('rotation'));
 		putObjectStatus();
@@ -640,7 +642,7 @@ function makeDraggable() {
 }
 
 function drawBoundingBox(box, angle) {
-	clickedGroup = draw.group();
+	//clickedGroup = draw.group();
 
 	var _box = clickedObject.rbox();
 	var heightError = (window.innerHeight - 200) * 0.1 + 50;
