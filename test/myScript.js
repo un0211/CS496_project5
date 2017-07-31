@@ -203,7 +203,7 @@ function drawSVGCanvas(){
 		}
 	}, false);
 
-	$('deleteElement').mousedown(function(e) {
+	$('#deleteElement').mousedown(function(e) {
 		if(clickedObject != null) {
 			deleteBoundingBox();
 			clickedObject.remove();
