@@ -221,12 +221,14 @@ function drawSVGCanvas(){
 		modifyLineColor(_lineColor);
 	})
 
-	$('#planeColor').blur(function(e) {
-		console.log("blur!")
+	$('#planeColor').change(function(e) {
+		var _planecolor = document.getElementById("planeColor").value;
+		modifyPlaneColor(_planecolor);
 	})
 
-	$('#lineColor').blur(function(e) {
-
+	$('#lineColor').change(function(e) {
+		var _lineColor = document.getElementById('lineColor').value;
+		modifyLineColor(_lineColor);
 	})
 
 	$('#freeScale').mousedown(function(e) {
@@ -240,13 +242,17 @@ function drawSVGCanvas(){
 
 function modifyPlaneColor(color) {
 	var planeColor = document.getElementById('planeColor');
+	var planeColorText = document.getElementById('planeColorText');
 	planeColor.value = color;
+	planeColorText.value = color.substring(1,).toUpperCase();
 	clickedObject.fill(color);
 }
 
 function modifyLineColor(color) {
 	var lineColor = document.getElementById('lineColor');
+	var lineColorText = document.getElementById('lineColorText');
 	lineColor.value = color;
+	lineColorText.value = color.substring(1,).toUpperCase();
 	clickedObject.stroke(color);
 }
 
