@@ -29,6 +29,35 @@ input:focus {
   color: #202020;
 }
 
+.mini-btn {
+    display: inline-block;
+    padding: 1px 4px;
+    margin-bottom: 3px;
+    margin-left: 132px;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: left;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+
+.in-line {
+  display: inline-block;
+  text-align: left;
+}
+
 
 
 

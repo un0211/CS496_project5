@@ -50,7 +50,7 @@ var clickedObjectBoxPoints = new Array();
 
 var drawings = new Array(); //save drawings. 최근부터 리턴(stack), 저장하면 초기화
 var changes = new Array();
-
+var clickedGroup;
 /*
 function prepareCanvas()
 {
@@ -152,10 +152,20 @@ function drawSVGCanvas(){
 					makeUndraggable();
 				}
 				clickedObject = element;
-				putObjectStatus();
 				clickedObject.front();
 				var _box = clickedObject.bbox();
-				drawBoundingBox(_box);
+				//var _rotate = clickedObject.transform('rotation');
+
+				var _rotate;
+				if(clickedGroup == null){
+					_rotate = 0;
+				}else {
+					_rotate = clickedGroup.transform('rotation');
+				}
+
+				drawBoundingBox(_box, _rotate);
+				putObjectStatus();
+
 				if(draggable) {
 					console.log('움직인다')
 					makeDraggable();
@@ -167,6 +177,7 @@ function drawSVGCanvas(){
 			makeUndraggable();
 			draggable = true;
 			scalable = false;
+			clickedGroup = null;
 		}
 	}, false);
 
@@ -231,6 +242,11 @@ function drawSVGCanvas(){
 		modifyLineColor(_lineColor);
 	})
 
+	$('#itemAngle').change(function(e) {
+		var _angle = document.getElementById('itemAngle').value;
+		modifyAngle(_angle);
+	})
+
 	$('#freeScale').mousedown(function(e) {
 		if(!scalable) {
 			scalable = true;
@@ -238,22 +254,6 @@ function drawSVGCanvas(){
 		}
 	})
 
-}
-
-function modifyPlaneColor(color) {
-	var planeColor = document.getElementById('planeColor');
-	var planeColorText = document.getElementById('planeColorText');
-	planeColor.value = color;
-	planeColorText.value = color.substring(1,).toUpperCase();
-	clickedObject.fill(color);
-}
-
-function modifyLineColor(color) {
-	var lineColor = document.getElementById('lineColor');
-	var lineColorText = document.getElementById('lineColorText');
-	lineColor.value = color;
-	lineColorText.value = color.substring(1,).toUpperCase();
-	clickedObject.stroke(color);
 }
 
 function makeScalable() {
@@ -301,7 +301,8 @@ function draggableCursor(cursor, cursor2, cursor3, cursor4) {
 	})
 	cursor.draggable().on('dragend', function(event) {
 		_box = clickedObject.bbox();//need to modify
-		drawBoundingBox(_box);
+		//drawBoundingBox(_box, clickedObject.transform('rotation'));
+		drawBoundingBox(_box, clickedGroup.transform('rotation'));
 		cursor.remove();
 	})
 }
@@ -312,7 +313,10 @@ function modifyWidth(width) {
 		deleteBoundingBox();
 		clickedObject.size(width, _box.height);
 		_box = clickedObject.bbox();
-		drawBoundingBox(_box);
+		//drawBoundingBox(_box, clickedObject.transform('rotation'));
+		drawBoundingBox(_box, clickedGroup.transform('rotation'));
+		console.log("bbox: " + _box.x + ", " + _box.y);
+		console.log("clickedObject: " + clickedObject.attr('x') + ", " + clickedObject.attr('y'));
 		putObjectStatus();
 	}
 }
@@ -323,9 +327,37 @@ function modifyheight(height) {
 		deleteBoundingBox();
 		clickedObject.size(_box.width, height);
 		_box = clickedObject.bbox();
-		drawBoundingBox(_box);
+		//drawBoundingBox(_box, clickedObject.transform('rotation'));
+		drawBoundingBox(_box, clickedGroup.transform('rotation'));
+		console.log("bbox: " + _box.x + ", " + _box.y);
+		console.log("clickedObject: " + clickedObject.attr('x') + ", " + clickedObject.attr('y'));
 		putObjectStatus();
 	}
+}
+
+function modifyAngle(angle) {
+	if(clickedObject != null) {
+		deleteBoundingBox();
+		//clickedObject.rotate(angle);
+		drawBoundingBox(clickedObject.bbox(), angle);
+		putObjectStatus();
+	}
+}
+
+function modifyPlaneColor(color) {
+	var planeColor = document.getElementById('planeColor');
+	var planeColorText = document.getElementById('planeColorText');
+	planeColor.value = color;
+	planeColorText.value = color.substring(1,).toUpperCase();
+	clickedObject.fill(color);
+}
+
+function modifyLineColor(color) {
+	var lineColor = document.getElementById('lineColor');
+	var lineColorText = document.getElementById('lineColorText');
+	lineColor.value = color;
+	lineColorText.value = color.substring(1,).toUpperCase();
+	clickedObject.stroke(color);
 }
 
 
@@ -365,7 +397,8 @@ function scaleWithBoundingBoxPoint(i) {
 		});
 		clickedObjectBoxPoints[i].draggable().on('dragend', function(e) {
 			_box = clickedObject.bbox();
-			drawBoundingBox(_box);
+			//drawBoundingBox(_box, clickedObject.transform('rotation'));
+			drawBoundingBox(_box, clickedGroup.transform('rotation'));
 		})
 	}
 }
@@ -373,21 +406,23 @@ function scaleWithBoundingBoxPoint(i) {
 function putObjectStatus(){
 	if(clickedObject != null) {
 		var _box = clickedObject.bbox();
+		var _planeColor = clickedObject.attr('fill');
+		var _lineColor = clickedObject.attr('stroke');
+		//var _rotate = clickedObject.transform('rotation');
+		var _rotate = clickedGroup.transform('rotation');
+
 		document.getElementById('itemWidth').value = _box.width;
 		document.getElementById('itemHeight').value = _box.height;
 
 		document.getElementById('itemX').value = _box.x;
 		document.getElementById('itemY').value = _box.y;
 
-		var _planeColor = clickedObject.attr('fill');
-		var _lineColor = clickedObject.attr('stroke');
-		var planeColor = document.getElementById('planeColor');
-		var lineColor = document.getElementById('lineColor');
-
 		document.getElementById('planeColorText').value = _planeColor.substring(1,).toUpperCase();
 		document.getElementById('lineColorText').value = _lineColor.substring(1,).toUpperCase();
-		planeColor.value = _planeColor;
-		lineColor.value = _lineColor;
+		document.getElementById('planeColor').value = _planeColor;
+		document.getElementById('lineColor').value = _lineColor;
+
+		document.getElementById('itemAngle').value = _rotate;
 	}
 }
 
@@ -398,7 +433,8 @@ function modifyXPosition(deltaX) {
 	deleteBoundingBox();
 	clickedObject.move(deltaX, _box.y);
 	_box = clickedObject.bbox();
-	drawBoundingBox(_box);
+	//drawBoundingBox(_box, clickedObject.transform('rotation'));
+	drawBoundingBox(_box, clickedGroup.transform('rotation'));
 	putObjectStatus();
 }
 
@@ -407,7 +443,8 @@ function modifyYPosition(deltaY) {
 	deleteBoundingBox();
 	clickedObject.move(_box.x, deltaY);
 	_box = clickedObject.bbox();
-	drawBoundingBox(_box);
+	//drawBoundingBox(_box, clickedObject.transform('rotation'));
+	drawBoundingBox(_box, clickedGroup.transform('rotation'));
 	putObjectStatus();
 }
 
@@ -434,13 +471,17 @@ function makeDraggable() {
 	})
 	clickedObject.draggable().on('dragend', function(e){
 		var _box = clickedObject.bbox();
-		drawBoundingBox(_box);
+		//drawBoundingBox(_box, clickedObject.transform('rotation'));
+		drawBoundingBox(_box, clickedGroup.transform('rotation'));
 	})
 }
 
-function drawBoundingBox( box ) {
-	var _box = box;
+function drawBoundingBox(box, angle) {
+	clickedGroup = draw.group();
+
+	var _box = clickedObject.bbox();
 	var _clickedObjectBox = draw.rect(_box.width + 10, _box.height + 10).addClass('box')
+	//.rotate(angle)
 	.move(_box.x - 5, _box.y - 5).fill('none')
 	.stroke({color:'#d597a1', width: 1});
 
@@ -465,6 +506,14 @@ function drawBoundingBox( box ) {
 	clickedObjectBoxPoints.push(leftDown);
 	clickedObjectBoxPoints.push(rightUp);
 	clickedObjectBoxPoints.push(rightDown);
+
+	clickedGroup.add(_clickedObjectBox);
+	clickedGroup.add(clickedObject);
+	clickedGroup.add(leftUp);
+	clickedGroup.add(rightUp);
+	clickedGroup.add(leftDown);
+	clickedGroup.add(rightDown);
+	clickedGroup.rotate(angle);
 }
 
 function deleteBoundingBox() {

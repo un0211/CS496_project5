@@ -94,8 +94,8 @@
                         <li><a href="#">도형 색 변경</a></li>
                         <li><a href="#">사용자 지정 도형 추가</a></li>
                         <li class="divider"></li>
-                        <li><a href="#">시계 방향으로 회전</a></li>
-                        <li><a href="#">반시계 방향으로 회전</a></li>
+                        <li><a href="#">왼쪽으로 90°회전</a></li>
+                        <li><a href="#">오른쪽으로 90°회전</a></li>
                         <li><a href="#">수직 반전</a></li>
                         <li><a href="#">수평 반전</a></li>
                         <li><a href="#">도형 각 조절</a></li>
@@ -144,10 +144,6 @@
                     </div>
                   </ui>
 
-                  <!-- addtional tab on/off selector -->
-                  <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">넣을거면 탭on/off</a></li>
-                  </ul>
                 </div><!-- /.navbar-collapse -->
               </div><!-- /.container-fluid -->
             </nav>
@@ -228,14 +224,15 @@
               <tr><td>
                   <div id="color_picker"></div>
                   <div id="property-line"> <div id="property">면 색</div>
-                    <input id="planeColorText" type="text" class="itemThird"></input> 
+                    <input id="planeColorText" type="text" class="itemThird"></input>
                     <input id="planeColor" type="color" class="basic itemSecond" value='#ffffff'> </div>
                   <div id="property-line"> <div id="property">선 색</div>
                     <input id="lineColorText" type="text" class="itemThird"></input>
                     <input id="lineColor" type="color" class="basic itemSecond" value='#ffffff'> </div>
-              </td></tr>
+
               <tr><td class="detail-cell">
-                  <div>크기</div><button class="button" id="freeScale">자유 변형</button>
+                  <div> <div class="in-line">크기</div>
+                    <button type="button" class="mini-btn btn-default" id="freeScale">자유 변형</button> </div>
                   <div id="property-line"> <div id="property">넓이</div> <input type="text" id="itemWidth" class="itemFirst"></input>
                         <div id="property">높이</div> <input type="text" id="itemHeight" class="itemSecond"></input></div>
               </td></tr>
@@ -245,13 +242,23 @@
                        <div id="property">Y</div> <input type="text" id="itemY" class="itemSecond"></input></div>
               </td></tr>
               <tr><td class="detail-cell">
-                  <div> <div id="property">각도</div> <input type="text" id="itemAngle" class="itemThird"></input></div>
+                <div> <div id="property">각도</div> <input type="text" id="itemAngle" class="itemThird"> </input>
+                  <div class="btn-group">
+                    <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                       회전 <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a href="#">수직 반전</a></li>
+                      <li><a href="#">수평 반전</a></li>
+                    </ul>
+                  </div>
+                </div>
               </td></tr>
               <tr><td class="detail-cell">
                   <div id="property">태그</div>
                   <div class="btn-group">
-                    <button type="button" class="btn btn-default">Default</button>
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <button type="button" class="btn btn-xs btn-default">Default</button>
+                    <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                       <span class="caret"></span>
                       <span class="sr-only">Toggle Dropdown</span>
                     </button>
