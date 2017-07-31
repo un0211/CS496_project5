@@ -37,6 +37,8 @@ var rect; //make stereotyped rect
 
 var svgClickX;
 var svgClickY;
+var testClickX;
+var testClickY;
 var svgClickColor = new Array();
 var svgClickTool = new Array();
 var svgClickSize = new Array();
@@ -51,6 +53,20 @@ var clickedObjectBoxPoints = new Array();
 var drawings = new Array(); //save drawings. 최근부터 리턴(stack), 저장하면 초기화
 var changes = new Array();
 var clickedGroup;
+
+var FACE = "face"
+		BODY = "body"
+		HEAD = "head"
+		ARMS = "arms"
+		LEGS = "legs"
+
+var face;
+var body;
+var head;
+var arms;
+var legs;
+var groups = new Array();
+
 /*
 function prepareCanvas()
 {
@@ -130,6 +146,12 @@ function drawSVGCanvas(){
 			drawTop = draw.offsetTop,
 			elements = new Array();
 	var clicked = false;
+	head = draw.group();
+	face = draw.group();
+	body = draw.group();
+	arms = draw.group();
+	legs = draw.group();
+
 
 	draw.on('mousedown', function(event){
 		canDrawElement = true;
@@ -202,6 +224,41 @@ function drawSVGCanvas(){
 		}
 	})
 
+	$('#createTest').mousedown(function(e) {
+		if(canDrawElement) {
+			drawTest();
+			canDrawElement = false;
+		}
+	})
+
+	$('#createPolygon').mousedown(function(e) {
+		if(canDrawElement) {
+			drawPolygon();
+			canDrawElement = false;
+		}
+	})
+
+	$('#createObject1').mousedown(function(e) {
+		if(canDrawElement) {
+			drawObject('M45.4,11.5c-3.2,0-11,0-16.9,5.9c-0.5,0.5-5.4,5.6-5.9,13.3c-0.3,6.1,2.6,7.2,2.4,13.3c-0.3,7.5-4.9,9-4.4,13.6, c0.8,7.3,13.2,13.5,23.9,14c13.8,0.7,28.4-7.9,28.6-15.5c0.1-4-3.8-4.7-5.1-11.4c-1.2-6.2,1.7-7.9,0.7-14.5, c-0.2-1.6-1.2-7.9-6.2-12.8C56.4,11.5,48.3,11.5,45.4,11.5z')
+			canDrawElement = false;
+		}
+	})
+
+	$('#createObject2').mousedown(function(e) {
+		if(canDrawElement) {
+			drawObject('M41.1,15.4c-11.7,0.1-18.9,10.8-20.7,13.5c-1.7,2.6-5.5,8.4-5,16.4c0.1,2.1,0.4,7.7,4.4,12.4, c5.9,7.1,15.9,6.9,23.6,6.7c6.6-0.1,13.6-0.3,19.3-5.5c0.9-0.8,4.7-4.5,6-10.6c2.3-11.2-6.3-20.4-8.7-23, C56.7,22,50.4,15.3,41.1,15.4z')
+			canDrawElement = false;
+		}
+	})
+
+	$('#createObject3').mousedown(function(e) {
+		if(canDrawElement) {
+			drawObject('M72,43.4c-2-3.6-8.1-1.6-17.9-3c-9.9-1.4-12.6-4.7-22.8-5.2c-0.9,0-4.6-0.2-9,1.3c-2.9,0.9-5.3,1.7-6.7,4.2, c-1.4,2.3-1.5,5.4-0.3,7.8c1.3,2.6,4.1,3.9,7.9,4.9c5.8,1.5,9.9,1.4,26.2,0.4c0.4,0,5.9-0.4,13-1.8c6.3-1.2,9-2.3,9.9-4.5, C72.7,46.2,72.7,44.7,72,43.4z')
+			canDrawElement = false;
+		}
+	})
+
 	$('#itemX').blur(function (e) {
 		var _deltaX = document.getElementById('itemX').value;
 		modifyXPosition(_deltaX);
@@ -254,6 +311,77 @@ function drawSVGCanvas(){
 		}
 	})
 
+	$('#tagOn').mousedown(function(e) {
+		var baseTag = document.getElementById("defaultTag")
+		var tagString = baseTag.textContent;
+		if(tagString != "Tags") {
+			if(clickedObject != null) {
+				switch(tagString) {
+					case HEAD: head.add(clickedObject);break;
+					case BODY: body.add(clickedObject);break;
+					case FACE: face.add(clickedObject);break;
+					case LEGS: legs.add(clickedObject);break;
+					case ARMS: arms.add(clickedObject);break;
+					//일단 두개만 넣었음
+				}
+			}
+		}
+	})
+
+	$('#tagHide').mousedown(function(e) {
+		var baseTag = document.getElementById("defaultTag")
+		var tagString = baseTag.textContent;
+		if(tagString != "Tags") {
+			if(clickedObject != null) {
+				switch(tagString) {
+					case HEAD: head.hide();break;
+					case BODY: body.hide();break;
+					case FACE: face.hide();break;
+					case LEGS: legs.hide();break;
+					case ARMS: arms.hide();break;
+					//일단 두개만 넣었음
+				}
+			}
+		}
+	})
+
+	$('#tagShow').mousedown(function(e) {
+		var baseTag = document.getElementById("defaultTag")
+		var tagString = baseTag.textContent;
+		if(tagString != "Tags") {
+			if(clickedObject != null) {
+					switch(tagString) {
+					case HEAD: head.show();break;
+					case BODY: body.show();break;
+					case FACE: face.show();break;
+					case LEGS: legs.show();break;
+					case ARMS: arms.show();break;
+					//일단 두개만 넣었음
+				}
+			}
+		}
+	})
+
+	$('#face').mousedown(function(e) {
+		face.front();
+	})
+
+	$('#head').mousedown(function(e) {
+		head.front();
+	})
+
+	$('#body').mousedown(function(e) {
+		body.front();
+	})
+
+	$('#arms').mousedown(function(e) {
+		arms.front();
+	})
+
+	$('#legs').mousedown(function(e) {
+		legs.front();
+	})
+
 }
 
 function makeScalable() {
@@ -304,6 +432,8 @@ function draggableCursor(cursor, cursor2, cursor3, cursor4) {
 		//drawBoundingBox(_box, clickedObject.transform('rotation'));
 		drawBoundingBox(_box, clickedGroup.transform('rotation'));
 		cursor.remove();
+		svgClickX = null;
+		svgClickY = null;
 	})
 }
 
@@ -375,31 +505,6 @@ function clickBoundingBoxPoints(x, y) {
 	} else if (clickedObjectBoxPoints[3].inside(x, y)) {
 		console.log('I clicked 3 box point')
 		scaleWithBoundingBoxPoint(3);
-	}
-}
-
-function scaleWithBoundingBoxPoint(i) {
-	if(clickedObject != null) {
-		var _box = clickedObject.bbox();
-		console.log('now this point is draggable')
-		clickedObjectBoxPoints[i].draggable();
-		clickedObjectBoxPoints[i].draggable().on('dragstart', function(e) {
-			clickedObjectBox.forEach(function(element) {
-				element.remove()
-			});
-			for (var j = 0; j < 4; j++) {
-				if(i != j) {clickedObjectBoxPoints[j].remove()}
-			}
-		});
-		clickedObjectBoxPoints[i].draggable().on('dragmove', function(e) {
-			clickedObject.size(_box.width + e.detail.p.x, _box.height + e.detail.p.y)
-			putObjectStatus();
-		});
-		clickedObjectBoxPoints[i].draggable().on('dragend', function(e) {
-			_box = clickedObject.bbox();
-			//drawBoundingBox(_box, clickedObject.transform('rotation'));
-			drawBoundingBox(_box, clickedGroup.transform('rotation'));
-		})
 	}
 }
 
@@ -525,20 +630,53 @@ function deleteBoundingBox() {
 	})
 }
 
+function drawPolygon() {
+	var poly = draw.polygon().fill('#fdffdb')
+	.stroke({color: '#501726', width: 3}).draw();
+
+	drawings.push(poly);
+
+	poly.on('drawstart', function(e){
+      document.addEventListener('keydown', function(e){
+          if(e.keyCode == 13){
+              poly.draw('done');
+              poly.off('drawstart');
+          }
+      });
+  });
+
+  poly.on('drawstop', function(){
+      // remove listener
+  });
+	canDrawElement = true;
+}
 function drawRect() {
 	if(canDraw === CAN_DRAW_RECT){
 		var rect = draw.rect().fill('#fdffdb')
-		.stroke({ color: '#ffcf5c', width: 3}).draw();
+		.stroke({ color: '#501726', width: 3});
+
+		var drawingTest = draw.rect().fill('none').stroke({color: '#501726', width: 1}).draw();
 
 		drawings.push(rect);
 		console.log(drawings);
+		var drawingNow = true;
+		var _box;
 
 		draw.on('mousedown', function(event) {
-			rect.draw('point', event);
+			drawingTest.draw('point', event);
 		});
 
 		draw.on('mouseup', function(){
+			drawingTest.draw(false);
+			drawingTest.remove();
+			if(drawingNow){
+				var _box = drawingTest.bbox();
+				rect.move(_box.x, _box.y);
+				rect.size(_box.width, _box.height);
+				drawingNow = false;
+			}
 		});
+
 		canDrawElement = true;
 	}
 }
@@ -546,28 +684,90 @@ function drawRect() {
 function drawCircle() {
 	if(canDraw === CAN_DRAW_CIRCLE) {
 		var circle = draw.ellipse().fill('#fdffdb')
-		.stroke({ color: '#ffcf5c', width: 3}).draw();
+		.stroke({ color: '#501726', width: 3});
+
+		var drawingTest = draw.rect().fill('none').stroke({color: '#501726', width: 1}).draw();
 
 		drawings.push(circle);
 		console.log(drawings);
+		var drawingNow = true;
+		var _box;
 
 		draw.on('mousedown', function(event) {
-			circle.draw('point', event);
+			drawingTest.draw('point', event);
 		});
 
 		draw.on('mouseup', function(){
+			drawingTest.draw(false);
+			drawingTest.remove();
+			if(drawingNow){
+				var _box = drawingTest.bbox();
+				circle.move(_box.x + _box.width/2, _box.y + _box.height/2);
+				circle.size(_box.width, _box.height);
+				drawingNow = false;
+			}
 		});
 		canDrawElement = true;
 	}
 }
 
-function drawPolygon() {
-	draw = SVG('svgDraw');
-	var polygon = draw.polygon().fill('#182673').draw();
+/**
+ *견본입니다
+ */
+function drawTest() {
+	//var test = draw.circle().draw();
+	var test = draw.path('M27.9,12.3c11.5-6.5,23.3-2.2,25.5-1.4c1.9,0.7,14.4,5.4,19.3,18.5c4.9,13,1.1,31.3-12.8,38.4,c-13,6.6-27.9-0.3-35.7-8.4c-8.8-9.1-13-24.1-7.2-35.8C20.4,16.6,26.3,13.2,27.9,12.3z')
+	.fill('#fdffdb').stroke({color: '#501726', width: 3}).size(1,1);
+	var drawingTest = draw.rect().fill('none').stroke({color: '#501726', width: 1}).draw();
 
-	draw.on('keyon', function(){
-		polygon.draw('done');
-	})
+	drawings.push(test);
+	console.log(drawings);
+	var drawingNow = true;
+	var _box;
+
+	draw.on('mousedown', function(event) {
+		drawingTest.draw('point', event);
+	});
+
+	draw.on('mouseup', function(){
+		drawingTest.draw(false);
+		drawingTest.remove();
+		if(drawingNow){
+			var _box = drawingTest.bbox();
+			test.move(_box.x, _box.y);
+			test.size(_box.width, _box.height);
+			drawingNow = false;
+		}
+	});
+	canDrawElement = true;
+}
+
+function drawObject(pathString) {
+	//var test = draw.circle().draw();
+	var object = draw.path(pathString)
+	.fill('#fdffdb').stroke({color: '#501726', width: 3}).size(1,1);
+	var drawingTest = draw.rect().fill('none').stroke({color: '#501726', width: 1}).draw();
+
+	drawings.push(object);
+	console.log(drawings);
+	var drawingNow = true;
+	var _box;
+
+	draw.on('mousedown', function(event) {
+		drawingTest.draw('point', event);
+	});
+
+	draw.on('mouseup', function(){
+		drawingTest.draw(false);
+		drawingTest.remove();
+		if(drawingNow){
+			var _box = drawingTest.bbox();
+			object.move(_box.x, _box.y);
+			object.size(_box.width, _box.height);
+			drawingNow = false;
+		}
+	});
+	canDrawElement = true;
 }
 
 function undoDrawing() {

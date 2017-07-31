@@ -155,11 +155,14 @@
           <!-- select tools -->
           <td id="tool-tab">
             <div class="btn-group-vertical" role="group" aria-label="...">
-              <button type="button" id="createRect" class="btn btn-default">
+              <button type="button" id="createPolygon" class="btn btn-default">
                   <img alt="brush" src="images/ic_brush.png" width="20" height="20">
               </button>
               <button type="button" id="createCircle" class="btn btn-default">
                   <img alt="paint" src="images/ic_paint.png" width="20" height="20">
+              </button>
+              <button type="button" id="createTest" class="btn btn-default">
+                <img alt="test" src="test/test.jpg" width="20" height="20">
               </button>
               <div class="btn-group" role="group">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -167,8 +170,17 @@
                   <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
-                  <li id="a"><a href="#">Rect</a></li>
-                  <li id="b"><a href="#">Circle</a></li>
+                  <li id="createObject1" class="btn btn-default">
+                    <img alt="object1" src="test/Face1.png" width="25" height="25">
+                  </li>
+                  <li id="createObject2" class="btn btn-default">
+                    <img alt="object2" src="test/Face2.png" width="25" height="25">
+                  </li>
+                  <li id="createObject3" class="btn btn-default">
+                    <img alt="object3" src="test/Foot1.png" width="25" height="25">
+                  </li>
+                  <li id="createRect"><a href="#">Rect</a></li>
+                  <li id="createCircleb"><a href="#">Circle</a></li>
                 </ul>
               </div>
             </div>
@@ -257,17 +269,30 @@
               <tr><td class="detail-cell">
                   <div id="property">태그</div>
                   <div class="btn-group">
-                    <button type="button" class="btn btn-xs btn-default">Default</button>
-                    <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <button type="button" id="defaultTag" class="btn btn-xs btn-default">Tags</button>
+                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                       <span class="caret"></span>
                       <span class="sr-only">Toggle Dropdown</span>
                     </button>
-                    <ul class="dropdown-menu" role="menu">
-                      <li><a href="#">Default</a></li>
+                    <ul id="dropdown-menus" class="dropdown-menu" role="menu">
+                      <script type="text/javascript">
+                        function setting(string) {
+                          var defaultButton = document.getElementById("defaultTag");
+                          defaultButton.textContent = string;
+                        }
+                      </script>
+                      <li><a href="#" onclick=setting("face") id="face">face</a></li>
+                      <li><a href="#" onclick=setting("head") id="head">head</a></li>
+                      <li><a href="#" onclick=setting("body") id="body">body</a></li>
+                      <li><a href="#" onclick=setting("arms") id="arms">arms</a></li>
+                      <li><a href="#" onclick=setting("legs") id="legs">legs</a></li>
                       <li class="divider"></li>
                       <li><a href="#">Add new tag</a></li>
                     </ul>
                   </div>
+                  <button id="tagOn">태그달기</button>
+                  <button id="tagHide">태그 숨기기</button>
+                  <button id="tagShow">태그 보이기</button>
               </td></tr>
               <tr id="for-pretty-detail"></tr>
             </table>
