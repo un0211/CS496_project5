@@ -503,7 +503,7 @@ function drawSVGCanvas(){
 
 function makeScalable() {
 	var _box = clickedObject.rbox();
-	var heightError = (window.innerHeight - 200) * 0.1 + 50;
+	var heightError = (window.innerHeight - 200) * 0.103 + 50;
 	var widthError = (window.innerWidth - 350) * 0.05 + 100;
 	var _boxX = _box.x - widthError;
 	var _boxY = _box.y - heightError;
@@ -871,7 +871,7 @@ function drawBoundingBox(box, angle) {
 	//clickedGroup = draw.group();
 
 	var _box = clickedObject.rbox();
-	var heightError = (window.innerHeight - 200) * 0.1 + 50;
+	var heightError = (window.innerHeight - 200) * 0.103 + 50;
 	var widthError = (window.innerWidth - 350) * 0.05 + 100;
 	var _boxX = _box.x - widthError;
 	var _boxY = _box.y - heightError;
