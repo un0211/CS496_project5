@@ -181,7 +181,6 @@ function drawSVGCanvas(){
 				clickedObject = element;
 				clickedObject.front();
 				var _box = clickedObject.rbox();
-
 				var _rotate = clickedObject.transform('rotation');
 
 				/*
@@ -570,7 +569,7 @@ function clickBoundingBoxPoints(x, y) {
 
 function putObjectStatus(){
 	if(clickedObject != null) {
-		var _box = clickedObject.rbox();
+		var _box = clickedObject.bbox();
 		var _planeColor = clickedObject.attr('fill');
 		var _lineColor = clickedObject.attr('stroke');
 		var _rotate = clickedObject.transform('rotation');
@@ -594,7 +593,7 @@ function putObjectStatus(){
 
 
 function modifyXPosition(deltaX) {
-	var _box = clickedObject.rbox();
+	var _box = clickedObject.bbox();
 	deleteBoundingBox();
 	clickedObject.move(deltaX, _box.y);
 	_box = clickedObject.rbox();
@@ -604,7 +603,7 @@ function modifyXPosition(deltaX) {
 }
 
 function modifyYPosition(deltaY) {
-	var _box = clickedObject.rbox();
+	var _box = clickedObject.bbox();
 	deleteBoundingBox();
 	clickedObject.move(_box.x, deltaY);
 	_box = clickedObject.rbox();
