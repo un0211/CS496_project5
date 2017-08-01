@@ -7,6 +7,21 @@ const BrowserWindow = electron.BrowserWindow
 const path = require('path')
 const url = require('url')
 
+/*
+const jqueryMin = require('https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js')
+const bootstrap = require('http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js')
+const svg = require('./node_modules/svg.js/dist/svg.js')
+const draw = require('./node_modules/svg.draw.js/dist/svg.draw.js')
+const draggable = require('./node_modules/svg.draggable.js/dist/svg.draggable.js')
+const select = require('./node_modules/svg.select.js/dist/svg.select.js')
+const resize = require('./node_modules/svg.resize.js/dist/svg.resize.js')
+const colorAt = require('./node_modules/svg.colorAt.js/dist/svg.colorAt.js')
+const flieSaver = require('./node_modules/file-saver/FileSaver.js')
+const saveSvgAsPng = require('./node_modules/save-svg-as-png/saveSvgAsPng.js')
+const myScript = require('test/myScript.js')
+const jquery = require('http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js')
+*/
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
