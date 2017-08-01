@@ -14,6 +14,8 @@
     <script src="./node_modules/svg.select.js/dist/svg.select.js"></script>
     <script src="./node_modules/svg.resize.js/dist/svg.resize.js"></script>
     <script src="./node_modules/svg.colorAt.js/dist/svg.colorAt.js"></script>
+    <script src="./node_modules/file-saver/FileSaver.js"></script>
+    <script src="./node_modules/save-svg-as-png/saveSvgAsPng.js"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
     <script type="text/javascript" src="test/myScript.js"></script>
     <script type="text/javascript">
@@ -74,7 +76,7 @@
                         <li><a href="#">새로 만들기</a></li>
                         <li><a href="#">열기</a></li>
                         <li class="divider"></li>
-                        <li><a href="#">저장</a></li>
+                        <li><a href="#" id="save">저장</a></li>
                         <li><a href="#">다른이름으로 저장</a></li>
                       </ul>
                     </li>
@@ -181,6 +183,9 @@
                   </li>
                   <li id="createObject5" class="btn btn-default">
                     <img alt="object5" src="test/body1.png" width="25" height="25">
+                  </li>
+                  <li id="createObject6" class="btn btn-default">
+                    <img alt="object6" src="test/arm1.png" width="25" height="25">
                   </li>
                   <li id="createRect"><a href="#">Rect</a></li>
                   <li id="createCircle"><a href="#">Circle</a></li>
@@ -293,6 +298,8 @@
                         </script>
                         <li><a href="#" onclick=setting("default") id="base">default</a></li>
                         <li><a href="#" onclick=setting("face") id="face">face</a></li>
+                        <li><a href="#" onclick=setting("eyes") id="eyes">eyes</a></li>
+                        <li><a href="#" onclick=setting("mouth") id="mouth">mouth</a></li>
                         <li><a href="#" onclick=setting("head") id="head">head</a></li>
                         <li><a href="#" onclick=setting("body") id="body">body</a></li>
                         <li><a href="#" onclick=setting("arms") id="arms">arms</a></li>
