@@ -208,6 +208,12 @@ input:focus {
 
 #defaultTag {
   margin-left: 5px;
+  width: 50px;
+}
+
+#itemTag {
+  display: inline-block;
+  margin-left: 5px;
 }
 
 
