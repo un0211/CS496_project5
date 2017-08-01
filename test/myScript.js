@@ -326,7 +326,7 @@ function drawSVGCanvas(){
 
 	$('#createObject6').mousedown(function(e) {
 		if(canDrawElement) {
-			drawObject('')
+			drawObject('M36.5,17.3c0.9-1.4,2.8-4.5,5.4-4.5c0.4,0,2.6,0.1,5.1,4.1C54.8,29,54.9,59.1,47.4,66c-0.7,0.7-2.6,2.4-5.1,2.4,c-2.4-0.1-4.2-1.8-4.9-2.5C30.6,59,28.4,30.5,36.5,17.3z')
 			canDrawElement = false;
 		}
 	})
@@ -483,6 +483,11 @@ function drawSVGCanvas(){
 		current.front();
 	})
 
+	$('#save').mousedown(function(e) {
+		//encode_as_img_and_link();
+		img_and_link();
+	})
+
 }
 
 function makeScalable() {
@@ -505,6 +510,16 @@ function makeScalable() {
 	draggableCursor2(cursor2, cursor1, cursor3, cursor4);
 	draggableCursor3(cursor3, cursor1, cursor2, cursor4);
 	draggableCursor4(cursor4, cursor1, cursor2, cursor3);
+
+}
+
+function img_and_link() {
+ var svg = document.getElementById("svgDraw");
+
+ //get svg source.
+ var serializer = new XMLSerializer();
+ var source = serializer.serializeToString(svg);
+ saveSvgAsPng(document.getElementById('SvgjsSvg1006'), "diagram.png");
 
 }
 
