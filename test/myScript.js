@@ -141,7 +141,9 @@ function redraw(){
 
 function clearCanvas()
 {
-	context.clearRect(0, 0, canvasWidth, canvasHeight);
+	drawings.forEach(function(element) {
+		element.remove();
+	})
 }
 
 
@@ -497,6 +499,10 @@ function drawSVGCanvas(){
 	$('#save').mousedown(function(e) {
 		//encode_as_img_and_link();
 		img_and_link();
+	})
+
+	$('#clear').mousedown(function(e) {
+		clearCanvas();
 	})
 
 }
