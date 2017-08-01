@@ -183,7 +183,6 @@ function drawSVGCanvas(){
 				clickedObject = element;
 				clickedObject.front();
 				var _box = clickedObject.rbox();
-
 				var _rotate = clickedObject.transform('rotation');
 
 				/*
