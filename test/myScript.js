@@ -76,70 +76,6 @@ var current;
 var currentGroup;
 var groups = new Array();
 
-/*
-function prepareCanvas()
-{
-	context = document.getElementById('canvas').getContext("2d");
-
-	var clickX = new Array();
-	var clickY = new Array();
-	var clickDrag = new Array();
-	var paint;
-
-	$('#canvas').mousedown(function(e){
-	  var mouseX = e.pageX - this.offsetLeft - 100;
-	  var mouseY = e.pageY - this.offsetTop - 80;
-
-	  paint = true;
-	  addClick(e.pageX - this.offsetLeft - 100, e.pageY - this.offsetTop - 80);
-	  redraw();
-	});
-
-	$('#canvas').mousemove(function(e){
-	  if(paint){
-	    addClick(e.pageX - this.offsetLeft - 100, e.pageY - this.offsetTop - 80, true);
-	    redraw();
-	  }
-	});
-
-	$('#canvas').mouseup(function(e){
-	  paint = false;
-	});
-
-	$('#canvas').mouseleave(function(e){
-	  paint = false;
-	});
-}
-
-function addClick(x, y, dragging)
-{
-  clickX.push(x);
-  clickY.push(y);
-  clickDrag.push(dragging);
-}
-
-function redraw(){
-  clearCanvas();
-
-  context.strokeStyle = "#df4b26";
-  context.lineJoin = "round";
-  context.lineWidth = 5;
-
-  for(var i=0; i < clickX.length; i++) {
-    context.beginPath();
-    if(clickDrag[i] && i){
-      context.moveTo(clickX[i-1], clickY[i-1]);
-     }else{
-       context.moveTo(clickX[i]-1, clickY[i]);
-     }
-     context.lineTo(clickX[i], clickY[i]);
-     context.closePath();
-     context.stroke();
-  }
-}
-*/
-
-
 function clearCanvas()
 {
 	context.clearRect(0, 0, canvasWidth, canvasHeight);
@@ -337,30 +273,65 @@ function drawSVGCanvas(){
 
 	$('#createObject7').mousedown(function(e) {
 		if(canDrawElement) {
-			drawObject('')
+			drawObject('M15.9,48.1c-3.4-9,8.6-26.3,23.6-26.8c15.5-0.4,28.5,17.5,25.2,26.5c-3.2,9-22.4,9-24.6,9,C37,56.8,19.2,56.8,15.9,48.1z')
 			canDrawElement = false;
 		}
 	})
 
-	$('#itemX').blur(function (e) {
+	$('#createObject8').mousedown(function(e) {
+		if(canDrawElement) {
+			drawObject('M23.1,25.5c6.4-10.7,30.7-10.1,36.6,0.7c5.8,10.7-6.5,31.3-19,31C28.3,57,16.9,36,23.1,25.5z')
+			canDrawElement = false;
+		}
+	})
+
+	$('#createObject9').mousedown(function(e) {
+		if(canDrawElement) {
+			drawObject('M38.3,67.2c-4.1-3.1-9.4-8-14.2-15.1c-3.3-4.9-4.9-8.8-6.9-13.6c-3.8-9.3-6.9-16.7-3.6-20.5,c0.1-0.2,1.7-1.9,4.1-2.1C23.9,15.5,28.8,26.6,30,26c1-0.5-3.5-7.4-0.8-11.6c1.3-2,4.1-3,6.4-2.9c6.8,0.4,11.3,10.5,12.4,9.9,c0.8-0.5-3-6.3-0.9-9c1.3-1.7,4.5-1.5,6.4-0.9c2.4,0.8,4.3,2.5,7.1,7.9c1.9,3.5,4.3,8.2,6,15.7c2,8.8,1.4,15.4,1.3,17,c-0.5,5-0.9,8.6-3.5,12.2c-1.2,1.6-3.9,4.8-8.5,6.3c-4.1,1.4-7.6,0.8-9.2,0.4C42.6,70.3,39.7,68.3,38.3,67.2z')
+			canDrawElement = false;
+		}
+	})
+
+	$('#createObject10').mousedown(function(e) {
+		if(canDrawElement) {
+			drawObject('M25.5,12.7c0.3-1.4,0.8-4,2.9-6.2c5.7-6.2,19.3-6,24.1,0.2c1.9,2.5,2,5.4,2,7.3c0.5,23.6,2.2,31.5-1.7,54.3,c-0.4,2.3-0.9,5.2-3.2,7.6c-5.4,5.6-17.5,5.4-23-0.4c-2.1-2.2-2.8-4.8-3.1-6.2C21.3,60.4,19,44.7,25.5,12.7z')
+			canDrawElement = false;
+		}
+	})
+
+	$('#createObject11').mousedown(function(e) {
+		if(canDrawElement) {
+			drawObject('M18.6,23.9c-1.6,1.8-5.3,6.4-6,13.3c-0.8,7.6,2.3,14.3,5.9,18.4c9.9,11.1,31.6,11.7,41,0.6,c5.8-6.8,5.3-15.8,5.2-17.1c-0.5-7.7-4.4-12.9-5.9-14.6c1.9-1,3-2.9,2.9-4.8c-0.2-2.7-2.9-4.7-5.6-4.5c-2.6,0.2-4.8,2.3-5,5.1,c-2.6-1-6.4-2.2-11.1-2.5c-6.3-0.4-11.4,1.1-14.4,2.1c-0.4-2.3-2.1-4.1-4.3-4.6c-2.1-0.4-4.9,0.3-5.8,2.6,C14.8,20.1,16,22.9,18.6,23.9z')
+			canDrawElement = false;
+		}
+	})
+
+	$('#createObject12').mousedown(function(e) {
+		if(canDrawElement) {
+			drawObject('M24.6,35.4c-1.5,1.3-6.8,6-8,13.9c-1.5,9.9,4.8,17.1,5.9,18.4c9.9,11.1,31.6,11.7,41,0.6c6-7,5.3-16.2,5.2-17.1,c-0.9-9.4-7.1-14.8-8.4-15.9c2.6-1.7,6.3-4.4,9.8-8.7c3.3-4,8.7-10.6,6.3-15.3c-1.2-2.4-4.5-3.9-7.2-3.6c-4.6,0.5-7.2,6.2-9.8,12.1,c-2.4,5.3-3.3,10-3.7,13c-2.5-1.1-6.5-2.6-11.7-2.8c-6.7-0.3-11.9,1.6-14.6,2.8c-0.9-2.1-2.4-5.3-4.4-9c-4.6-8.3-7.5-13.3-11.7-13.5,c-2.8-0.1-6,2-6.8,4.6c-1.8,5.3,6.2,12.1,9.9,15.2C19.6,32.6,22.6,34.3,24.6,35.4z')
+			canDrawElement = false;
+		}
+	})
+
+	$('#itemX').change(function (e) {
 		//isEditing = false;
 		console.log("I am now EDITTINGASDFASODF "+ isEditing )
 		var _deltaX = document.getElementById('itemX').value;
 		modifyXPosition(_deltaX);
 	})
 
-	$('#itemY').blur(function (e) {
+	$('#itemY').change(function (e) {
 		//isEditing = false;
 		var _deltaY = document.getElementById('itemY').value;
 		modifyYPosition(_deltaY);
 	})
 
-	$('#itemWidth').blur(function(e) {
+	$('#itemWidth').change(function(e) {
 		var _width = document.getElementById('itemWidth').value;
 		modifyWidth(_width);
 	})
 
-	$('#itemHeight').blur(function(e) {
+	$('#itemHeight').change(function(e) {
 		var _height = document.getElementById('itemHeight').value;
 		modifyHeight(_height);
 	})
@@ -537,6 +508,17 @@ function img_and_link() {
  var serializer = new XMLSerializer();
  var source = serializer.serializeToString(svg);
  saveSvgAsPng(document.getElementById('SvgjsSvg1006'), "myCharacter.png");
+
+}
+
+function img_and_link_with_other_name(name) {
+ var svg = document.getElementById("svgDraw");
+
+ //get svg source.
+ var serializer = new XMLSerializer();
+ var source = serializer.serializeToString(svg);
+ var fileName = name+".png"
+ saveSvgAsPng(document.getElementById('SvgjsSvg1006'), fileName);
 
 }
 
