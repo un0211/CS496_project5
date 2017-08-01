@@ -26,8 +26,8 @@
 
         function tdResize() {
             var td = document.getElementById('for-pretty-detail');
-            if(window.innerHeight - 715 > 0){
-              td.style.height = (window.innerHeight - 200) - 515 + 'px';
+            if(window.innerHeight - 743 > 0){
+              td.style.height = (window.innerHeight - 200) - 543 + 'px';
             }else {
               td.style.height = 0 + 'px';
             }
@@ -280,38 +280,41 @@
               </td></tr>
 
               <tr><td class="detail-cell">
-                  <div id="property">태그</div>
-                  <div class="btn-group">
-                    <button type="button" id="defaultTag" class="btn btn-xs btn-default">Tags</button>
-                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                      <span class="caret"></span>
-                      <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <ul id="dropdown-menus" class="dropdown-menu" role="menu">
-                      <script type="text/javascript">
-                        function setting(string) {
-                          var defaultButton = document.getElementById("defaultTag");
-                          defaultButton.textContent = string;
-                        }
-                      </script>
-                      <li><a href="#" onclick=setting("base") id="base">base</a></li>
-                      <li><a href="#" onclick=setting("face") id="face">face</a></li>
-                      <li><a href="#" onclick=setting("eyes") id="eyes">eyes</a></li>
-                      <li><a href="#" onclick=setting("mouth") id="mouth">mouth</a></li>
-                      <li><a href="#" onclick=setting("head") id="head">head</a></li>
-                      <li><a href="#" onclick=setting("body") id="body">body</a></li>
-                      <li><a href="#" onclick=setting("arms") id="arms">arms</a></li>
-                      <li><a href="#" onclick=setting("legs") id="legs">legs</a></li>
-                      <li class="divider"></li>
-                      <li><a href="#">Add new tag</a></li>
-                    </ul>
+                  <div> <div class="in-line">태그</div>
+                    <div id="itemTag">default</div> </div>
+                  <div id="property-line">
+                    <div class="btn-group">
+                      <button type="button" id="defaultTag" class="btn btn-xs btn-default">default</button>
+                      <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                      </button>
+                      <ul id="dropdown-menus" class="dropdown-menu" role="menu">
+                        <script type="text/javascript">
+                          function setting(string) {
+                            var defaultButton = document.getElementById("defaultTag");
+                            defaultButton.textContent = string;
+                          }
+                        </script>
+                        <li><a href="#" onclick=setting("default") id="base">default</a></li>
+                        <li><a href="#" onclick=setting("face") id="face">face</a></li>
+                        <li><a href="#" onclick=setting("eyes") id="eyes">eyes</a></li>
+                        <li><a href="#" onclick=setting("mouth") id="mouth">mouth</a></li>
+                        <li><a href="#" onclick=setting("head") id="head">head</a></li>
+                        <li><a href="#" onclick=setting("body") id="body">body</a></li>
+                        <li><a href="#" onclick=setting("arms") id="arms">arms</a></li>
+                        <li><a href="#" onclick=setting("legs") id="legs">legs</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Add new tag</a></li>
+                      </ul>
+                      </div>
+                    <button type="button" id="tagOn" class="btn btn-xs btn-default">
+                      <span class="glyphicon glyphicon-tag" aria-hidden="true" width="20" height="20"></span></button>
+                    <button type="button" id="tagHide" class="btn btn-xs btn-default">
+                      <span class="glyphicon glyphicon-eye-close" aria-hidden="true" width="20" height="20"></span></button>
+                    <button type="button" id="tagShow" class="btn btn-xs btn-default">
+                      <span class="glyphicon glyphicon-eye-open" aria-hidden="true" width="20" height="20"></span></button>
                   </div>
-                  <button type="button" id="tagOn" class="btn btn-xs btn-default">
-                    <span class="glyphicon glyphicon-tag" aria-hidden="true" width="20" height="20"></span></button>
-                  <button type="button" id="tagHide" class="btn btn-xs btn-default">
-                    <span class="glyphicon glyphicon-eye-close" aria-hidden="true" width="20" height="20"></span></button>
-                  <button type="button" id="tagShow" class="btn btn-xs btn-default">
-                    <span class="glyphicon glyphicon-eye-open" aria-hidden="true" width="20" height="20"></span></button>
               </td></tr>
 
               <tr id="for-pretty-detail"></tr>

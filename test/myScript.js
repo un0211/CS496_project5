@@ -62,7 +62,7 @@ var FACE = "face"
 		MOUTH = "mouth"
 		ARMS = "arms"
 		LEGS = "legs"
-		DEFAULT = "base"
+		DEFAULT = "default"
 
 var face;
 var body;
@@ -216,7 +216,7 @@ function drawSVGCanvas(){
 		console.log('clicked? '+clicked)
 		console.log('candrawelement? '+canDrawElement)
 		if(!clicked && canDrawElement) {
-			if(tagString != DEFAULT && tagString != "Tags") {
+			if(tagString != DEFAULT && tagString != "default") {
 				switch(tagString) {
 					case FACE: makeGroupDraggable(face);break;
 					case HEAD: makeGroupDraggable(head);break;
@@ -227,6 +227,8 @@ function drawSVGCanvas(){
 					case MOUTH: makeGroupDraggable(mouth);break;
 				}
 			}
+
+			document.getElementById('itemTag').textContent = tagString;
 			deleteBoundingBox();
 			makeUndraggable();
 			draggable = true;
@@ -403,7 +405,7 @@ function drawSVGCanvas(){
 	$('#tagOn').mousedown(function(e) {
 		var baseTag = document.getElementById("defaultTag")
 		var tagString = baseTag.textContent;
-		if(tagString != "Tags") {
+		if(tagString != "default") {
 			if(clickedObject != null) {
 				switch(tagString) {
 					case HEAD: head.add(clickedObject);currentGroup = head;break;
@@ -416,14 +418,16 @@ function drawSVGCanvas(){
 					case DEFAULT: currentGroup = null; break;
 					//일단 두개만 넣었음
 				}
+				clickedObject.data('tag', tagString);
 			}
 		}
+		document.getElementById('itemTag').textContent = tagString;
 	})
 
 	$('#tagHide').mousedown(function(e) {
 		var baseTag = document.getElementById("defaultTag")
 		var tagString = baseTag.textContent;
-		if(tagString != "Tags") {
+		if(tagString != "default") {
 			if(clickedObject != null) {
 				switch(tagString) {
 					case HEAD: head.hide();break;
@@ -442,7 +446,7 @@ function drawSVGCanvas(){
 	$('#tagShow').mousedown(function(e) {
 		var baseTag = document.getElementById("defaultTag")
 		var tagString = baseTag.textContent;
-		if(tagString != "Tags") {
+		if(tagString != "default") {
 			if(clickedObject != null) {
 					switch(tagString) {
 					case HEAD: head.show();break;
@@ -743,9 +747,14 @@ function putObjectStatus(){
 		var _rotate = clickedObject.transform('rotation');
 		//var _rotate = clickedGroup.transform('rotation');
 		var _time = clickedObject.data('time');
+		var _tag = clickedObject.data('tag');
 
 		if(_time == null){
 			_time = 0;
+		}
+
+		if(_tag == null){
+			_tag = "default";
 		}
 
 		document.getElementById('itemWidth').value = _box.width;
@@ -761,6 +770,8 @@ function putObjectStatus(){
 
 		document.getElementById('itemAngle').value = _rotate;
 		document.getElementById('itemTime').value = _time;
+
+		document.getElementById('itemTag').textContent = _tag;
 	}
 }
 
