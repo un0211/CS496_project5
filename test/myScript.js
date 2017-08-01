@@ -26,6 +26,7 @@ var clickDrag = new Array();  //Drag들
 
 var draggable = true;
 var scalable = false;
+var block = true;
 var drawingPolygon = false;
 var canDrawElement = true;
 var isEditing = false;
@@ -184,6 +185,7 @@ function drawSVGCanvas(){
 		drawings.forEach(function(element) {
 			console.log('the position of this element ('
 			+ element.rbox().x + ", " + element.rbox().y + " )");
+
 			if(element.inside(_x, _y)) {
 				clicked = true;
 				if(clickedObject != element && clickedObject != null) {
@@ -216,7 +218,7 @@ function drawSVGCanvas(){
 		console.log('clicked? '+clicked)
 		console.log('candrawelement? '+canDrawElement)
 		if(!clicked && canDrawElement) {
-			if(tagString != DEFAULT && tagString != "default") {
+			if(tagString != DEFAULT && tagString != "default" && !block) {
 				switch(tagString) {
 					case FACE: makeGroupDraggable(face);break;
 					case HEAD: makeGroupDraggable(head);break;
@@ -400,6 +402,10 @@ function drawSVGCanvas(){
 			scalable = true;
 			draggable = false;
 		}
+	})
+
+	$('#blockTag').mousedown(function(e) {
+		block = !block;
 	})
 
 	$('#tagOn').mousedown(function(e) {
