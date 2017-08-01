@@ -21,13 +21,17 @@
     <script type="text/javascript">
         function canvasResize() {
             var canvas = document.getElementById('svgDraw');
-            canvas.style.height = (window.innerHeight - 200) * 0.8 + 'px';
+            if(window.innerHeight - 1024 > 0){
+              canvas.style.height = (window.innerHeight - 200) * 0.8 + 'px';
+            }else {
+              canvas.style.height = 824 * 0.8 + 'px';
+            }
         }
 
         function tdResize() {
             var td = document.getElementById('for-pretty-detail');
-            if(window.innerHeight - 743 > 0){
-              td.style.height = (window.innerHeight - 200) - 543 + 'px';
+            if(window.innerHeight - 1024 > 0){
+              td.style.height = (window.innerHeight - 200) - 824 + 'px';
             }else {
               td.style.height = 0 + 'px';
             }
@@ -126,13 +130,13 @@
                   <!-- animation start, pause, stop menu button -->
                   <ui class="nav my-navbar-nav navbar-left">
                     <div class="btn-group" role="group" aria-label="...">
-                      <button type="button" class="btn btn-default">
+                      <button type="button" id="startAllAnimation" class="btn btn-default">
                         <img alt="start" src="images/ic_start.png" width="20" height="20">
                       </button>
                       <button type="button" class="btn btn-default">
                         <img alt="pause" src="images/ic_pause.png" width="20" height="20">
                       </button>
-                      <button type="button" class="btn btn-default">
+                      <button type="button" id="stopAllAnimation" class="btn btn-default">
                          <img alt="stop" src="images/ic_stop.png" width="20" height="20">
                       </button>
                     </div>
@@ -161,26 +165,58 @@
                   <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
-                  <li id="createObject1" class="btn btn-default">
-                    <img alt="object1" src="test/Face1.png" width="25" height="25">
-                  </li>
-                  <li id="createObject2" class="btn btn-default">
-                    <img alt="object2" src="test/Face2.png" width="25" height="25">
-                  </li>
-                  <li id="createObject3" class="btn btn-default">
-                    <img alt="object3" src="test/Foot1.png" width="25" height="25">
-                  </li>
-                  <li id="createObject4" class="btn btn-default">
-                    <img alt="object4" src="test/Leg1.png" width="25" height="25">
-                  </li>
-                  <li id="createObject5" class="btn btn-default">
-                    <img alt="object5" src="test/body1.png" width="25" height="25">
-                  </li>
-                  <li id="createObject6" class="btn btn-default">
-                    <img alt="object6" src="test/arm1.png" width="25" height="25">
-                  </li>
-                  <li id="createRect"><a href="#">Rect</a></li>
-                  <li id="createCircle"><a href="#">Circle</a></li>
+                  <div class="in-line left-margin">
+                    <li id="createRect" class="my-btn">
+                      <img alt="rect" src="test/square-01.png" width="25" height="25">
+                    </li>
+                    <li id="createCircle" class="my-btn">
+                      <img alt="circle" src="test/circle-01.png" width="25" height="25">
+                    </li>
+                  </div>
+                  <div class="in-line left-margin">
+                    <li id="createObject1" class="my-btn">
+                      <img alt="object1" src="test/Face1.png" width="25" height="25">
+                    </li>
+                    <li id="createObject2" class="my-btn">
+                      <img alt="object2" src="test/Face2.png" width="25" height="25">
+                    </li>
+                    <li id="createObject3" class="my-btn">
+                      <img alt="object3" src="test/Foot1.png" width="25" height="25">
+                    </li>
+                  </div>
+                  <div class="in-line left-margin">
+                    <li id="createObject4" class="my-btn">
+                      <img alt="object4" src="test/Leg1.png" width="25" height="25">
+                    </li>
+                    <li id="createObject5" class="my-btn">
+                      <img alt="object5" src="test/body1.png" width="25" height="25">
+                    </li>
+                    <li id="createObject6" class="my-btn">
+                      <img alt="object6" src="test/arm1.png" width="25" height="25">
+                    </li>
+                  </div>
+                  <div class="in-line left-margin">
+                    <li id="createObject7" class="my-btn">
+                      <img alt="object7" src="test/ear1-01.png" width="25" height="25">
+                    </li>
+                    <li id="createObject8" class="my-btn">
+                      <img alt="object8" src="test/nose-01.png" width="25" height="25">
+                    </li>
+                    <li id="createObject9" class="my-btn">
+                      <img alt="object9" src="test/hand-01.png" width="25" height="25">
+                    </li>
+                  </div>
+                  <div class="in-line left-margin">
+                    <li id="createObject10" class="my-btn">
+                      <img alt="object10" src="test/leg2-01.png" width="25" height="25">
+                    </li>
+                    <li id="createObject11" class="my-btn">
+                      <img alt="object11" src="test/face-01.png" width="25" height="25">
+                    </li>
+                    <li id="createObject12" class="my-btn">
+                      <img alt="object12" src="test/face3-01.png" width="25" height="25">
+                    </li>
+                  </div>
                 </ul>
               </div>
             </div>
@@ -299,15 +335,17 @@
                         <li class="divider"></li>
                         <li><a href="#">Add new tag</a></li>
                       </ul>
-                      </div>
-                    <button type="button" id="tagOn" class="btn btn-xs btn-default">
-                      <span class="glyphicon glyphicon-tag" aria-hidden="true" width="20" height="20"></span></button>
-                    <button type="button" id="tagMove" class="btn btn-xs btn-default">
-                      <span class="glyphicon glyphicon-move" aria-hidden="true" width="20" height="20"></span></button>
-                    <button type="button" id="tagHide" class="btn btn-xs btn-default">
-                      <span class="glyphicon glyphicon-eye-close" aria-hidden="true" width="20" height="20"></span></button>
-                    <button type="button" id="tagShow" class="btn btn-xs btn-default">
-                      <span class="glyphicon glyphicon-eye-open" aria-hidden="true" width="20" height="20"></span></button>
+                    </div>
+                    <div class="btn-group">
+                      <button type="button" id="tagOn" class="btn btn-xs btn-default">
+                        <span class="glyphicon glyphicon-tag" aria-hidden="true" width="20" height="20"></span></button>
+                      <button type="button" id="tagMove" class="btn btn-xs btn-default">
+                        <span class="glyphicon glyphicon-move" aria-hidden="true" width="20" height="20"></span></button>
+                      <button type="button" id="tagHide" class="btn btn-xs btn-default">
+                        <span class="glyphicon glyphicon-eye-close" aria-hidden="true" width="20" height="20"></span></button>
+                      <button type="button" id="tagShow" class="btn btn-xs btn-default">
+                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true" width="20" height="20"></span></button>
+                    </div>
                   </div>
               </td></tr>
 
@@ -323,6 +361,28 @@
                   <div id="property">dy</div> <input type="text" id="animationDY" class="itemSecond"></input></div>
                 <div id="property-line"> <div id="property">각도</div> <input type="text" id="animationAngle" class="itemFirst"></input>
                   <div id="property">시간</div> <input type="text" id="animationTime" class="itemSecond"></input></div>
+              </td></tr>
+              <tr><td class="detail-cell height-pin">
+                <div hidden class="bottom-mergin" id="animation1"> <div class="in-line">애니메이션1</div>
+                  <button type="button" id="startAnimation1" class="btn btn-xs btn-default left-margin2">
+                    <span class="glyphicon glyphicon-play" aria-hidden="true" width="15" height="15"></span></button>
+                </div>
+                <div hidden class="bottom-mergin" id="animation2"> <div class="in-line">애니메이션2</div>
+                  <button type="button" id="startAnimation2" class="btn btn-xs btn-default left-margin2">
+                    <span class="glyphicon glyphicon-play" aria-hidden="true" width="15" height="15"></span></button>
+                </div>
+                <div hidden class="bottom-mergin" id=animation3> <div class="in-line">애니메이션3</div>
+                  <button type="button" id="startAnimation3" class="btn btn-xs btn-default left-margin2">
+                    <span class="glyphicon glyphicon-play" aria-hidden="true" width="15" height="15"></span></button>
+                </div>
+                <div hidden class="bottom-mergin" id=animation4> <div class="in-line">애니메이션4</div>
+                  <button type="button" id="startAnimation4" class="btn btn-xs btn-default left-margin2">
+                    <span class="glyphicon glyphicon-play" aria-hidden="true" width="15" height="15"></span></button>
+                </div>
+                <div hidden class="bottom-mergin" id=animation5> <div class="in-line">애니메이션5</div>
+                  <button type="button" id="startAnimation5" class="btn btn-xs btn-default left-margin2">
+                    <span class="glyphicon glyphicon-play" aria-hidden="true" width="15" height="15"></span></button>
+                </div>
               </td></tr>
 
               <tr id="for-pretty-detail"></tr>

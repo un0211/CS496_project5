@@ -121,6 +121,12 @@ function drawSVGCanvas(){
 			makeScalable(_x, _y);
 		}
 
+		$('#animation1').hide();
+		$('#animation2').hide();
+		$('#animation3').hide();
+		$('#animation4').hide();
+		$('#animation5').hide();
+
 		drawings.forEach(function(element) {
 			console.log('the position of this element ('
 			+ element.rbox().x + ", " + element.rbox().y + " )");
@@ -144,6 +150,15 @@ function drawSVGCanvas(){
 				}else {
 					_rotate = clickedGroup.transform('rotation');
 				}*/
+				if (clickedObject.data('animationInfo') != null){
+					switch(clickedObject.data('animationInfo').length) {
+						case 5: $('#animation5').show();
+						case 4: $('#animation4').show();
+						case 3: $('#animation3').show();
+						case 2: $('#animation2').show();
+						case 1: $('#animation1').show();
+					}
+				}
 
 				drawBoundingBox(_box, _rotate);
 				putObjectStatus();
@@ -532,12 +547,141 @@ function drawSVGCanvas(){
 		}
 	})
 
+	$('#startAnimation1').mousedown(function() {
+		_copyClickedObject = clickedObject.clone().hide();
+		drawings.push(_copyClickedObject);
+		var _info = clickedObject.data('animationInfo')[0];
+		startAnimation(_info[0], _info[1], _info[2], _info[3]);
+	})
+
+	$('#startAnimation2').mousedown(function() {
+		_copyClickedObject = clickedObject.clone().hide();
+		drawings.push(_copyClickedObject);
+		var _info = clickedObject.data('animationInfo')[1];
+		startAnimation(_info[0], _info[1], _info[2], _info[3]);
+	})
+
+	$('#startAnimation3').mousedown(function() {
+		_copyClickedObject = clickedObject.clone().hide();
+		drawings.push(_copyClickedObject);
+		var _info = clickedObject.data('animationInfo')[2];
+		startAnimation(_info[0], _info[1], _info[2], _info[3]);
+	})
+
+	$('#startAnimation4').mousedown(function() {
+		_copyClickedObject = clickedObject.clone().hide();
+		drawings.push(_copyClickedObject);
+		var _info = clickedObject.data('animationInfo')[3];
+		startAnimation(_info[0], _info[1], _info[2], _info[3]);
+	})
+
+	$('#startAnimation5').mousedown(function() {
+		_copyClickedObject = clickedObject.clone().hide();
+		drawings.push(_copyClickedObject);
+		var _info = clickedObject.data('animationInfo')[4];
+		startAnimation(_info[0], _info[1], _info[2], _info[3]);
+	})
+
+	$('#startAllAnimation').mousedown(function() {
+		if(clickedObject != null) {
+			_copyClickedObject = clickedObject.clone().hide();
+			drawings.push(_copyClickedObject);
+
+			//console.log("dx "+_dx+", dy "+_dy+", angle "+_angle+", time "+_time);
+			var _info = clickedObject.data('animationInfo');
+			var time = 0;
+
+			for (i in _info){
+				time += _info[i][3]*1;
+			}
+			console.log(time);
+
+			if(_info.length > 0){
+				startAnimation_forAll(_info[0][0], _info[0][1], _info[0][2], _info[0][3]);
+			}
+
+			if(_info.length > 1){
+				setTimeout(function() {
+					startAnimation_forAll(_info[1][0], _info[1][1], _info[1][2], _info[1][3]);
+				}, (_info[0][3])*1000);
+			}
+
+			if(_info.length > 2){
+				setTimeout(function() {
+					startAnimation_forAll(_info[2][0], _info[2][1], _info[2][2], _info[2][3]);
+				}, (_info[0][3])*1000);
+			}
+
+			if(_info.length > 3){
+				setTimeout(function() {
+					startAnimation_forAll(_info[3][0], _info[3][1], _info[3][2], _info[3][3]);
+				}, (_info[0][3])*1000);
+			}
+
+			if(_info.length > 4){
+				setTimeout(function() {
+					startAnimation_forAll(_info[4][0], _info[4][1], _info[4][2], _info[4][3]);
+				}, (_info[0][3])*1000);
+			}
+
+			setTimeout(function() {
+				clickedObject.hide();
+				clickedObject = _copyClickedObject.show();
+				var _box = _copyClickedObject.rbox();
+				drawBoundingBox(_box, _copyClickedObject.transform('rotation'));
+			}, time*1000);
+		}
+	})
+
+
 	$('#stopAnimation').mousedown(function() {
 		if(clickedObject != null) {
 			clickedObject.remove();
 			clickedObject = _copyClickedObject.show();
 		}
 	})
+
+	$('#stopAllAnimation').mousedown(function() {
+		if(clickedObject != null) {
+			clickedObject.remove();
+			clickedObject = _copyClickedObject.show();
+		}
+	})
+
+	$('#addAnimation').mousedown(function() {
+		if(clickedObject != null && (clickedObject.data('animationInfo')==null || clickedObject.data('animationInfo').length <= 5)) {
+			console.log('hello!');
+			var _dx = document.getElementById("animationDX").value;
+			var _dy = document.getElementById("animationDY").value;
+			var _angle = document.getElementById("animationAngle").value;
+			var _time = document.getElementById("animationTime").value;
+			var _animationInfo = new Array(_dx, _dy, _angle, _time);
+
+			var animationInfo = clickedObject.data('animationInfo');
+			if(animationInfo == null){
+				animationInfo = new Array();
+			}
+			animationInfo.push(_animationInfo);
+
+			switch(animationInfo.length) {
+				case 1: $('#animation1').show(); break;
+				case 2: $('#animation2').show(); break;
+				case 3: $('#animation3').show(); break;
+				case 4: $('#animation4').show(); break;
+				case 5: $('#animation5').show(); break;
+			}
+
+			clickedObject.data('animationInfo', animationInfo);
+		}
+	})
+
+}
+
+function startAnimation_forAll(dx, dy, angle, time) {
+	var _box = clickedObject.bbox();
+	deleteBoundingBox();
+	//console.log("dx "+(_box.x+(dx*1))+", dy "+(_box.y+(dy*1))+", angle "+angle+", time "+time);
+	clickedObject.animate(time*1000, '<>').move(_box.x+(dx*1), _box.y+(dy*1)).rotate(angle);
 }
 
 function startAnimation(dx, dy, angle, time) {
@@ -556,7 +700,14 @@ function startAnimation(dx, dy, angle, time) {
 
 function makeScalable() {
 	var _box = clickedObject.rbox();
-	var heightError = (window.innerHeight - 200) * 0.103 + 50;
+	var heightError;
+
+	if(window.innerHeight - 1024 > 0){
+		var heightError = (window.innerHeight - 200) * 0.103 + 50;
+	}else {
+		var heightError = 824 * 0.103 + 50;
+	}
+
 	var widthError = (window.innerWidth - 350) * 0.05 + 100;
 	var _boxX = _box.x - widthError;
 	var _boxY = _box.y - heightError;
@@ -935,7 +1086,14 @@ function drawBoundingBox(box, angle) {
 	//clickedGroup = draw.group();
 
 	var _box = clickedObject.rbox();
-	var heightError = (window.innerHeight - 200) * 0.103 + 50;
+	var heightError;
+
+	if(window.innerHeight - 1024 > 0){
+		var heightError = (window.innerHeight - 200) * 0.103 + 50;
+	}else {
+		var heightError = 824 * 0.103 + 50;
+	}
+
 	var widthError = (window.innerWidth - 350) * 0.05 + 100;
 	var _boxX = _box.x - widthError;
 	var _boxY = _box.y - heightError;

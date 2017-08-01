@@ -52,12 +52,47 @@ input:focus {
     border-radius: 4px;
 }
 
+.my-btn {
+  display: inline-block;
+  padding: 6px 10px;
+  margin-bottom: 2px;
+  margin-left: 0px;
+  margin-right: 0px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-image: none;
+  border: 1px solid #DDDDDD;
+  border-radius: 4px;
+}
 
 .in-line {
   display: inline-block;
   text-align: left;
   margin-right: 0px;
   margin-bottom: 3px;
+}
+
+.left-margin {
+  margin-left: 4px;
+}
+
+.left-margin2 {
+  margin-left: 110px;
+}
+
+.bottom-mergin{
+  margin-bottom: 5px;
 }
 
 
@@ -213,13 +248,17 @@ input:focus {
 
 #itemTag {
   display: inline-block;
-  margin-left: 5px;
+  margin-left: 130px;
 }
 
 #startAnimation {
   margin-left: 70px
 }
 
+.height-pin {
+  height: 171px;
+  vertical-align: top;
+}
 
 
 
