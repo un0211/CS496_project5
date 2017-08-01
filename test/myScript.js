@@ -406,7 +406,7 @@ function drawSVGCanvas(){
 		}
 	})
 
-	$('#blockTag').mousedown(function(e) {
+	$('#tagMove').mousedown(function(e) {
 		block = !block;
 	})
 
@@ -509,6 +509,41 @@ function drawSVGCanvas(){
 
 	$('#clear').mousedown(function(e) {
 		clearCanvas();
+	})
+
+	$('#undo').mousedown(function() {
+		undoDrawing();
+	})
+
+	$('#copy').mousedown(function() {
+		copyDrawing();
+	})
+
+	$('#cut').mousedown(function () {
+		cutDrawing();
+	})
+
+	$('#paste').mousedown(function () {
+		pasteDrawing();
+	})
+
+	$('#resize').mousedown(function() {
+		if(!scalable) {
+			scalable = true;
+			draggable = false;
+		}
+	})
+
+	$('#vertical-flip').mousedown(function() {
+		if(clickedObject != null) {
+			clickedObject.flip('');
+		}
+	})
+
+	$('#horizontal-flip').mousedown(function() {
+		if(clickedObject != null) {
+			clickedObject.flip('x');
+		}
 	})
 
 }

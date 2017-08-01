@@ -84,22 +84,15 @@
                     <li class="dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">편집 <span class="caret"></span></a>
                       <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">실행 취소</a></li>
-                        <li><a href="#">실행 복귀</a></li>
+                        <li><a href="#" id="undo">실행 취소</a></li>
                         <li class="divider"></li>
-                        <li><a href="#">복사</a></li>
-                        <li><a href="#">잘라내기</a></li>
-                        <li><a href="#">붙이기</a></li>
+                        <li><a href="#" id="copy">복사</a></li>
+                        <li><a href="#" id="cut">잘라내기</a></li>
+                        <li><a href="#" id="paste">붙이기</a></li>
                         <li class="divider"></li>
-                        <li><a href="#">도형 크기 조절</a></li>
-                        <li><a href="#">도형 색 변경</a></li>
-                        <li><a href="#">사용자 지정 도형 추가</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">왼쪽으로 90°회전</a></li>
-                        <li><a href="#">오른쪽으로 90°회전</a></li>
-                        <li><a href="#">수직 반전</a></li>
-                        <li><a href="#">수평 반전</a></li>
-                        <li><a href="#">도형 각 조절</a></li>
+                        <li><a href="#" id="resize">도형 크기 조절</a></li>
+                        <li><a href="#" id="vertical-flip">수직 반전</a></li>
+                        <li><a href="#" id="horizontal-flip">수평 반전</a></li>
                       </ul>
                     </li>
 
@@ -281,7 +274,6 @@
               <tr><td class="detail-cell">
                   <div> <div class="in-line">태그</div>
                     <div id="itemTag">default</div>
-                  <button type="button" id="blockTag">block</button> </div>
                   <div id="property-line">
                     <div class="btn-group">
                       <button type="button" id="defaultTag" class="btn btn-xs btn-default">default</button>
@@ -310,6 +302,8 @@
                       </div>
                     <button type="button" id="tagOn" class="btn btn-xs btn-default">
                       <span class="glyphicon glyphicon-tag" aria-hidden="true" width="20" height="20"></span></button>
+                    <button type="button" id="tagMove" class="btn btn-xs btn-default">
+                      <span class="glyphicon glyphicon-move" aria-hidden="true" width="20" height="20"></span></button>
                     <button type="button" id="tagHide" class="btn btn-xs btn-default">
                       <span class="glyphicon glyphicon-eye-close" aria-hidden="true" width="20" height="20"></span></button>
                     <button type="button" id="tagShow" class="btn btn-xs btn-default">
