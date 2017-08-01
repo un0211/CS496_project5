@@ -526,7 +526,7 @@ function img_and_link() {
  //get svg source.
  var serializer = new XMLSerializer();
  var source = serializer.serializeToString(svg);
- saveSvgAsPng(document.getElementById('SvgjsSvg1006'), "diagram.png");
+ saveSvgAsPng(document.getElementById('SvgjsSvg1006'), "myCharacter.png");
 
 }
 
@@ -553,7 +553,7 @@ function draggableCursor1(cursor, cursor2, cursor3, cursor4) {
 		svgClickX = event.detail.p.x
 		svgClickY = event.detail.p.y
 
-		clickedObject.size(deltaWidth + _box.width, deltaHeight+ _box.height)
+		clickedObject.size(-deltaWidth + _box.width, -deltaHeight+ _box.height)
 		putObjectStatus();
 	})
 
@@ -664,7 +664,7 @@ function draggableCursor4(cursor, cursor2, cursor3, cursor4) {
 		svgClickX = event.detail.p.x
 		svgClickY = event.detail.p.y
 
-		clickedObject.size(-deltaWidth + _box.width, -deltaHeight+ _box.height)
+		clickedObject.size(deltaWidth + _box.width, deltaHeight+ _box.height)
 		putObjectStatus();
 	})
 
