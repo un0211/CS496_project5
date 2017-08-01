@@ -58,6 +58,8 @@ var changes = new Array();
 var FACE = "face"
 		BODY = "body"
 		HEAD = "head"
+		EYES = "eyes"
+		MOUTH = "mouth"
 		ARMS = "arms"
 		LEGS = "legs"
 		DEFAULT = "base"
@@ -67,6 +69,8 @@ var body;
 var head;
 var arms;
 var legs;
+var eyes;
+var mouth;
 var current;
 var currentGroup;
 var groups = new Array();
@@ -155,6 +159,8 @@ function drawSVGCanvas(){
 	body = draw.group();
 	arms = draw.group();
 	legs = draw.group();
+	eyes = draw.group();
+	mouth = draw.group();
 	current = draw.group();
 
 
@@ -217,6 +223,8 @@ function drawSVGCanvas(){
 					case BODY: makeGroupDraggable(body);break;
 					case ARMS: makeGroupDraggable(arms);break;
 					case LEGS: makeGroupDraggable(legs);break;
+					case EYES: makeGroupDraggable(eyes);break;
+					case MOUTH: makeGroupDraggable(mouth);break;
 				}
 			}
 			deleteBoundingBox();
@@ -392,10 +400,12 @@ function drawSVGCanvas(){
 			if(clickedObject != null) {
 				switch(tagString) {
 					case HEAD: head.add(clickedObject);currentGroup = head;break;
-					case BODY: body.add(clickedObject);currentGroup = head;break;
-					case FACE: face.add(clickedObject);currentGroup = head;break;
-					case LEGS: legs.add(clickedObject);currentGroup = head;break;
-					case ARMS: arms.add(clickedObject);currentGroup = head;break;
+					case BODY: body.add(clickedObject);currentGroup = body;break;
+					case FACE: face.add(clickedObject);currentGroup = face;break;
+					case LEGS: legs.add(clickedObject);currentGroup = legs;break;
+					case ARMS: arms.add(clickedObject);currentGroup = arms;break;
+					case EYES: eyes.add(clickedObject);currentGroup = eyes;break;
+					case MOUTH: mouth.add(clickedObject);currentGroup = mouth;break;
 					case DEFAULT: currentGroup = null; break;
 					//일단 두개만 넣었음
 				}
@@ -414,6 +424,8 @@ function drawSVGCanvas(){
 					case FACE: face.hide();break;
 					case LEGS: legs.hide();break;
 					case ARMS: arms.hide();break;
+					case EYES: eyes.hide();break;
+					case MOUTH: mouth.hide();break;
 					//일단 두개만 넣었음
 				}
 			}
@@ -431,6 +443,8 @@ function drawSVGCanvas(){
 					case FACE: face.show();break;
 					case LEGS: legs.show();break;
 					case ARMS: arms.show();break;
+					case EYES: eyes.show();break;
+					case MOUTH: mouth.show();break;
 					//일단 두개만 넣었음
 				}
 			}
@@ -455,6 +469,14 @@ function drawSVGCanvas(){
 
 	$('#legs').mousedown(function(e) {
 		legs.front();
+	})
+
+	$('#eyes').mousedown(function(e) {
+		eyes.front();
+	})
+
+	$('#mouth').mousedown(function(e) {
+		mouth.front();
 	})
 
 	$('#base').mousedown(function(e) {
