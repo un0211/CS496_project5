@@ -24,8 +24,8 @@
 
         function tdResize() {
             var td = document.getElementById('for-pretty-detail');
-            if(window.innerHeight - 690 > 0){
-              td.style.height = (window.innerHeight - 200) - 490 + 'px';
+            if(window.innerHeight - 715 > 0){
+              td.style.height = (window.innerHeight - 200) - 515 + 'px';
             }else {
               td.style.height = 0 + 'px';
             }
@@ -260,7 +260,7 @@
               </td></tr>
 
               <tr><td class="detail-cell">
-                <div> <div id="property">각도</div> <input type="text" id="itemAngle" class="itemThird"> </input>
+                <div> <div class="in-line">회전</div>
                   <div class="btn-group">
                     <button class="btn btn-default btn-xs dropdown-toggle" id="rotate" type="button" data-toggle="dropdown" aria-expanded="false">
                        회전 <span class="caret"></span>
@@ -269,8 +269,9 @@
                       <li><a href="#" id="flipX">수직 반전</a></li>
                       <li><a href="#" id="flipY">수평 반전</a></li>
                     </ul>
-                  </div>
-                </div>
+                  </div></div>
+                <div id="property-line"> <div id="property">각도</div> <input type="text" id="itemAngle" class="itemFirst"></input>
+                  <div id="property">시간</div> <input type="text" id="itemTime" class="itemSecond"></input></div>
               </td></tr>
 
               <tr><td class="detail-cell">

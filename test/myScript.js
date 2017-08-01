@@ -362,6 +362,13 @@ function drawSVGCanvas(){
 		modifyAngle(_angle);
 	})
 
+	$('#itemTime').change(function(e) {
+		//var _angle = clickedObject.transform('rotation');
+		var _angle = document.getElementById('itemAngle').value;
+		var _time = document.getElementById('itemTime').value;
+		makeAnimation(_angle, _time);
+	})
+
 	$('#freeScale').mousedown(function(e) {
 		if(!scalable) {
 			scalable = true;
@@ -650,6 +657,14 @@ function modifyAngle(angle) {
 	}
 }
 
+function makeAnimation(angle, time) {
+	deleteBoundingBox();
+	clickedObject.data('time', time);
+	clickedObject.rotate(0).animate(time*1000, '<>').rotate(angle);//
+	drawBoundingBox(clickedObject.rbox(), angle);
+	putObjectStatus();
+}
+
 function modifyPlaneColor(color) {
 	var planeColor = document.getElementById('planeColor');
 	var planeColorText = document.getElementById('planeColorText');
@@ -691,6 +706,11 @@ function putObjectStatus(){
 		var _lineColor = clickedObject.attr('stroke');
 		var _rotate = clickedObject.transform('rotation');
 		//var _rotate = clickedGroup.transform('rotation');
+		var _time = clickedObject.data('time');
+
+		if(_time == null){
+			_time = 0;
+		}
 
 		document.getElementById('itemWidth').value = _box.width;
 		document.getElementById('itemHeight').value = _box.height;
@@ -704,6 +724,7 @@ function putObjectStatus(){
 		document.getElementById('lineColor').value = _lineColor;
 
 		document.getElementById('itemAngle').value = _rotate;
+		document.getElementById('itemTime').value = _time;
 	}
 }
 
