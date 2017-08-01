@@ -58,6 +58,8 @@ var changes = new Array();
 var FACE = "face"
 		BODY = "body"
 		HEAD = "head"
+		EYES = "eyes"
+		MOUTH = "mouth"
 		ARMS = "arms"
 		LEGS = "legs"
 		DEFAULT = "base"
@@ -67,6 +69,8 @@ var body;
 var head;
 var arms;
 var legs;
+var eyes;
+var mouth;
 var current;
 var currentGroup;
 var groups = new Array();
@@ -155,6 +159,8 @@ function drawSVGCanvas(){
 	body = draw.group();
 	arms = draw.group();
 	legs = draw.group();
+	eyes = draw.group();
+	mouth = draw.group();
 	current = draw.group();
 
 
@@ -217,6 +223,8 @@ function drawSVGCanvas(){
 					case BODY: makeGroupDraggable(body);break;
 					case ARMS: makeGroupDraggable(arms);break;
 					case LEGS: makeGroupDraggable(legs);break;
+					case EYES: makeGroupDraggable(eyes);break;
+					case MOUTH: makeGroupDraggable(mouth);break;
 				}
 			}
 			deleteBoundingBox();
@@ -318,7 +326,7 @@ function drawSVGCanvas(){
 
 	$('#createObject6').mousedown(function(e) {
 		if(canDrawElement) {
-			drawObject('')
+			drawObject('M36.5,17.3c0.9-1.4,2.8-4.5,5.4-4.5c0.4,0,2.6,0.1,5.1,4.1C54.8,29,54.9,59.1,47.4,66c-0.7,0.7-2.6,2.4-5.1,2.4,c-2.4-0.1-4.2-1.8-4.9-2.5C30.6,59,28.4,30.5,36.5,17.3z')
 			canDrawElement = false;
 		}
 	})
@@ -399,10 +407,12 @@ function drawSVGCanvas(){
 			if(clickedObject != null) {
 				switch(tagString) {
 					case HEAD: head.add(clickedObject);currentGroup = head;break;
-					case BODY: body.add(clickedObject);currentGroup = head;break;
-					case FACE: face.add(clickedObject);currentGroup = head;break;
-					case LEGS: legs.add(clickedObject);currentGroup = head;break;
-					case ARMS: arms.add(clickedObject);currentGroup = head;break;
+					case BODY: body.add(clickedObject);currentGroup = body;break;
+					case FACE: face.add(clickedObject);currentGroup = face;break;
+					case LEGS: legs.add(clickedObject);currentGroup = legs;break;
+					case ARMS: arms.add(clickedObject);currentGroup = arms;break;
+					case EYES: eyes.add(clickedObject);currentGroup = eyes;break;
+					case MOUTH: mouth.add(clickedObject);currentGroup = mouth;break;
 					case DEFAULT: currentGroup = null; break;
 					//일단 두개만 넣었음
 				}
@@ -421,6 +431,8 @@ function drawSVGCanvas(){
 					case FACE: face.hide();break;
 					case LEGS: legs.hide();break;
 					case ARMS: arms.hide();break;
+					case EYES: eyes.hide();break;
+					case MOUTH: mouth.hide();break;
 					//일단 두개만 넣었음
 				}
 			}
@@ -438,6 +450,8 @@ function drawSVGCanvas(){
 					case FACE: face.show();break;
 					case LEGS: legs.show();break;
 					case ARMS: arms.show();break;
+					case EYES: eyes.show();break;
+					case MOUTH: mouth.show();break;
 					//일단 두개만 넣었음
 				}
 			}
@@ -464,8 +478,21 @@ function drawSVGCanvas(){
 		legs.front();
 	})
 
+	$('#eyes').mousedown(function(e) {
+		eyes.front();
+	})
+
+	$('#mouth').mousedown(function(e) {
+		mouth.front();
+	})
+
 	$('#base').mousedown(function(e) {
 		current.front();
+	})
+
+	$('#save').mousedown(function(e) {
+		//encode_as_img_and_link();
+		img_and_link();
 	})
 
 }
@@ -490,6 +517,16 @@ function makeScalable() {
 	draggableCursor2(cursor2, cursor1, cursor3, cursor4);
 	draggableCursor3(cursor3, cursor1, cursor2, cursor4);
 	draggableCursor4(cursor4, cursor1, cursor2, cursor3);
+
+}
+
+function img_and_link() {
+ var svg = document.getElementById("svgDraw");
+
+ //get svg source.
+ var serializer = new XMLSerializer();
+ var source = serializer.serializeToString(svg);
+ saveSvgAsPng(document.getElementById('SvgjsSvg1006'), "diagram.png");
 
 }
 
