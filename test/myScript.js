@@ -60,6 +60,7 @@ var FACE = "face"
 		HEAD = "head"
 		ARMS = "arms"
 		LEGS = "legs"
+		DEFAULT = "base"
 
 var face;
 var body;
@@ -67,6 +68,7 @@ var head;
 var arms;
 var legs;
 var current;
+var currentGroup;
 var groups = new Array();
 
 /*
@@ -157,11 +159,13 @@ function drawSVGCanvas(){
 
 
 	draw.on('mousedown', function(event){
+		var baseTag = document.getElementById("defaultTag")
+		var tagString = baseTag.textContent;
 		console.log('isDrawingPolygon? '+ drawingPolygon)
 		if(drawingPolygon) {
 			return;
 		}
-		canDrawElement = true;
+
 		console.log('is scalable' + scalable)
 		clicked = false;
 		var _x = event.pageX - 175,
@@ -183,6 +187,7 @@ function drawSVGCanvas(){
 				clickedObject = element;
 				clickedObject.front();
 				var _box = clickedObject.rbox();
+
 				var _rotate = clickedObject.transform('rotation');
 
 				/*
@@ -202,7 +207,18 @@ function drawSVGCanvas(){
 				}
 			}
 		});
-		if(!clicked) {
+		console.log('clicked? '+clicked)
+		console.log('candrawelement? '+canDrawElement)
+		if(!clicked && canDrawElement) {
+			if(tagString != DEFAULT && tagString != "Tags") {
+				switch(tagString) {
+					case FACE: makeGroupDraggable(face);break;
+					case HEAD: makeGroupDraggable(head);break;
+					case BODY: makeGroupDraggable(body);break;
+					case ARMS: makeGroupDraggable(arms);break;
+					case LEGS: makeGroupDraggable(legs);break;
+				}
+			}
 			deleteBoundingBox();
 			makeUndraggable();
 			draggable = true;
@@ -375,11 +391,12 @@ function drawSVGCanvas(){
 		if(tagString != "Tags") {
 			if(clickedObject != null) {
 				switch(tagString) {
-					case HEAD: head.add(clickedObject);break;
-					case BODY: body.add(clickedObject);break;
-					case FACE: face.add(clickedObject);break;
-					case LEGS: legs.add(clickedObject);break;
-					case ARMS: arms.add(clickedObject);break;
+					case HEAD: head.add(clickedObject);currentGroup = head;break;
+					case BODY: body.add(clickedObject);currentGroup = head;break;
+					case FACE: face.add(clickedObject);currentGroup = head;break;
+					case LEGS: legs.add(clickedObject);currentGroup = head;break;
+					case ARMS: arms.add(clickedObject);currentGroup = head;break;
+					case DEFAULT: currentGroup = null; break;
 					//일단 두개만 넣었음
 				}
 			}
@@ -440,7 +457,7 @@ function drawSVGCanvas(){
 		legs.front();
 	})
 
-	$('#default').mousedown(function(e) {
+	$('#base').mousedown(function(e) {
 		current.front();
 	})
 
@@ -608,7 +625,7 @@ function draggableCursor4(cursor, cursor2, cursor3, cursor4) {
 	})
 
 	cursor.draggable().on('dragend', function(event) {
-		_box = clickedObject.rbox();//need to modify
+		_box = clickedObject.bbox();//need to modify
 
 		drawBoundingBox(_box, clickedObject.transform('rotation'));
 		cursor.remove();
@@ -666,24 +683,6 @@ function modifyLineColor(color) {
 	clickedObject.stroke(color);
 }
 
-
-function clickBoundingBoxPoints(x, y) {
-	console.log('I clicked ...what?')
-	if(clickedObjectBoxPoints[0].inside(x, y)) {
-		console.log('I clicked 0 box point')
-		scaleWithBoundingBoxPoint(0);
-	} else if (clickedObjectBoxPoints[1].inside(x, y)) {
-		console.log('I clicked 1 box point')
-		scaleWithBoundingBoxPoint(1);
-	} else if (clickedObjectBoxPoints[2].inside(x, y)) {
-		console.log('I clicked 2 box point')
-		scaleWithBoundingBoxPoint(2);
-	} else if (clickedObjectBoxPoints[3].inside(x, y)) {
-		console.log('I clicked 3 box point')
-		scaleWithBoundingBoxPoint(3);
-	}
-}
-
 function putObjectStatus(){
 	if(clickedObject != null) {
 		var _box = clickedObject.bbox();
@@ -706,8 +705,6 @@ function putObjectStatus(){
 		document.getElementById('itemAngle').value = _rotate;
 	}
 }
-
-
 
 function modifyXPosition(deltaX) {
 	var _box = clickedObject.bbox();
@@ -754,6 +751,50 @@ function makeDraggable() {
 		var _box = clickedObject.rbox();
 		drawBoundingBox(_box, clickedObject.transform('rotation'));
 		//drawBoundingBox(_box, clickedGroup.transform('rotation'));
+	})
+}
+
+function makeGroupDraggable(thisGroup) {
+
+	var _y = (window.innerHeight - 200) * 0.3 + 50;
+	var _x = (window.innerWidth - 350) * 0.3 + 100;
+
+	var cursor = draw.image('test/drag.png', 50, 50).move(_x, _y)
+
+	cursor.draggable().on('dragstart', function(event) {
+		if(clickedObject != null) {
+			deleteBoundingBox();
+		}
+	})
+	cursor.draggable().on('dragmove', function(event) {
+		var deltaWidth;
+		var deltaHeight;
+		if(svgClickX != null && svgClickY != null) {
+			deltaWidth = svgClickX - event.detail.p.x;
+			deltaHeight = svgClickY - event.detail.p.y;
+		} else {
+			deltaWidth = 0;
+			deltaHeight = 0;
+		}
+		svgClickX = event.detail.p.x
+		svgClickY = event.detail.p.y
+
+		//var group = draw.selectAll('thisGroup')
+		thisGroup.each(function(element) {
+			console.log(this)
+			var _box = this.bbox();
+			this.move(_box.x - deltaWidth, _box.y - deltaHeight)
+		})
+	})
+
+	cursor.draggable().on('dragend', function(event) {
+		if(clickedObject != null){
+			var _box = clickedObject.bbox();
+			drawBoundingBox(_box, clickedObject.transform("rotation"))
+			cursor.remove();
+			svgClickX = null;
+			svgClickY = null;
+		}
 	})
 }
 
@@ -815,12 +856,13 @@ function drawPolygon() {
 	.stroke({color: '#501726', width: 3}).draw();
 
 	poly.on('drawstart', function(e){
-      document.addEventListener('keydown', function(e){
-          if(e.keyCode == 13){
-              poly.draw('done');
-              poly.off('drawstart');
-							drawingPolygon = false;
-          }
+		canDrawElement = true;
+    document.addEventListener('keydown', function(e){
+        if(e.keyCode == 13){
+            poly.draw('done');
+            poly.off('drawstart');
+						drawingPolygon = false;
+        }
       });
   });
 
@@ -828,7 +870,6 @@ function drawPolygon() {
       // remove listener
   });
 	drawings.push(poly);
-	canDrawElement = true;
 }
 
 function drawRect() {
@@ -844,6 +885,7 @@ function drawRect() {
 		var _box;
 
 		draw.on('mousedown', function(event) {
+			canDrawElement = true;
 			drawingTest.draw('point', event);
 		});
 
@@ -857,8 +899,6 @@ function drawRect() {
 				drawingNow = false;
 			}
 		});
-
-		canDrawElement = true;
 	}
 }
 
@@ -875,6 +915,7 @@ function drawCircle() {
 		var _box;
 
 		draw.on('mousedown', function(event) {
+			canDrawElement = true;
 			drawingTest.draw('point', event);
 		});
 
@@ -920,7 +961,6 @@ function drawTest() {
 			drawingNow = false;
 		}
 	});
-	canDrawElement = true;
 }
 
 function drawObject(pathString) {
@@ -935,6 +975,7 @@ function drawObject(pathString) {
 	var _box;
 
 	draw.on('mousedown', function(event) {
+		canDrawElement = true;
 		drawingTest.draw('point', event);
 	});
 
@@ -948,7 +989,6 @@ function drawObject(pathString) {
 			drawingNow = false;
 		}
 	});
-	canDrawElement = true;
 }
 
 function undoDrawing() {
