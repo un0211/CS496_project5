@@ -48,6 +48,7 @@ var svgClickSize = new Array();
 var svgClickDrag = new Array();
 
 var clickedObject;
+var _copyClickedObject;
 var copiedObject;
 var clickedObjectBox = new Array();
 var clickedObjectBoxPoints = new Array();
@@ -180,7 +181,8 @@ function drawSVGCanvas(){
 	$('#deleteElement').mousedown(function(e) {
 		if(clickedObject != null) {
 			deleteBoundingBox();
-			clickedObject.remove();
+			clickedObject.data('tag', null);
+			clickedObject.hide();
 		}
 	})
 
@@ -367,7 +369,7 @@ function drawSVGCanvas(){
 		//var _angle = clickedObject.transform('rotation');
 		var _angle = document.getElementById('itemAngle').value;
 		var _time = document.getElementById('itemTime').value;
-		makeAnimation(_angle, _time);
+		modifyAngleWithAnimation(_angle, _time);
 	})
 
 	$('#freeScale').mousedown(function(e) {
@@ -517,6 +519,39 @@ function drawSVGCanvas(){
 		}
 	})
 
+	$('#startAnimation').mousedown(function() {
+		if(clickedObject != null) {
+			var _dx = document.getElementById("animationDX").value;
+			var _dy = document.getElementById("animationDY").value;
+			var _angle = document.getElementById("animationAngle").value;
+			var _time = document.getElementById("animationTime").value;
+			_copyClickedObject = clickedObject.clone().hide();
+			drawings.push(_copyClickedObject);
+			//console.log("dx "+_dx+", dy "+_dy+", angle "+_angle+", time "+_time);
+			startAnimation(_dx, _dy, _angle, _time);
+		}
+	})
+
+	$('#stopAnimation').mousedown(function() {
+		if(clickedObject != null) {
+			clickedObject.remove();
+			clickedObject = _copyClickedObject.show();
+		}
+	})
+}
+
+function startAnimation(dx, dy, angle, time) {
+	var _box = clickedObject.bbox();
+	deleteBoundingBox();
+	//console.log("dx "+(_box.x+(dx*1))+", dy "+(_box.y+(dy*1))+", angle "+angle+", time "+time);
+	clickedObject.animate(time*1000, '<>').move(_box.x+(dx*1), _box.y+(dy*1)).rotate(angle);
+
+	setTimeout(function() {
+		clickedObject.hide();
+		clickedObject = _copyClickedObject.show();
+		var _box = _copyClickedObject.rbox();
+		drawBoundingBox(_box, _copyClickedObject.transform('rotation'));
+	}, time*1000);
 }
 
 function makeScalable() {
@@ -744,7 +779,7 @@ function modifyAngle(angle) {
 	}
 }
 
-function makeAnimation(angle, time) {
+function modifyAngleWithAnimation(angle, time) {
 	deleteBoundingBox();
 	clickedObject.data('time', time);
 	clickedObject.rotate(0).animate(time*1000, '<>').rotate(angle);//
@@ -1090,7 +1125,7 @@ function drawObject(pathString) {
 }
 
 function undoDrawing() {
-	drawings.pop().remove();
+	drawings.pop().data('tag', null).hide();
 }
 
 //for ctrl+c
@@ -1101,7 +1136,7 @@ function copyDrawing(){
 //for ctrl+x
 function cutDrawing(){
 	copyDrawing();
-	drawings.pop(clickedObject).remove();
+	drawings.pop(clickedObject).hide();
 }
 
 //for ctrl+v

@@ -161,12 +161,6 @@
                   <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
-                  <li id="createRect" class="btn btn-default">
-                    <img alt="rect" src="test/square-01.png" width="25" height="25">
-                  </li>
-                  <li id="createCircle" class="btn btn-default">
-                    <img alt="circle" src="test/circle-01.png" width="25" height="25">
-                  </li>
                   <li id="createObject1" class="btn btn-default">
                     <img alt="object1" src="test/Face1.png" width="25" height="25">
                   </li>
@@ -185,24 +179,8 @@
                   <li id="createObject6" class="btn btn-default">
                     <img alt="object6" src="test/arm1.png" width="25" height="25">
                   </li>
-                  <li id="createObject7" class="btn btn-default">
-                    <img alt="object7" src="test/ear1-01.png" width="25" height="25">
-                  </li>
-                  <li id="createObject8" class="btn btn-default">
-                    <img alt="object8" src="test/nose-01.png" width="25" height="25">
-                  </li>
-                  <li id="createObject9" class="btn btn-default">
-                    <img alt="object9" src="test/hand-01.png" width="25" height="25">
-                  </li>
-                  <li id="createObject10" class="btn btn-default">
-                    <img alt="object10" src="test/leg2-01.png" width="25" height="25">
-                  </li>
-                  <li id="createObject11" class="btn btn-default">
-                    <img alt="object11" src="test/face-01.png" width="25" height="25">
-                  </li>
-                  <li id="createObject12" class="btn btn-default">
-                    <img alt="object12" src="test/face3-01.png" width="25" height="25">
-                  </li>
+                  <li id="createRect"><a href="#">Rect</a></li>
+                  <li id="createCircle"><a href="#">Circle</a></li>
                 </ul>
               </div>
             </div>
@@ -331,6 +309,20 @@
                     <button type="button" id="tagShow" class="btn btn-xs btn-default">
                       <span class="glyphicon glyphicon-eye-open" aria-hidden="true" width="20" height="20"></span></button>
                   </div>
+              </td></tr>
+
+              <tr><td class="detail-cell">
+                <div> <div class="in-line">애니메이션</div>
+                  <button type="button" id="startAnimation" class="btn btn-xs btn-default">
+                    <span class="glyphicon glyphicon-play" aria-hidden="true" width="15" height="15"></span></button>
+                  <button type="button" id="stopAnimation" class="btn btn-xs btn-default">
+                    <span class="glyphicon glyphicon-stop" aria-hidden="true" width="15" height="15"></span></button>
+                  <button type="button" id="addAnimation" class="btn btn-xs btn-default">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true" width="15" height="15"></span></button>
+                <div id="property-line"> <div id="property">dx</div> <input type="text" id="animationDX" class="itemFirst"></input>
+                  <div id="property">dy</div> <input type="text" id="animationDY" class="itemSecond"></input></div>
+                <div id="property-line"> <div id="property">각도</div> <input type="text" id="animationAngle" class="itemFirst"></input>
+                  <div id="property">시간</div> <input type="text" id="animationTime" class="itemSecond"></input></div>
               </td></tr>
 
               <tr id="for-pretty-detail"></tr>
