@@ -78,7 +78,9 @@ var groups = new Array();
 
 function clearCanvas()
 {
-	context.clearRect(0, 0, canvasWidth, canvasHeight);
+	drawings.forEach(function(element) {
+		element.remove();
+	})
 }
 
 
@@ -375,7 +377,7 @@ function drawSVGCanvas(){
 		}
 	})
 
-	$('#blockTag').mousedown(function(e) {
+	$('#tagMove').mousedown(function(e) {
 		block = !block;
 	})
 
@@ -474,6 +476,45 @@ function drawSVGCanvas(){
 	$('#save').mousedown(function(e) {
 		//encode_as_img_and_link();
 		img_and_link();
+	})
+
+	$('#clear').mousedown(function(e) {
+		clearCanvas();
+	})
+
+	$('#undo').mousedown(function() {
+		undoDrawing();
+	})
+
+	$('#copy').mousedown(function() {
+		copyDrawing();
+	})
+
+	$('#cut').mousedown(function () {
+		cutDrawing();
+	})
+
+	$('#paste').mousedown(function () {
+		pasteDrawing();
+	})
+
+	$('#resize').mousedown(function() {
+		if(!scalable) {
+			scalable = true;
+			draggable = false;
+		}
+	})
+
+	$('#vertical-flip').mousedown(function() {
+		if(clickedObject != null) {
+			clickedObject.flip('');
+		}
+	})
+
+	$('#horizontal-flip').mousedown(function() {
+		if(clickedObject != null) {
+			clickedObject.flip('x');
+		}
 	})
 
 }
